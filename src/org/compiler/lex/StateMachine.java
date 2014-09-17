@@ -4,187 +4,187 @@ import java.util.LinkedList;
 
 import org.compiler.lex.actions.*;
 
-
 public class StateMachine {
 
-	private State initial;
-	private State actualState;
-	private String actualString = "";
+    private State initial;
+    private State actualState;
+    private String actualString = "";
 
-	private static StateMachine instance = null;
-	
-	public static StateMachine getInstance() {
-		if( instance == null ) {
-			instance = new StateMachine();
-		}
-		return instance;
+    private static StateMachine instance = null;
+
+    public static StateMachine getInstance() {
+	if (instance == null) {
+	    instance = new StateMachine();
 	}
-	
-	
-	private StateMachine() {
+	return instance;
+    }
 
-		State estadoInicial = new State();
-		State operadorCompuestoOpcional = new State();
-		State operador = new State();
-		State estadoFinal = new State();
-		State operadorCompuesto = new State();
-		State numero = new State();
-		State identificador = new State();
-		State cadena = new State();
-		State finCadena = new State();
-		State comienzoComentario = new State();
-		State comentario = new State();
-		State comienzoFinComentario = new State();
-		State finComentario = new State();
+    private StateMachine() {
 
-		Transition t1 = new Transition(estadoInicial, new DoNothing());
+	State estadoInicial = new State();
+	State operadorCompuestoOpcional = new State();
+	State operador = new State();
+	State estadoFinal = new State();
+	State operadorCompuesto = new State();
+	State numero = new State();
+	State identificador = new State();
+	State cadena = new State();
+	State finCadena = new State();
+	State comienzoComentario = new State();
+	State comentario = new State();
+	State comienzoFinComentario = new State();
+	State finComentario = new State();
 
-		Transition t2 = new Transition(operador, new AddChar());
+	Transition t1 = new Transition(estadoInicial, new DoNothing());
 
-		Transition t3 = new Transition(estadoFinal, new RetrieveToken());
+	Transition t2 = new Transition(operador, new AddChar());
 
-		Transition t4 = new Transition(operadorCompuesto, new AddChar());
+	Transition t3 = new Transition(estadoFinal, new RetrieveToken());
 
-		Transition t5 = new Transition(operador, new AddChar());
+	Transition t4 = new Transition(operadorCompuesto, new AddChar());
 
-		Transition t6 = new Transition(operadorCompuestoOpcional, new AddChar());
+	Transition t5 = new Transition(operador, new AddChar());
 
-		Transition t7 = new Transition(numero, new AddChar());
+	Transition t6 = new Transition(operadorCompuestoOpcional, new AddChar());
 
-		Transition t8 = new Transition(identificador, new AddCharTrunk());
+	Transition t7 = new Transition(numero, new AddChar());
 
-		Transition t9 = new Transition(cadena, new AddChar());
+	Transition t8 = new Transition(identificador, new AddCharTrunk());
 
-		Transition t10 = new Transition(finCadena, new AddChar());
+	Transition t9 = new Transition(cadena, new AddChar());
 
-		Transition t11 = new Transition(comienzoComentario, new AddChar());
-		Transition t12 = new Transition(comentario, new ClearString());
-		Transition t13 = new Transition(comienzoFinComentario,
-				new ClearString());
-		Transition t14 = new Transition(finComentario, new ClearString());
-		Transition t15 = new Transition(estadoFinal, new RetrieveToken());
+	Transition t10 = new Transition(finCadena, new AddChar());
 
-		// TODO los comentarios andan pero devuelven un "" (esto es porque uso
-		// retrieveToken para
-		// que se vuelva al estado inicial, hay que ver si esto afecta en algo o
-		// no)
-		
-		
-		Transition t16 = new Transition(estadoFinal, new AddSymbolID());
-		Transition t17 = new Transition(estadoFinal, new AddSymbolConst());
-		Transition t18 = new Transition(estadoFinal, new AddSymbolCad());
-		
-		Transition t19 = new Transition(numero, new AddCharRange());
+	Transition t11 = new Transition(comienzoComentario, new AddChar());
+	Transition t12 = new Transition(comentario, new ClearString());
+	Transition t13 = new Transition(comienzoFinComentario,
+		new ClearString());
+	Transition t14 = new Transition(finComentario, new ClearString());
+	Transition t15 = new Transition(estadoFinal, new RetrieveToken());
 
-		estadoInicial.addTransition(new PossibleChars('['), t11);
+	// TODO los comentarios andan pero devuelven un "" (esto es porque uso
+	// retrieveToken para
+	// que se vuelva al estado inicial, hay que ver si esto afecta en algo o
+	// no)
 
-		LinkedList<Character> l = new LinkedList<Character>(
-				DomainOfDiscurse.todosCaracteresValidos);
-		l.remove(new Character('-'));
+	Transition t16 = new Transition(estadoFinal, new AddSymbolID());
+	Transition t17 = new Transition(estadoFinal, new AddSymbolConst());
+	Transition t18 = new Transition(estadoFinal, new AddSymbolCad());
 
-		comienzoComentario.addTransition(new PossibleChars('-'), t12);
-		comienzoComentario.addTransition(new PossibleChars(l), t3);
+	Transition t19 = new Transition(numero, new AddCharRange());
 
-		comentario.addTransition(new PossibleChars(l), t12);
-		comentario.addTransition(new PossibleChars('-'), t13);
+	estadoInicial.addTransition(new PossibleChars('['), t11);
 
-		l = new LinkedList<Character>(DomainOfDiscurse.todosCaracteresValidos);
-		l.remove(new Character(']'));
-		comienzoFinComentario.addTransition(new PossibleChars(']'), t14);
-		comienzoFinComentario.addTransition(new PossibleChars(l), t12);
+	LinkedList<Character> l = new LinkedList<Character>(
+		DomainOfDiscurse.todosCaracteresValidos);
+	l.remove(new Character('-'));
 
-		finComentario.addTransition(new PossibleChars(
-				DomainOfDiscurse.todosCaracteresValidos), t15);
+	comienzoComentario.addTransition(new PossibleChars('-'), t12);
+	comienzoComentario.addTransition(new PossibleChars(l), t3);
 
-		estadoInicial.addTransition(new PossibleChars('\''), t9);
+	comentario.addTransition(new PossibleChars(l), t12);
+	comentario.addTransition(new PossibleChars('-'), t13);
 
-		cadena.addTransition(new PossibleChars('\''), t10);
+	l = new LinkedList<Character>(DomainOfDiscurse.todosCaracteresValidos);
+	l.remove(new Character(']'));
+	comienzoFinComentario.addTransition(new PossibleChars(']'), t14);
+	comienzoFinComentario.addTransition(new PossibleChars(l), t12);
 
-		l = new LinkedList<Character>(DomainOfDiscurse.todosCaracteresValidos);
-		l.remove(new Character('\n'));
-		l.remove(new Character('\''));
-		cadena.addTransition(new PossibleChars(l), t9);
+	finComentario.addTransition(new PossibleChars(
+		DomainOfDiscurse.todosCaracteresValidos), t15);
 
-		finCadena.addTransition(new PossibleChars(
-				DomainOfDiscurse.todosCaracteresValidos), t18);
+	estadoInicial.addTransition(new PossibleChars('\''), t9);
 
-		estadoInicial.addTransition(new PossibleChars(DomainOfDiscurse.LETRA), t8);
-		identificador.addTransition(new PossibleChars(DomainOfDiscurse.LETRA, '&', '_', DomainOfDiscurse.NUMERO), t8);
+	cadena.addTransition(new PossibleChars('\''), t10);
 
-		l = new LinkedList<Character>(DomainOfDiscurse.todosCaracteresValidos);
-		l.remove(new Character(DomainOfDiscurse.LETRA));
-		l.remove(new Character(DomainOfDiscurse.NUMERO));
-		l.remove(new Character('_'));
-		l.remove(new Character('&'));
-		identificador.addTransition(new PossibleChars(l), t16);
-		
-		estadoInicial.addTransition(new PossibleChars(DomainOfDiscurse.NUMERO), t7);
-		numero.addTransition(new PossibleChars(DomainOfDiscurse.NUMERO), t19);
+	l = new LinkedList<Character>(DomainOfDiscurse.todosCaracteresValidos);
+	l.remove(new Character('\n'));
+	l.remove(new Character('\''));
+	cadena.addTransition(new PossibleChars(l), t9);
 
-		l = new LinkedList<Character>(DomainOfDiscurse.todosCaracteresValidos);
-		l.remove(new Character(DomainOfDiscurse.NUMERO));
-		numero.addTransition(new PossibleChars(l), t17);
+	finCadena.addTransition(new PossibleChars(
+		DomainOfDiscurse.todosCaracteresValidos), t18);
 
-		// Con espacios en blanco se queda en el lugar sin hacer nada
-		estadoInicial.addTransition(new PossibleChars('\n', '\t', ' '), t1);
+	estadoInicial.addTransition(new PossibleChars(DomainOfDiscurse.LETRA),
+		t8);
+	identificador.addTransition(new PossibleChars(DomainOfDiscurse.LETRA,
+		'&', '_', DomainOfDiscurse.NUMERO), t8);
 
-		estadoInicial.addTransition(new PossibleChars(':', '^'), t4);
+	l = new LinkedList<Character>(DomainOfDiscurse.todosCaracteresValidos);
+	l.remove(new Character(DomainOfDiscurse.LETRA));
+	l.remove(new Character(DomainOfDiscurse.NUMERO));
+	l.remove(new Character('_'));
+	l.remove(new Character('&'));
+	identificador.addTransition(new PossibleChars(l), t16);
 
-		estadoInicial.addTransition(new PossibleChars('+', '-', '*', '/', '=',
-				',', ';', '{', '}', '(', ')', ']'), t2);
+	estadoInicial.addTransition(new PossibleChars(DomainOfDiscurse.NUMERO),
+		t7);
+	numero.addTransition(new PossibleChars(DomainOfDiscurse.NUMERO), t19);
 
-		operador.addTransition(new PossibleChars(
-				DomainOfDiscurse.todosCaracteresValidos), t3);
+	l = new LinkedList<Character>(DomainOfDiscurse.todosCaracteresValidos);
+	l.remove(new Character(DomainOfDiscurse.NUMERO));
+	numero.addTransition(new PossibleChars(l), t17);
 
-		operadorCompuesto.addTransition(new PossibleChars('='), t5);
+	// Con espacios en blanco se queda en el lugar sin hacer nada
+	estadoInicial.addTransition(new PossibleChars('\n', '\t', ' '), t1);
 
-		l = new LinkedList<Character>(DomainOfDiscurse.todosCaracteresValidos);
-		l.remove(new Character('='));
-		operadorCompuestoOpcional.addTransition(new PossibleChars(l), t3);
+	estadoInicial.addTransition(new PossibleChars(':', '^'), t4);
 
-		operadorCompuestoOpcional.addTransition(new PossibleChars('='), t2);
+	estadoInicial.addTransition(new PossibleChars('+', '-', '*', '/', '=',
+		',', ';', '{', '}', '(', ')', ']'), t2);
 
-		estadoInicial.addTransition(new PossibleChars('<', '>'), t6);
+	operador.addTransition(new PossibleChars(
+		DomainOfDiscurse.todosCaracteresValidos), t3);
 
-		initial = estadoInicial;
-		actualState = estadoInicial;
+	operadorCompuesto.addTransition(new PossibleChars('='), t5);
 
-	}
+	l = new LinkedList<Character>(DomainOfDiscurse.todosCaracteresValidos);
+	l.remove(new Character('='));
+	operadorCompuestoOpcional.addTransition(new PossibleChars(l), t3);
 
-	public String put(Character c) throws LexicalReaderException {
+	operadorCompuestoOpcional.addTransition(new PossibleChars('='), t2);
 
-		String s = null;
-		try {
-			s = actualState.put(c);
-		} catch (LexicalReaderException e) {
-			actualString = "";
-			actualState = initial;
-			throw e;
-		}
+	estadoInicial.addTransition(new PossibleChars('<', '>'), t6);
 
-		if (s != null) {
-			actualString = "";
-			actualState = initial;
-		}
+	initial = estadoInicial;
+	actualState = estadoInicial;
 
-		return s;
+    }
+
+    public String put(Character c) throws LexicalReaderException {
+
+	String s = null;
+	try {
+	    s = actualState.put(c);
+	} catch (LexicalReaderException e) {
+	    actualString = "";
+	    actualState = initial;
+	    throw e;
 	}
 
-	public void setState(State s) {
-		actualState = s;
+	if (s != null) {
+	    actualString = "";
+	    actualState = initial;
 	}
 
-	public void addChar(Character c) {
-		actualString += c.toString();
-	}
+	return s;
+    }
 
-	public String getActualString() {
-		String ret = actualString;
-		return ret;
-	}
+    public void setState(State s) {
+	actualState = s;
+    }
 
-	public void cleanString() {
-		actualString = "";
-	}
+    public void addChar(Character c) {
+	actualString += c.toString();
+    }
+
+    public String getActualString() {
+	String ret = actualString;
+	return ret;
+    }
+
+    public void cleanString() {
+	actualString = "";
+    }
 
 }

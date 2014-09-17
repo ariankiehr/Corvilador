@@ -6,14 +6,14 @@ import org.compiler.symboltable.SymbolTable;
 
 public class AddSymbolCad extends SemanticAction {
 
-	@Override
-	public String execute(Character c) {
-		
-		String ret = StateMachine.getInstance().getActualString();
-		SymbolTable.getInstance().addSymbol( ret  , new Attribute("cadena") );
-		
-		StateMachine.getInstance().cleanString();
-		return ret;
-	}
+    @Override
+    public String execute(Character c) {
+
+	String ret = StateMachine.getInstance().getActualString();
+	SymbolTable.getInstance().addSymbol(ret, new Attribute("cadena"));
+
+	StateMachine.getInstance().cleanString();
+	return ret;
+    }
 
 }
