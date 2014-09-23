@@ -3,12 +3,23 @@ package org.compiler.lex;
 public class Token {
     private String type;
     private String lexem;
+    private int line;
 
-    public Token(String type, String lexem) {
+    public Token(String type, String lexem, int line) {
 	super();
 	this.type = type;
 	this.lexem = lexem;
+	this.line = line;
     }
+    
+    public int getLine() {
+        return line;
+    }
+
+    public void setLine(int line) {
+        this.line = line;
+    }
+
 
     public String getType() {
 	return type;
@@ -32,7 +43,8 @@ public class Token {
 
     @Override
     public String toString() {
-	return "Token [tipo=" + type + ", lexema=" + lexem + "]";
+	return "Token [type=" + type + ", lexem=" + lexem + ", line=" + line
+		+ "]";
     }
 
 }

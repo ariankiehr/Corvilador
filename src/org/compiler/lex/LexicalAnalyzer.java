@@ -17,7 +17,7 @@ import org.compiler.symboltable.SymbolTable;
 public class LexicalAnalyzer {
 
     private List<Character> input;
-    private List<String> tokens;
+    private List<Token> tokens;
     public static List<String> errors;
     public static List<String> warnings;
 
@@ -27,7 +27,7 @@ public class LexicalAnalyzer {
 	errors = new LinkedList<String>();
 	warnings = new LinkedList<String>();
 	input = new LinkedList<Character>();
-	tokens = new LinkedList<String>();
+	tokens = new LinkedList<Token>();
 	nextToken = 0;
 	readFile(source);
 	generateTokens();
@@ -38,13 +38,12 @@ public class LexicalAnalyzer {
     }
 
     public Token nextToken() {
-	String tk = tokens.get(nextToken++);
-	Attribute a = SymbolTable.getInstance().get(tk);
-	return new Token((a != null) ? a.getType() : null, tk);
+	return tokens.get(nextToken++);
+	
     }
 
     public boolean hasMoreTokens() {
-	return !tokens.get(nextToken).equals("EOF");
+	return !tokens.get(nextToken).isEOF();
     }
 
     private void generateTokens() {
@@ -55,12 +54,16 @@ public class LexicalAnalyzer {
 
 	for (int i = 0; i < input.size(); ++i) {
 
-	    if (input.get(i).equals('\n'))
-		next++;
 
 	    try {
 		if ((tsr = fsm.put(input.get(i))) != null) {
-		    tokens.add(tsr);
+		    
+		    Attribute a = SymbolTable.getInstance().get(tsr);
+		    Token t = new Token((a != null) ? a.getType() : null, tsr, next);
+		    
+		    tokens.add(t);
+		    
+		    
 		    i--;
 		}
 	    } catch (LexicalReaderException e) {
@@ -74,10 +77,15 @@ public class LexicalAnalyzer {
 		}
 
 	    }
+	    
+	    
+	    if (input.get(i).equals('\n'))
+		next++;
+	    
 
 	}
 
-	tokens.add("EOF");
+	tokens.add(new Token("EOF","EOF",0)); //TODO preguntar si se puede usar eof
     }
 
     private void readFile(File source) {

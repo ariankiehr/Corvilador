@@ -11,7 +11,7 @@ public class AddSymbolConst extends SemanticAction {
 
 	String ret = StateMachine.getInstance().getActualString();
 	SymbolTable.getInstance().addSymbol(ret,
-		new Attribute("constante entera"));
+		new Attribute("const"));
 
 	StateMachine.getInstance().cleanString();
 	return ret;

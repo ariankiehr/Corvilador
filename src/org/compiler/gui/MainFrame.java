@@ -16,24 +16,32 @@ public class MainFrame extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     LexicalAnalyzer lexico;
-    private JScrollPane jScrollPane2;
+   
     private JButton jButton2;
     private JTextArea simbolos;
-    private JScrollPane jScrollPane6;
-    private JTextArea errores;
-    private JScrollPane jScrollPane5;
-    private JTextArea warnings;
-    private JScrollPane jScrollPane4;
-    private JPanel jPanel4;
+    private JTextArea syntaxErrors;
     private JTextArea tokens;
+    private JTextArea errores;
+    private JTextArea warnings;
+    private JTextArea syntaxDetection;
+    private JScrollPane jScrollPane6;
+    private JScrollPane jScrollPane5;
+    private JScrollPane jScrollPane4;
+    private JScrollPane jScrollPane3;
     private JScrollPane jScrollPane1;
+    private JScrollPane jScrollPane7;
+    private JScrollPane jScrollPane8;
+    private JScrollPane jScrollPane2;
+    private JPanel jPanel6;
+    private JPanel jPanel5;
+    private JPanel jPanel4;
     private JPanel jPanel3;
     private JPanel jPanel2;
     private JPanel jPanel1;
     private JTabbedPane jTabbedPane1;
     private JMenuItem jMenu1;
     private JMenuBar jMenuBar1;
-    private JScrollPane jScrollPane3;
+   
     private JEditorPane jEditorPane3;
     private EditorKit editor;
     private File file;
@@ -114,7 +122,7 @@ public class MainFrame extends JFrame implements ActionListener {
 	    jScrollPane4.setViewportView(warnings);
 	    warnings.setEditable(false);
 	    jPanel3 = new JPanel();
-	    jTabbedPane1.addTab("Errores", null, jPanel3, null);
+	    jTabbedPane1.addTab("Lexical errors", null, jPanel3, null);
 	    jPanel3.setLayout(null);
 	    jScrollPane5 = new JScrollPane();
 	    jPanel3.add(jScrollPane5);
@@ -123,7 +131,7 @@ public class MainFrame extends JFrame implements ActionListener {
 	    jScrollPane5.setViewportView(errores);
 	    errores.setEditable(false);
 	    jPanel4 = new JPanel();
-	    jTabbedPane1.addTab("Tabla de S\355mbolos", null, jPanel4, null);
+	    jTabbedPane1.addTab("Symbol table", null, jPanel4, null);
 	    jPanel4.setLayout(null);
 	    jScrollPane6 = new JScrollPane();
 	    jPanel4.add(jScrollPane6);
@@ -131,6 +139,28 @@ public class MainFrame extends JFrame implements ActionListener {
 	    simbolos = new JTextArea();
 	    jScrollPane6.setViewportView(simbolos);
 	    simbolos.setEditable(false);
+	    
+	    jPanel5 = new JPanel();
+	    jTabbedPane1.addTab("Syntax Error", null, jPanel5, null);
+	    jPanel5.setLayout(null);
+	    jScrollPane7 = new JScrollPane();
+	    jPanel5.add(jScrollPane7);
+	    jScrollPane7.setBounds(12, 12, 727, 135);
+	    syntaxErrors = new JTextArea();
+	    jScrollPane7.setViewportView(syntaxErrors);
+	    syntaxErrors.setEditable(false);
+	    
+	    jPanel6 = new JPanel();
+	    jTabbedPane1.addTab("Syntax Detections", null, jPanel6, null);
+	    jPanel6.setLayout(null);
+	    jScrollPane8 = new JScrollPane();
+	    jPanel6.add(jScrollPane8);
+	    jScrollPane8.setBounds(12, 12, 727, 135);
+	    syntaxDetection = new JTextArea();
+	    jScrollPane8.setViewportView(syntaxDetection);
+	    syntaxDetection.setEditable(false);
+	    
+	    
 	    jButton2 = new JButton();
 	    getContentPane().add(jButton2);
 	    jButton2.setText("Compilar");
@@ -187,6 +217,8 @@ public class MainFrame extends JFrame implements ActionListener {
 	warnings.setText("");
 	errores.setText("");
 	simbolos.setText("");
+	syntaxDetection.setText("");
+	syntaxErrors.setText("");
     }
 
     private void eventoCompilar() {
@@ -210,6 +242,16 @@ public class MainFrame extends JFrame implements ActionListener {
 	
 	Parser par = new Parser(false); 
 	par.dotest(lexico);
+	
+	for (String error : Parser.errors) {
+	    syntaxErrors.append(error + '\n');
+	}
+	
+	for (String detection : Parser.detections) {
+	    syntaxDetection.append(detection + '\n');
+	}
+	
+	
 
     }
 

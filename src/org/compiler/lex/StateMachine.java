@@ -34,7 +34,10 @@ public class StateMachine {
 	State comentario = new State();
 	State comienzoFinComentario = new State();
 	State finComentario = new State();
-
+	State rango = new State();
+	
+	//TODO hacer el token rango?? <entero>..<entero>
+	
 	Transition t1 = new Transition(estadoInicial, new DoNothing());
 
 	Transition t2 = new Transition(operador, new AddChar());
@@ -60,7 +63,7 @@ public class StateMachine {
 	Transition t13 = new Transition(comienzoFinComentario,
 		new ClearString());
 	Transition t14 = new Transition(finComentario, new ClearString());
-	Transition t15 = new Transition(estadoFinal, new RetrieveToken());
+	//Transition t15 = new Transition(estadoFinal, new RetrieveToken());
 
 	// TODO los comentarios andan pero devuelven un "" (esto es porque uso
 	// retrieveToken para
@@ -72,6 +75,12 @@ public class StateMachine {
 	Transition t18 = new Transition(estadoFinal, new AddSymbolCad());
 
 	Transition t19 = new Transition(numero, new AddCharRange());
+	
+	Transition t20 = new Transition(rango, new AddChar());
+	
+	estadoInicial.addTransition(new PossibleChars('.'), t20);
+	
+	rango.addTransition(new PossibleChars('.'), t2);
 
 	estadoInicial.addTransition(new PossibleChars('['), t11);
 
@@ -91,7 +100,7 @@ public class StateMachine {
 	comienzoFinComentario.addTransition(new PossibleChars(l), t12);
 
 	finComentario.addTransition(new PossibleChars(
-		DomainOfDiscurse.todosCaracteresValidos), t15);
+		DomainOfDiscurse.todosCaracteresValidos), t3);
 
 	estadoInicial.addTransition(new PossibleChars('\''), t9);
 
@@ -99,6 +108,7 @@ public class StateMachine {
 
 	l = new LinkedList<Character>(DomainOfDiscurse.todosCaracteresValidos);
 	l.remove(new Character('\n'));
+	l.remove(new Character('\r'));
 	l.remove(new Character('\''));
 	cadena.addTransition(new PossibleChars(l), t9);
 
@@ -126,7 +136,7 @@ public class StateMachine {
 	numero.addTransition(new PossibleChars(l), t17);
 
 	// Con espacios en blanco se queda en el lugar sin hacer nada
-	estadoInicial.addTransition(new PossibleChars('\n', '\t', ' '), t1);
+	estadoInicial.addTransition(new PossibleChars('\n', '\t', '\r', ' '), t1);
 
 	estadoInicial.addTransition(new PossibleChars(':', '^'), t4);
 

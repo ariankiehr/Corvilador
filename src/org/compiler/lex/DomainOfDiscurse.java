@@ -22,11 +22,11 @@ public class DomainOfDiscurse {
     public static List<Character> todosCaracteresValidos = Arrays
 	    .asList(new Character[] { LETRA, NUMERO, '_', '&', '(', ')', '{',
 		    '}', '[', ']', '-', '+', '*', '/', '>', '<', '\'', ':',
-		    '=', '^', ';', ',', '\n', '\t', ' ' });
+		    '=', '^', ';', ',', '.', '\n', '\t', ' ' , '\r'});
 
     // TODO fijarse si estan todos y si estan bien
     public static List<String> simbolos = Arrays.asList(new String[] { "(",
 	    ")", "{", "}", "[", "]", "-", "+", "*", "/", ">", "<", ":=", "=",
-	    "^=", ";", ",", "<=", ">=" });
+	    "^=", ";", ",", "<=", ">=", ".." });
 
 }
