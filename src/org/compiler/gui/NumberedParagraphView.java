@@ -24,7 +24,7 @@ class NumberedParagraphView extends ParagraphView {
 	int previousLineCount = getPreviousLineCount();
 	int numberX = r.x - getLeftInset();
 	int numberY = (r.y + r.height) - 5;
-	g.drawString(Integer.toString(previousLineCount + n + 1), numberX,
+	g.drawString(Integer.toString(previousLineCount + 1), numberX,
 		numberY);
     }
 

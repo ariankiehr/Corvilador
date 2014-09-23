@@ -24,7 +24,6 @@ public class DomainOfDiscurse {
 		    '}', '[', ']', '-', '+', '*', '/', '>', '<', '\'', ':',
 		    '=', '^', ';', ',', '.', '\n', '\t', ' ' , '\r'});
 
-    // TODO fijarse si estan todos y si estan bien
     public static List<String> simbolos = Arrays.asList(new String[] { "(",
 	    ")", "{", "}", "[", "]", "-", "+", "*", "/", ">", "<", ":=", "=",
 	    "^=", ";", ",", "<=", ">=", ".." });

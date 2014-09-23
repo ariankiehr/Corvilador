@@ -1,5 +1,4 @@
 %{
-import java.lang.Math;
 import org.compiler.lex.LexicalAnalyzer;
 import java.util.*;
 import org.compiler.symboltable.SymbolTable;
@@ -7,33 +6,110 @@ import org.compiler.lex.Token;
 %}
 
 /* YACC Declarations */
-%token IF ELSE PRINT INT UINT DO UNTIL VECTOR OF THEN NUM ID CAD
+%token IF ELSE PRINT INT UINT DO UNTIL VECTOR OF THEN CTE ID CAD
 %token MAYORIGUAL MENORIGUAL ASIG IGUAL ABREPAR CIERRAPAR
 %token ABRELLAV CIERRALLAV ABRECOR CIERRACOR MENOS MAS POR DIV MENOR MAYOR PUNTOCOMA COMA IGUALRARO DOSPUNTO
 
+%nonassoc LOWER_THAN_ELSE
+%nonassoc ELSE
 
+%start programa
 
 /* Grammar follows */
 %%
+			
 programa : 
- 			| programa line
-		 ;
-		 
-line : '\n'
-			| assig PUNTOCOMA
+ 	| sentencias_declarativas 
+	| sentencias_ejecutables  
+	|sentencias_declarativas sentencias_ejecutables
 ;
 
-assig : INT variables { detections.add("Declaracion de variables."+lineNumber); } 
+sentencias_declarativas : sentencias_declarativas_simples PUNTOCOMA
+| sentencias_declarativas sentencias_declarativas_simples PUNTOCOMA
+;
+
+sentencias_declarativas_simples : INT variables { detections.add("Declaracion de variable comun en linea "+previousTokenLineNumber); }
+| ID ABRECOR INT DOSPUNTO INT CIERRACOR VECTOR OF tipo { detections.add("Declaracion de variable vector en linea "+previousTokenLineNumber); }
+| error { yyerror("Declaracion de variables mal hecha en " + previousTokenLineNumber); }
+;
+
+tipo : INT
+| UINT
 ;
 
 variables : ID
-			| variables COMA ID
+| variables COMA ID
+;
+
+bloque_sentencias : sentencia
+| ABRELLAV sentencias_ejecutables CIERRALLAV
+;
+
+sentencias_ejecutables : sentencia
+| sentencias_ejecutables sentencia
+;
+
+sentencia : PRINT PUNTOCOMA { detections.add("Declaracion imprimir en "+previousTokenLineNumber); }
+| seleccion
+| asignacion PUNTOCOMA
+| iteracion PUNTOCOMA
+;
+
+asignacion : variable ASIG expresion
+;
+
+iteracion : DO bloque_sentencias UNTIL condicion 
+;
+
+
+seleccion : cabecera_seleccion THEN cuerpo_seleccion
+| error { yyerror("if mal hecho en " + previousTokenLineNumber); }
+;	
+
+cuerpo_seleccion : 	bloque_then bloque_else
+				 | bloque_final
+				 ;
+
+bloque_then : bloque_sentencias ELSE				 
 			;
 
+bloque_final : bloque_sentencias %prec LOWER_THAN_ELSE { detections.add("Declaracion if en "+previousTokenLineNumber); }		
+				
+bloque_else : bloque_sentencias { detections.add("Declaracion if else en "+previousTokenLineNumber); }
+			;
+
+cabecera_seleccion : IF ABREPAR condicion CIERRAPAR
+				   ;
+
+condicion : expresion comparador expresion;
+
+expresion : expresion MAS termino
+		  | expresion MENOS termino
+		  | termino
+		  ;
+ 
+termino : termino POR factor
+		| termino DIV factor
+		| factor
+		;
+		
+variable :  ID
+| ID ABRECOR expresion CIERRACOR
+;
+		
+factor : ID
+	   | CTE { System.out.println( $1.ival ); }
+	   | ID ABRECOR expresion CIERRACOR
+	   ;
+	   
+comparador : IGUAL 
+|MAYORIGUAL 
+|MENORIGUAL
+|MENOR 
+|MAYOR 
+;
 
 %%
-
-
 
 String ins;
 LexicalAnalyzer la;
@@ -41,42 +117,50 @@ public static List<String> errors;
 public static List<String> detections;
 private Map<String, Integer> hm = generateHash() ;
 private int lineNumber = 0;
+private int previousTokenLineNumber = 0;
+boolean newline;
 
 
-void yyerror(String s)
-{
- errors.add(s);
+void yyerror(String s) {
+	errors.add(s);
 }
 
-boolean newline;
-int yylex()
-{
-String s;
-int tok;
-Double d;
- if (!la.hasMoreTokens())
- if (!newline)
- {
- newline=true;
- return '\n'; //So we look like classic YACC example
- }
- else
- return 0;
- Token t = la.nextToken();
- s = t.getLexem();
- lineNumber = t.getLine();
-  String type = SymbolTable.getInstance().get(s).getType();
- if( type.equals("id") ) {
-     tok = ID;
- } else if (type.equals("const")) {
-     tok = INT; /*diferenciar con uint*/
- } else if (type.equals("cadena")) {
-     tok = CAD; /*diferenciar con uint*/
- } else {
- 	 tok = toInteger(s);
- }
+int yylex() {
+	String s;
+	int tok;
+	
+	if (!la.hasMoreTokens()) {
+		 if (!newline) {
+		 	newline=true;
+		 	return '\n'; //So we look like classic YACC example
+		 }
+		 else {
+		 	return 0;
+		 }
+	}
+	
+	Token t = la.nextToken();
+	s = t.getLexem();
+	
+	lineNumber = t.getLine();
+	previousTokenLineNumber = lineNumber; //subir arriba para que ande con anterior
+	String type = SymbolTable.getInstance().get(s).getType();
+	
+	
 
- return tok;
+	if( type.equals("id") ) {
+	    tok = ID;
+	} else if (type.equals("const")) {
+	    tok = CTE; /*diferenciar con uint*/
+	    yylval = new ParserVal( Integer.parseInt(s) ) ; 
+	} else if (type.equals("cadena")) {
+	    tok = CAD;
+	    yylval = new ParserVal( s ) ; 
+	} else {
+		 tok = toInteger(s);
+	}
+
+	return tok;
 }
 
 
@@ -114,8 +198,6 @@ private static Map<String, Integer> generateHash() {
 	hash.put("^=", (int) Parser.IGUALRARO) ;
 	hash.put("..", (int) Parser.DOSPUNTO) ;
 
-	
-	
 	return hash ;
 }
     
@@ -129,8 +211,7 @@ private int toInteger( String token ) {
 
 
 
-public void dotest(LexicalAnalyzer lex)
-{
+public void dotest(LexicalAnalyzer lex) {
  la = lex;
  errors = new LinkedList<String>();
  detections = new LinkedList<String>();
