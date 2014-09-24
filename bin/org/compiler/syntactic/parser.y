@@ -17,7 +17,7 @@ import org.compiler.lex.Token;
 
 /* Grammar follows */
 %%
-
+			
 programa : 
  	| sentencias_declarativas 
 	| sentencias_ejecutables  
@@ -28,8 +28,9 @@ sentencias_declarativas : sentencias_declarativas_simples PUNTOCOMA
 | sentencias_declarativas sentencias_declarativas_simples PUNTOCOMA
 ;
 
-sentencias_declarativas_simples : INT variables { detections.add("Declaracion de variable comun en linea "+previousTokenLineNumber); }
+sentencias_declarativas_simples : tipo variables { detections.add("Declaracion de variable comun en linea "+previousTokenLineNumber); }
 | ID ABRECOR INT DOSPUNTO INT CIERRACOR VECTOR OF tipo { detections.add("Declaracion de variable vector en linea "+previousTokenLineNumber); }
+| error { yyerror("Declaracion de variables mal hecha en " + previousTokenLineNumber); }
 ;
 
 tipo : INT
@@ -48,7 +49,7 @@ sentencias_ejecutables : sentencia
 | sentencias_ejecutables sentencia
 ;
 
-sentencia : PRINT PUNTOCOMA { detections.add("Declaracion imprimir en "+previousTokenLineNumber); }
+sentencia : PRINT CAD PUNTOCOMA { detections.add("Declaracion imprimir en "+previousTokenLineNumber + " cadena "+ $2.sval); }
 | seleccion
 | asignacion PUNTOCOMA
 | iteracion PUNTOCOMA
@@ -62,6 +63,7 @@ iteracion : DO bloque_sentencias UNTIL condicion
 
 
 seleccion : cabecera_seleccion THEN cuerpo_seleccion
+| error { yyerror("if mal hecho en " + previousTokenLineNumber); }
 ;	
 
 cuerpo_seleccion : 	bloque_then bloque_else
@@ -71,8 +73,9 @@ cuerpo_seleccion : 	bloque_then bloque_else
 bloque_then : bloque_sentencias ELSE				 
 			;
 
-bloque_final : bloque_sentencias %prec LOWER_THAN_ELSE { detections.add("Declaracion if en "+previousTokenLineNumber); }		
-				
+bloque_final : bloque_sentencias %prec LOWER_THAN_ELSE { detections.add("Declaracion if en "+previousTokenLineNumber ); }		
+;
+			
 bloque_else : bloque_sentencias { detections.add("Declaracion if else en "+previousTokenLineNumber); }
 			;
 
@@ -96,7 +99,7 @@ variable :  ID
 ;
 		
 factor : ID
-	   | CTE { System.out.println( $1.ival ); }
+	   | CTE
 	   | ID ABRECOR expresion CIERRACOR
 	   ;
 	   
@@ -116,7 +119,6 @@ public static List<String> detections;
 private Map<String, Integer> hm = generateHash() ;
 private int lineNumber = 0;
 private int previousTokenLineNumber = 0;
-boolean newline;
 
 
 void yyerror(String s) {
@@ -128,19 +130,14 @@ int yylex() {
 	int tok;
 	
 	if (!la.hasMoreTokens()) {
-		 if (!newline) {
-		 	newline=true;
-		 	return '\n'; //So we look like classic YACC example
-		 }
-		 else {
 		 	return 0;
-		 }
 	}
 	
 	Token t = la.nextToken();
 	s = t.getLexem();
 	
 	lineNumber = t.getLine();
+	asd=s;
 	previousTokenLineNumber = lineNumber; //subir arriba para que ande con anterior
 	String type = SymbolTable.getInstance().get(s).getType();
 	
@@ -213,6 +210,5 @@ public void dotest(LexicalAnalyzer lex) {
  la = lex;
  errors = new LinkedList<String>();
  detections = new LinkedList<String>();
- newline=false;
  yyparse();
 }
