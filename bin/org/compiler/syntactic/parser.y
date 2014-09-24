@@ -17,11 +17,11 @@ import org.compiler.lex.Token;
 
 /* Grammar follows */
 %%
-			
+
 programa : 
  	| sentencias_declarativas 
 	| sentencias_ejecutables  
-	|sentencias_declarativas sentencias_ejecutables
+	| sentencias_declarativas sentencias_ejecutables
 ;
 
 sentencias_declarativas : sentencias_declarativas_simples PUNTOCOMA
@@ -30,7 +30,6 @@ sentencias_declarativas : sentencias_declarativas_simples PUNTOCOMA
 
 sentencias_declarativas_simples : INT variables { detections.add("Declaracion de variable comun en linea "+previousTokenLineNumber); }
 | ID ABRECOR INT DOSPUNTO INT CIERRACOR VECTOR OF tipo { detections.add("Declaracion de variable vector en linea "+previousTokenLineNumber); }
-| error { yyerror("Declaracion de variables mal hecha en " + previousTokenLineNumber); }
 ;
 
 tipo : INT
@@ -63,7 +62,6 @@ iteracion : DO bloque_sentencias UNTIL condicion
 
 
 seleccion : cabecera_seleccion THEN cuerpo_seleccion
-| error { yyerror("if mal hecho en " + previousTokenLineNumber); }
 ;	
 
 cuerpo_seleccion : 	bloque_then bloque_else
