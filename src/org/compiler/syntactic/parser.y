@@ -28,12 +28,12 @@ sentencias_declarativas : sentencias_declarativas_simples PUNTOCOMA
 | sentencias_declarativas sentencias_declarativas_simples PUNTOCOMA
 ;
 
-sentencias_declarativas_simples : INT variables { detections.add("Declaracion de variable comun en linea "+previousTokenLineNumber); }
+sentencias_declarativas_simples : tipo variables { detections.add("Declaracion de variable comun en linea "+previousTokenLineNumber); }
 | ID ABRECOR INT DOSPUNTO INT CIERRACOR VECTOR OF tipo { detections.add("Declaracion de variable vector en linea "+previousTokenLineNumber); }
 ;
 
-tipo : INT
-| UINT
+tipo : INT  { detections.add("Variable de tipo entera " + previousTokenLineNumber ); } 
+| UINT		{ detections.add("Variable de tipo entera sin signo " + previousTokenLineNumber ); } 
 ;
 
 variables : ID
@@ -54,7 +54,7 @@ sentencia : PRINT PUNTOCOMA { detections.add("Declaracion imprimir en "+previous
 | iteracion PUNTOCOMA
 ;
 
-asignacion : variable ASIG expresion
+asignacion : variable ASIG expresion	{ detections.add("se asigno un valor "+previousTokenLineNumber); }
 ;
 
 iteracion : DO bloque_sentencias UNTIL condicion 
@@ -72,7 +72,8 @@ bloque_then : bloque_sentencias ELSE
 			;
 
 bloque_final : bloque_sentencias %prec LOWER_THAN_ELSE { detections.add("Declaracion if en "+previousTokenLineNumber); }		
-				
+;
+	
 bloque_else : bloque_sentencias { detections.add("Declaracion if else en "+previousTokenLineNumber); }
 			;
 
@@ -82,7 +83,7 @@ cabecera_seleccion : IF ABREPAR condicion CIERRAPAR
 condicion : expresion comparador expresion;
 
 expresion : expresion MAS termino
-		  | expresion MENOS termino
+		  | expresion MENOS termino { detections.add("Se hizo una resta bien "+previousTokenLineNumber); }
 		  | termino
 		  ;
  
@@ -96,8 +97,9 @@ variable :  ID
 ;
 		
 factor : ID
-	   | CTE { System.out.println( $1.ival ); }
+	   | CTE 
 	   | ID ABRECOR expresion CIERRACOR
+	   | MENOS CTE %prec MENOS { System.out.println( "-"+$2.ival ); }
 	   ;
 	   
 comparador : IGUAL 
@@ -116,7 +118,6 @@ public static List<String> detections;
 private Map<String, Integer> hm = generateHash() ;
 private int lineNumber = 0;
 private int previousTokenLineNumber = 0;
-boolean newline;
 
 
 void yyerror(String s) {
@@ -128,13 +129,7 @@ int yylex() {
 	int tok;
 	
 	if (!la.hasMoreTokens()) {
-		 if (!newline) {
-		 	newline=true;
-		 	return '\n'; //So we look like classic YACC example
-		 }
-		 else {
 		 	return 0;
-		 }
 	}
 	
 	Token t = la.nextToken();
@@ -213,6 +208,5 @@ public void dotest(LexicalAnalyzer lex) {
  la = lex;
  errors = new LinkedList<String>();
  detections = new LinkedList<String>();
- newline=false;
  yyparse();
 }
