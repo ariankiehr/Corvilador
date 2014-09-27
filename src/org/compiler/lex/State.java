@@ -3,70 +3,79 @@ package org.compiler.lex;
 import java.util.LinkedList;
 import java.util.List;
 
-class Pair {
-    private PossibleChars pc;
-    private Transition t;
-
-    public PossibleChars getPossibleChar() {
-	return pc;
-    }
-
-    public void setPossibleChar(PossibleChars pc) {
-	this.pc = pc;
-    }
-
-    public Transition getTransition() {
-	return t;
-    }
-
-    public void setTransition(Transition t) {
-	this.t = t;
-    }
-
-    public Pair(PossibleChars pc, Transition t) {
-	this.pc = pc;
-	this.t = t;
-    }
-}
-
 public class State {
 
-    private List<Pair> transitions;
+	private List<Pair> transitions;
+	private String name;
 
-    public State() {
-	transitions = new LinkedList<Pair>();
-    }
-
-    public void addTransition(PossibleChars key, Transition t) {
-	transitions.add(new Pair(key, t));
-    }
-
-    public String put(Character c) throws LexicalReaderException {
-
-	Transition t = null;
-
-	for (Pair p : transitions) {
-	    if (p.getPossibleChar().match(c)) {
-		t = p.getTransition();
-		// todo break
-	    }
+	public State(String name) {
+		transitions = new LinkedList<Pair>();
+		this.name = name;
 	}
 
-	if (t == null) {
-	    throw new LexicalReaderException("Caracter erroneo");
+	public void addTransition(PossibleChars key, Transition t) {
+		transitions.add(new Pair(key, t));
 	}
 
-	StateMachine.getInstance().setState(t.getNewState());
+	public String put(Character c) throws LexicalReaderException {
 
-	String s = null;
-	try {
-	    s = t.getSemanticAction().execute(c);
-	} catch (Exception e) {
-	    throw new LexicalReaderException("Numero fuera de rango");
+		Transition t = null;
+
+		for (Pair p : transitions) {
+			if (p.getPossibleChar().match(c)) {
+				t = p.getTransition();
+				break;
+			}
+		}
+
+		if (t == null) {
+			throw new LexicalReaderException("Caracter erroneo");
+		}
+
+		StateMachine.getInstance().setState(t.getNewState());
+
+		String s = null;
+		try {
+			s = t.getSemanticAction().execute(c);
+		} catch (Exception e) {
+			throw e;
+		}
+
+		return s;
+
+	}
+	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
 	}
 
-	return s;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		State other = (State) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
 
-    }
+	@Override
+	public String toString() {
+		return "State [name=" + name + "]";
+	}
+	
+	
 
 }

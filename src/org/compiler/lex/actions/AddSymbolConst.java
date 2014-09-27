@@ -6,15 +6,23 @@ import org.compiler.symboltable.SymbolTable;
 
 public class AddSymbolConst extends SemanticAction {
 
-    @Override
-    public String execute(Character c) {
+	@Override
+	public String execute(Character c) {
 
-	String ret = StateMachine.getInstance().getActualString();
-	SymbolTable.getInstance().addSymbol(ret,
-		new Attribute("const"));
+		String ret = StateMachine.getInstance().getActualString();
 
-	StateMachine.getInstance().cleanString();
-	return ret;
-    }
+		try {
+			Long l = Long.parseLong(ret);
+			if (l > 65535)
+				throw new NumberFormatException("Numero fuera de rango");
+		} catch (NumberFormatException e) {
+			throw e;
+		}
+
+		SymbolTable.getInstance().addSymbol(ret, new Attribute("const"));
+
+		StateMachine.getInstance().cleanString();
+		return ret;
+	}
 
 }

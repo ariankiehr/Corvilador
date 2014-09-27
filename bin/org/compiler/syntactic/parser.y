@@ -5,17 +5,14 @@ import org.compiler.symboltable.SymbolTable;
 import org.compiler.lex.Token;
 %}
 
-/* YACC Declarations */
 %token IF ELSE PRINT INT UINT DO UNTIL VECTOR OF THEN CTE ID CAD
 %token MAYORIGUAL MENORIGUAL ASIG IGUAL ABREPAR CIERRAPAR
-%token ABRELLAV CIERRALLAV ABRECOR CIERRACOR MENOS MAS POR DIV MENOR MAYOR PUNTOCOMA COMA IGUALRARO DOSPUNTO
+%token ABRELLAV CIERRALLAV ABRECOR CIERRACOR MENOS MAS POR DIV MENOR MAYOR PUNTOCOMA COMA DISTINTO DOSPUNTO
 
 %nonassoc LOWER_THAN_ELSE
 %nonassoc ELSE
 
 %start programa
-
-/* Grammar follows */
 %%
 
 programa : 
@@ -24,90 +21,114 @@ programa :
 	| sentencias_declarativas sentencias_ejecutables
 ;
 
-sentencias_declarativas : sentencias_declarativas_simples PUNTOCOMA
-| sentencias_declarativas sentencias_declarativas_simples PUNTOCOMA
+sentencias_declarativas : 	sentencias_declarativas_simples PUNTOCOMA
+						| 	sentencias_declarativas sentencias_declarativas_simples PUNTOCOMA
+						
 ;
 
-sentencias_declarativas_simples : tipo variables { detections.add("Declaracion de variable comun en linea "+previousTokenLineNumber); }
-| ID ABRECOR INT DOSPUNTO INT CIERRACOR VECTOR OF tipo { detections.add("Declaracion de variable vector en linea "+previousTokenLineNumber); }
+sentencias_declarativas_simples : tipo variables { detections.add("Declaracion de variable comun en linea "+lineNumber); }
+				| ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo { detections.add("Declaracion de variable vector en linea "+lineNumber); }
+				| error { yyerror("Error: Declaracion de variables mal hecha en " + lineNumber); }
 ;
 
-tipo : INT  { detections.add("Variable de tipo entera " + previousTokenLineNumber ); } 
-| UINT		{ detections.add("Variable de tipo entera sin signo " + previousTokenLineNumber ); } 
+tipo : INT
+	|	UINT
 ;
 
 variables : ID
-| variables COMA ID
+		|	variables COMA ID		
 ;
 
 bloque_sentencias : sentencia
-| ABRELLAV sentencias_ejecutables CIERRALLAV
+					|	ABRELLAV sentencias_ejecutables CIERRALLAV
+					
 ;
 
 sentencias_ejecutables : sentencia
-| sentencias_ejecutables sentencia
+						| sentencias_ejecutables sentencia
 ;
 
-sentencia : PRINT PUNTOCOMA { detections.add("Declaracion imprimir en "+previousTokenLineNumber); }
-| seleccion
-| asignacion PUNTOCOMA
-| iteracion PUNTOCOMA
+sentencia : PRINT ABREPAR CAD CIERRAPAR PUNTOCOMA { detections.add("Declaracion imprimir en "+lineNumber+" cadena "+ $3.sval); }
+		| 	seleccion
+		| 	asignacion PUNTOCOMA
+		|	iteracion PUNTOCOMA
+		|	asignacion {yyerror("Error: Falta ';' en la asignacion");}
+		|	iteracion {yyerror("Error: Falta ';' en la iteracion");} 
+		|	PRINT ABREPAR CAD CIERRAPAR  {yyerror("Error: Falta ';' en imprimir");} 
+		| PRINT CAD CIERRAPAR PUNTOCOMA {yyerror("Error: Fasida");} 			
 ;
 
-asignacion : variable ASIG expresion	{ detections.add("se asigno un valor "+previousTokenLineNumber); }
+asignacion : variable ASIG expresion 
 ;
 
-iteracion : DO bloque_sentencias UNTIL condicion 
+iteracion : DO bloque_sentencias UNTIL ABREPAR condicion CIERRAPAR 
+			|	DO  UNTIL ABREPAR condicion CIERRAPAR {yyerror("Error: Se espera un bloque de sentencias");} 
+			|	DO bloque_sentencias ABREPAR condicion CIERRAPAR {yyerror("Error: Se espera un 'Hasta'");}
+			|	DO bloque_sentencias UNTIL condicion CIERRAPAR {yyerror("Error: Se espera un 'Parentesis abierto'");} 
+			|	DO bloque_sentencias UNTIL ABREPAR condicion  {yyerror("Error: Se espera un 'Parentesis cerrado'");} 		
 ;
-
 
 seleccion : cabecera_seleccion THEN cuerpo_seleccion
-;	
+			| error { yyerror("Error: if mal hecho en " + lineNumber); }
+; 
+	
 
 cuerpo_seleccion : 	bloque_then bloque_else
-				 | bloque_final
-				 ;
+				|	bloque_final
+;
 
 bloque_then : bloque_sentencias ELSE				 
-			;
-
-bloque_final : bloque_sentencias %prec LOWER_THAN_ELSE { detections.add("Declaracion if en "+previousTokenLineNumber); }		
 ;
-	
-bloque_else : bloque_sentencias { detections.add("Declaracion if else en "+previousTokenLineNumber); }
-			;
 
-cabecera_seleccion : IF ABREPAR condicion CIERRAPAR
-				   ;
+bloque_final : bloque_sentencias %prec LOWER_THAN_ELSE { detections.add("Declaracion if en "+lineNumber); }		
+;
 
-condicion : expresion comparador expresion;
+bloque_else : bloque_sentencias { detections.add("Declaracion if else en "+lineNumber); }
+;
+
+cabecera_seleccion : 	IF ABREPAR condicion CIERRAPAR
+					|	IF ABREPAR CIERRAPAR {yyerror("Error: Se detecto IF sin ninguna condicion");} 
+					|	IF CIERRAPAR {yyerror("Error: Se detecto IF  con un cierre de parentesis inesperado");} 
+					|	IF ABREPAR {yyerror("Error: Se detecto IF sin condicion");} 
+					|	IF ABREPAR condicion {yyerror("Error: Se detecto IF  sin cierre de parentesis");} 
+					|	IF condicion {yyerror("Error: Se detecto IF sin parentesis");} 
+					|	error {yyerror("Error: Se detecto IF erroneo");} 
+;
+
+condicion : expresion comparador expresion
+;
 
 expresion : expresion MAS termino
-		  | expresion MENOS termino { detections.add("Se hizo una resta bien "+previousTokenLineNumber); }
+		  | expresion MENOS termino
 		  | termino
-		  ;
+;
  
 termino : termino POR factor
 		| termino DIV factor
 		| factor
-		;
+;
 		
 variable :  ID
-| ID ABRECOR expresion CIERRACOR
+	| ID ABRECOR expresion CIERRACOR
+	| ID ABRECOR CIERRACOR {yyerror("Error: Se espera una exprecion entre los corchetes");}
+	| ID ABRECOR expresion {yyerror("Error: Se espera que se cierre corchetes");}
+	| ID CIERRACOR {yyerror("Error: Cierre de corchetes inesperado");}
 ;
 		
 factor : ID
-	   | CTE 
+	   | CTE
 	   | ID ABRECOR expresion CIERRACOR
-	   | MENOS CTE %prec MENOS { System.out.println( "-"+$2.ival ); }
-	   ;
+   	   | MENOS CTE {if ($2.ival > 32768 ) {yyerror("Numero negativo debajo del rango "+lineNumber); } }
+;
 	   
 comparador : IGUAL 
-|MAYORIGUAL 
-|MENORIGUAL
-|MENOR 
-|MAYOR 
+			|MAYORIGUAL 
+			|MENORIGUAL
+			|MENOR 
+			|MAYOR
+			|DISTINTO
 ;
+
 
 %%
 
@@ -117,7 +138,7 @@ public static List<String> errors;
 public static List<String> detections;
 private Map<String, Integer> hm = generateHash() ;
 private int lineNumber = 0;
-private int previousTokenLineNumber = 0;
+private String s;
 
 
 void yyerror(String s) {
@@ -125,7 +146,7 @@ void yyerror(String s) {
 }
 
 int yylex() {
-	String s;
+
 	int tok;
 	
 	if (!la.hasMoreTokens()) {
@@ -136,15 +157,12 @@ int yylex() {
 	s = t.getLexem();
 	
 	lineNumber = t.getLine();
-	previousTokenLineNumber = lineNumber; //subir arriba para que ande con anterior
 	String type = SymbolTable.getInstance().get(s).getType();
-	
-	
 
 	if( type.equals("id") ) {
 	    tok = ID;
 	} else if (type.equals("const")) {
-	    tok = CTE; /*diferenciar con uint*/
+	    tok = CTE;
 	    yylval = new ParserVal( Integer.parseInt(s) ) ; 
 	} else if (type.equals("cadena")) {
 	    tok = CAD;
@@ -160,51 +178,51 @@ int yylex() {
 private static Map<String, Integer> generateHash() {
 	Map<String, Integer> hash = new HashMap<String, Integer>();
 
-	hash.put("si", (int) Parser.IF) ;
-	hash.put("entonces", (int) Parser.THEN) ;
-	hash.put("sino", (int) Parser.ELSE) ;
-	hash.put("imprimir", (int) Parser.PRINT) ;
-	hash.put("entero", (int) Parser.INT) ;
-	hash.put("entero_ss", (int) Parser.UINT) ;
-	hash.put("iterar", (int) Parser.DO) ;
-	hash.put("hasta", (int) Parser.UNTIL) ;
-	hash.put("vector", (int) Parser.VECTOR) ;
-	hash.put("de", (int) Parser.OF) ;
-	hash.put(">=", (int) Parser.MAYORIGUAL) ;
-	hash.put("<=", (int) Parser.MENORIGUAL) ;
-	hash.put(":=", (int) Parser.ASIG) ;
-	hash.put("=", (int) Parser.IGUAL) ;
-	hash.put("(", (int) Parser.ABREPAR) ;
-	hash.put(")", (int) Parser.CIERRAPAR) ;
-	hash.put("{", (int) Parser.ABRELLAV) ;
-	hash.put("}", (int) Parser.CIERRALLAV) ;
-	hash.put("[", (int) Parser.ABRECOR) ;
-	hash.put("]", (int) Parser.CIERRACOR) ;
-	hash.put("-", (int) Parser.MENOS) ;
-	hash.put("+", (int) Parser.MAS) ;
-	hash.put("*", (int) Parser.POR) ;
-	hash.put("/", (int) Parser.DIV) ;
-	hash.put("<", (int) Parser.MENOR) ;
-	hash.put(">", (int) Parser.MAYOR) ;
-	hash.put(";", (int) Parser.PUNTOCOMA) ;
-	hash.put(",", (int) Parser.COMA) ;
-	hash.put("^=", (int) Parser.IGUALRARO) ;
-	hash.put("..", (int) Parser.DOSPUNTO) ;
+	hash.put("si", (int) Parser.IF);
+	hash.put("entonces", (int) Parser.THEN);
+	hash.put("sino", (int) Parser.ELSE);
+	hash.put("imprimir", (int) Parser.PRINT);
+	hash.put("entero", (int) Parser.INT);
+	hash.put("entero_ss", (int) Parser.UINT);
+	hash.put("iterar", (int) Parser.DO);
+	hash.put("hasta", (int) Parser.UNTIL);
+	hash.put("vector", (int) Parser.VECTOR);
+	hash.put("de", (int) Parser.OF);
+	hash.put(">=", (int) Parser.MAYORIGUAL);
+	hash.put("<=", (int) Parser.MENORIGUAL);
+	hash.put(":=", (int) Parser.ASIG);
+	hash.put("=", (int) Parser.IGUAL);
+	hash.put("(", (int) Parser.ABREPAR);
+	hash.put(")", (int) Parser.CIERRAPAR);
+	hash.put("{", (int) Parser.ABRELLAV);
+	hash.put("}", (int) Parser.CIERRALLAV);
+	hash.put("[", (int) Parser.ABRECOR);
+	hash.put("]", (int) Parser.CIERRACOR);
+	hash.put("-", (int) Parser.MENOS);
+	hash.put("+", (int) Parser.MAS);
+	hash.put("*", (int) Parser.POR);
+	hash.put("/", (int) Parser.DIV);
+	hash.put("<", (int) Parser.MENOR);
+	hash.put(">", (int) Parser.MAYOR);
+	hash.put(";", (int) Parser.PUNTOCOMA);
+	hash.put(",", (int) Parser.COMA);
+	hash.put("^=", (int) Parser.DISTINTO);
+	hash.put("..", (int) Parser.DOSPUNTO);
 
-	return hash ;
+	return hash;
 }
     
 private int toInteger( String token ) { 
-	Integer value = hm.get( token ) ;
+	Integer value = hm.get( token );
 	if ( value == null ) {
-		value = (int)token.charAt(0) ; //ASCII
+		value = (int)token.charAt(0);
 	}
-	return value ;		
+	return value;		
 }
 
 
 
-public void dotest(LexicalAnalyzer lex) {
+public void parsear(LexicalAnalyzer lex) {
  la = lex;
  errors = new LinkedList<String>();
  detections = new LinkedList<String>();

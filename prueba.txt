@@ -1,0 +1,41 @@
+entero a, b;
+entero_ss c;
+vect [1..4] vector de entero;
+a[2*b[j]] := b[a[i]]; 
+e______&&_& := -1;
+
+si ( a < 65535 ) entonces {
+	imprimir ([- comentario 
+		multilinea
+		-]"estoy en un si");
+}
+
+iterar {
+	imprimir ("iteracion");
+	[-comentario numero 1-]
+	si (a <= 1) entonces {
+		imprimir ("primer si dentro del iterar");
+		[- comentario numero 
+		2 multilinea
+		-]
+	}
+	sino {
+		imprimir ("dentro del sino");
+		si (a > 1) entonces {
+			imprimir ("un si dentro de un sino");
+			iterar {
+				imprimir ("iteracion dentro de un si");
+			} hasta ( b = -5 );
+		}
+		si (a >= a - 1 ) entonces {
+			imprimir ("otro si dentro del mismo sino");
+		}
+	}
+	si (a > 8 + a - b) entonces {
+		imprimir ("un if dentro del iterar");
+	}
+} hasta (b = 7);
+
+si ( b[ 1 + 23 + 2*4 / 6 - a[ 12+ c[ a+5 ] ] + -1 - 2 - 2 ] ^= -32768 ) entonces { 
+	imprimir ("vector b");
+}
