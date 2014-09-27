@@ -23,12 +23,13 @@ programa :
 
 sentencias_declarativas : 	sentencias_declarativas_simples PUNTOCOMA
 						| 	sentencias_declarativas sentencias_declarativas_simples PUNTOCOMA
-						
+						|	sentencias_declarativas_simples {yyerror("Error: Falta ';' en la asignacion en linea " + lineNumber);}
+						|	sentencias_declarativas sentencias_declarativas_simples {yyerror("Error: Falta ';' en la asignacion en linea " + lineNumber);}
 ;
 
-sentencias_declarativas_simples : tipo variables { detections.add("Declaracion de variable comun en linea "+lineNumber); }
-				| ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo { detections.add("Declaracion de variable vector en linea "+lineNumber); }
-				| error { yyerror("Error: Declaracion de variables mal hecha en " + lineNumber); }
+sentencias_declarativas_simples : tipo variables { detections.add("Declaracion de variable comun en linea " + lineNumber); }
+				| ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo { detections.add("Declaracion de variable vector en linea " + lineNumber); }
+			
 ;
 
 tipo : INT
@@ -48,28 +49,27 @@ sentencias_ejecutables : sentencia
 						| sentencias_ejecutables sentencia
 ;
 
-sentencia : PRINT ABREPAR CAD CIERRAPAR PUNTOCOMA { detections.add("Declaracion imprimir en "+lineNumber+" cadena "+ $3.sval); }
+sentencia : PRINT ABREPAR CAD CIERRAPAR PUNTOCOMA { detections.add("Declaracion imprimir en linea  "+lineNumber+" cadena "+ $3.sval); }
 		| 	seleccion
 		| 	asignacion PUNTOCOMA
 		|	iteracion PUNTOCOMA
-		|	asignacion {yyerror("Error: Falta ';' en la asignacion");}
-		|	iteracion {yyerror("Error: Falta ';' en la iteracion");} 
-		|	PRINT ABREPAR CAD CIERRAPAR  {yyerror("Error: Falta ';' en imprimir");} 
-		| PRINT CAD CIERRAPAR PUNTOCOMA {yyerror("Error: Fasida");} 			
+		|	asignacion {yyerror("Error: Falta ';' en la asignacion en linea " + lineNumber);}
+		|	iteracion {yyerror("Error: Falta ';' en la iteracion en linea " + lineNumber);} 
+		|	PRINT ABREPAR CAD CIERRAPAR  {yyerror("Error: Falta ';' en imprimir en linea "+ lineNumber);} 
+		| PRINT CAD CIERRAPAR PUNTOCOMA {yyerror("Error: Se espera un 'Parentesis abierto' en linea "+ lineNumber);} 			
 ;
 
 asignacion : variable ASIG expresion 
 ;
 
 iteracion : DO bloque_sentencias UNTIL ABREPAR condicion CIERRAPAR 
-			|	DO  UNTIL ABREPAR condicion CIERRAPAR {yyerror("Error: Se espera un bloque de sentencias");} 
-			|	DO bloque_sentencias ABREPAR condicion CIERRAPAR {yyerror("Error: Se espera un 'Hasta'");}
-			|	DO bloque_sentencias UNTIL condicion CIERRAPAR {yyerror("Error: Se espera un 'Parentesis abierto'");} 
-			|	DO bloque_sentencias UNTIL ABREPAR condicion  {yyerror("Error: Se espera un 'Parentesis cerrado'");} 		
+			|	DO  UNTIL ABREPAR condicion CIERRAPAR {yyerror("Error: Se espera un bloque de sentencias en linea "+ lineNumber);} 
+			|	DO bloque_sentencias ABREPAR condicion CIERRAPAR {yyerror("Error: Se espera un 'Hasta' en linea "+ lineNumber);}
+			|	DO bloque_sentencias UNTIL condicion CIERRAPAR {yyerror("Error: Se espera un 'Parentesis abierto' en linea "+ lineNumber);} 
+			|	DO bloque_sentencias UNTIL ABREPAR condicion  {yyerror("Error: Se espera un 'Parentesis cerrado' en linea "+ lineNumber);} 		
 ;
 
 seleccion : cabecera_seleccion THEN cuerpo_seleccion
-			| error { yyerror("Error: if mal hecho en " + lineNumber); }
 ; 
 	
 
@@ -80,19 +80,15 @@ cuerpo_seleccion : 	bloque_then bloque_else
 bloque_then : bloque_sentencias ELSE				 
 ;
 
-bloque_final : bloque_sentencias %prec LOWER_THAN_ELSE { detections.add("Declaracion if en "+lineNumber); }		
+bloque_final : bloque_sentencias %prec LOWER_THAN_ELSE { detections.add("Declaracion if en linea "+lineNumber); }		
 ;
 
-bloque_else : bloque_sentencias { detections.add("Declaracion if else en "+lineNumber); }
+bloque_else : bloque_sentencias { detections.add("Declaracion if else en linea "+lineNumber); }
 ;
 
 cabecera_seleccion : 	IF ABREPAR condicion CIERRAPAR
-					|	IF ABREPAR CIERRAPAR {yyerror("Error: Se detecto IF sin ninguna condicion");} 
-					|	IF CIERRAPAR {yyerror("Error: Se detecto IF  con un cierre de parentesis inesperado");} 
-					|	IF ABREPAR {yyerror("Error: Se detecto IF sin condicion");} 
-					|	IF ABREPAR condicion {yyerror("Error: Se detecto IF  sin cierre de parentesis");} 
-					|	IF condicion {yyerror("Error: Se detecto IF sin parentesis");} 
-					|	error {yyerror("Error: Se detecto IF erroneo");} 
+					|	IF error condicion CIERRAPAR {yyerror("Error: Se detecto IF erroneo despues del token if en linea "+ lineNumber);}
+					|	IF condicion CIERRAPAR {yyerror("Error: Se detecto IF erroneo falta parentesis "+ lineNumber);}
 ;
 
 condicion : expresion comparador expresion
@@ -110,15 +106,15 @@ termino : termino POR factor
 		
 variable :  ID
 	| ID ABRECOR expresion CIERRACOR
-	| ID ABRECOR CIERRACOR {yyerror("Error: Se espera una exprecion entre los corchetes");}
-	| ID ABRECOR expresion {yyerror("Error: Se espera que se cierre corchetes");}
-	| ID CIERRACOR {yyerror("Error: Cierre de corchetes inesperado");}
+	| ID ABRECOR CIERRACOR {yyerror("Error: Se espera una exprecion entre los corchetes en linea "+ lineNumber);}
+	| ID ABRECOR expresion {yyerror("Error: Se espera que se cierre corchetes en linea "+ lineNumber);}
+	| ID CIERRACOR {yyerror("Error: Cierre de corchetes inesperado en linea "+ lineNumber);}
 ;
 		
 factor : ID
 	   | CTE
 	   | ID ABRECOR expresion CIERRACOR
-   	   | MENOS CTE {if ($2.ival > 32768 ) {yyerror("Numero negativo debajo del rango "+lineNumber); } }
+   	   | MENOS CTE {if ($2.ival > 32768 ) {yyerror("Numero negativo debajo del rango en linea "+lineNumber); } }
 ;
 	   
 comparador : IGUAL 

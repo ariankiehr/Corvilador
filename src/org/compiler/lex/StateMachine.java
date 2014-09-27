@@ -219,6 +219,9 @@ public class StateMachine {
 			this.put('-');
 			this.put(']');
 		}
+		
+		actualString = "";
+		actualState = initial;
 
 	}
 	
