@@ -21,15 +21,25 @@ programa :
 	| sentencias_declarativas sentencias_ejecutables
 ;
 
-sentencias_declarativas : 	sentencias_declarativas_simples PUNTOCOMA
-						| 	sentencias_declarativas sentencias_declarativas_simples PUNTOCOMA
-						|	sentencias_declarativas_simples {yyerror("Error: Falta ';' en la asignacion en linea " + lineNumber);}
-						|	sentencias_declarativas sentencias_declarativas_simples {yyerror("Error: Falta ';' en la asignacion en linea " + lineNumber);}
+sentencias_declarativas : 	sentencias_declarativas_simples 
+						| 	sentencias_declarativas sentencias_declarativas_simples 
+			
 ;
 
-sentencias_declarativas_simples : tipo variables { detections.add("Declaracion de variable comun en linea " + lineNumber); }
-				| ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo { detections.add("Declaracion de variable vector en linea " + lineNumber); }
-			
+sentencias_declarativas_simples : tipo variables PUNTOCOMA { detections.add("Declaracion de variable comun en linea " + 										lineNumber); }
+								| 	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo PUNTOCOMA{ detections.add("Declaracion de variable vector en linea " + lineNumber); }
+								|	tipo variables  {yyerror("Error: Falta ';' en la declaracion en linea " + lineNumber);}
+								| 	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo  {yyerror("Error: Falta ';' en la declaracion del vector en linea " + lineNumber);}
+								| 	ID error CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo PUNTOCOMA  {yyerror("Error: se esperaba un '[' eb linea "+ lineNumber);}
+								| 	ID ABRECOR error DOSPUNTO CTE CIERRACOR VECTOR OF tipo PUNTOCOMA  {yyerror("Error: Se esperaba una constante en linea " + lineNumber);}
+								| 	ID ABRECOR CTE error CTE CIERRACOR VECTOR OF tipo PUNTOCOMA  {yyerror("Error: Se esperaba una '..' en linea " + lineNumber);}
+								|	ID ABRECOR CTE DOSPUNTO error CIERRACOR VECTOR OF tipo PUNTOCOMA  {yyerror("Error: Se esperaba una constante en linea " + lineNumber);}
+								|	ID ABRECOR CTE DOSPUNTO CTE error VECTOR OF tipo PUNTOCOMA  {yyerror("Error: se esperaba un ']' eb linea "+ lineNumber);}
+								|	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR error OF tipo PUNTOCOMA  {yyerror("Error: Falta la palabra reservada 'VECTOR' en linea " + lineNumber);}	
+								|	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR error tipo PUNTOCOMA  {yyerror("Error: Falta la palabra reservada 'DE' en linea " + lineNumber);}		
+								|	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF error PUNTOCOMA  {yyerror("Error: Falta tipo del vector en linea " + lineNumber);}	
+								|	error ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo PUNTOCOMA  {yyerror("Error: Nombre variable en linea " + lineNumber);}	
+								| error  {yyerror("Error: Variable mal declarada en linea " + lineNumber);}	
 ;
 
 tipo : INT
@@ -56,13 +66,13 @@ sentencia : PRINT ABREPAR CAD CIERRAPAR PUNTOCOMA { detections.add("Declaracion 
 		|	asignacion {yyerror("Error: Falta ';' en la asignacion en linea " + lineNumber);}
 		|	iteracion {yyerror("Error: Falta ';' en la iteracion en linea " + lineNumber);} 
 		|	PRINT ABREPAR CAD CIERRAPAR  {yyerror("Error: Falta ';' en imprimir en linea "+ lineNumber);} 
-		| PRINT CAD CIERRAPAR PUNTOCOMA {yyerror("Error: Se espera un 'Parentesis abierto' en linea "+ lineNumber);} 			
+		|	PRINT CAD CIERRAPAR PUNTOCOMA {yyerror("Error: Se espera un 'Parentesis abierto' en linea "+ lineNumber);} 			
 ;
 
-asignacion : variable ASIG expresion 
+asignacion : variable ASIG expresion { detections.add("Asignacion en linea  "+lineNumber); }
 ;
 
-iteracion : DO bloque_sentencias UNTIL ABREPAR condicion CIERRAPAR 
+iteracion : DO bloque_sentencias UNTIL ABREPAR condicion CIERRAPAR { detections.add("Iterar en linea  "+lineNumber); }
 			|	DO  UNTIL ABREPAR condicion CIERRAPAR {yyerror("Error: Se espera un bloque de sentencias en linea "+ lineNumber);} 
 			|	DO bloque_sentencias ABREPAR condicion CIERRAPAR {yyerror("Error: Se espera un 'Hasta' en linea "+ lineNumber);}
 			|	DO bloque_sentencias UNTIL condicion CIERRAPAR {yyerror("Error: Se espera un 'Parentesis abierto' en linea "+ lineNumber);} 
@@ -114,7 +124,12 @@ variable :  ID
 factor : ID
 	   | CTE
 	   | ID ABRECOR expresion CIERRACOR
-   	   | MENOS CTE {if ($2.ival > 32768 ) {yyerror("Numero negativo debajo del rango en linea "+lineNumber); } }
+   	   | MENOS CTE {
+   	   		if ($2.ival > 32768 ) {
+   	   			yyerror("Numero negativo debajo del rango en linea "+lineNumber); 
+   	   		}
+   	   		/* Aca hay que agregar a la tabla de simbolos el - y sacar el otro, pero hay que usar semantico */
+   	   	}
 ;
 	   
 comparador : IGUAL 
@@ -159,7 +174,7 @@ int yylex() {
 	    tok = ID;
 	} else if (type.equals("const")) {
 	    tok = CTE;
-	    yylval = new ParserVal( Integer.parseInt(s) ) ; 
+	    yylval = new ParserVal( new Long(Long.parseLong(s)) ) ; 
 	} else if (type.equals("cadena")) {
 	    tok = CAD;
 	    yylval = new ParserVal( s ) ; 
