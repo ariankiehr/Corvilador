@@ -229,6 +229,9 @@ public class MainFrame extends JFrame implements ActionListener {
 		}
 		lexico.setNextToken(0);
 
+		Parser par = new Parser(true);
+		par.parsear(lexico);
+		
 		for (String warning : LexicalAnalyzer.warnings) {
 			warnings.append(warning + '\n');
 		}
@@ -238,9 +241,6 @@ public class MainFrame extends JFrame implements ActionListener {
 		}
 
 		simbolos.append(SymbolTable.getInstance().toString());
-
-		Parser par = new Parser(false);
-		par.parsear(lexico);
 
 		for (String error : Parser.errors) {
 			syntaxErrors.append(error + '\n');

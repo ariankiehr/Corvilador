@@ -23,9 +23,9 @@ iterar {
 		imprimir ("dentro del sino");
 		si (a > 1) entonces {
 			imprimir ("un si dentro de un sino");
-			iterar {
+			iterar 
 				imprimir ("iteracion dentro de un si");
-			} hasta ( b = -5 );
+			hasta ( b = -5 );
 		}
 		si (a >= a - 1 ) entonces {
 			imprimir ("otro si dentro del mismo sino");

@@ -16,30 +16,28 @@ import org.compiler.lex.Token;
 %%
 
 programa : 
- 	| sentencias_declarativas 
-	| sentencias_ejecutables  
+ 	| sentencias_declarativas
+	| sentencias_ejecutables
 	| sentencias_declarativas sentencias_ejecutables
 ;
 
-sentencias_declarativas : 	sentencias_declarativas_simples 
-						| 	sentencias_declarativas sentencias_declarativas_simples 
-			
+sentencias_declarativas : 	sentencias_declarativas_simples PUNTOCOMA
+						| 	sentencias_declarativas sentencias_declarativas_simples PUNTOCOMA									
 ;
 
-sentencias_declarativas_simples : tipo variables PUNTOCOMA { detections.add("Declaracion de variable comun en linea " + 										lineNumber); }
-								| 	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo PUNTOCOMA{ detections.add("Declaracion de variable vector en linea " + lineNumber); }
-								|	tipo variables  {yyerror("Error: Falta ';' en la declaracion en linea " + lineNumber);}
-								| 	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo  {yyerror("Error: Falta ';' en la declaracion del vector en linea " + lineNumber);}
-								| 	ID error CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo PUNTOCOMA  {yyerror("Error: se esperaba un '[' eb linea "+ lineNumber);}
-								| 	ID ABRECOR error DOSPUNTO CTE CIERRACOR VECTOR OF tipo PUNTOCOMA  {yyerror("Error: Se esperaba una constante en linea " + lineNumber);}
-								| 	ID ABRECOR CTE error CTE CIERRACOR VECTOR OF tipo PUNTOCOMA  {yyerror("Error: Se esperaba una '..' en linea " + lineNumber);}
-								|	ID ABRECOR CTE DOSPUNTO error CIERRACOR VECTOR OF tipo PUNTOCOMA  {yyerror("Error: Se esperaba una constante en linea " + lineNumber);}
-								|	ID ABRECOR CTE DOSPUNTO CTE error VECTOR OF tipo PUNTOCOMA  {yyerror("Error: se esperaba un ']' eb linea "+ lineNumber);}
-								|	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR error OF tipo PUNTOCOMA  {yyerror("Error: Falta la palabra reservada 'VECTOR' en linea " + lineNumber);}	
-								|	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR error tipo PUNTOCOMA  {yyerror("Error: Falta la palabra reservada 'DE' en linea " + lineNumber);}		
-								|	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF error PUNTOCOMA  {yyerror("Error: Falta tipo del vector en linea " + lineNumber);}	
-								|	error ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo PUNTOCOMA  {yyerror("Error: Nombre variable en linea " + lineNumber);}	
-								| error  {yyerror("Error: Variable mal declarada en linea " + lineNumber);}	
+sentencias_declarativas_simples : tipo variables  { detections.add("Declaracion de variable comun en linea " + 										lineNumber); }
+								| 	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo { detections.add("Declaracion de variable vector en linea " + lineNumber); }
+								//|	tipo variables  {yyerror("Error: Falta ';' en la declaracion en linea " + lineNumber);}
+								//| 	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo  {yyerror("Error: Falta ';' en la declaracion del vector en linea " + lineNumber);}
+								//| 	ID error CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo {yyerror("Error: se esperaba un '[' eb linea "+ lineNumber);}
+								| 	ID ABRECOR error DOSPUNTO CTE CIERRACOR VECTOR OF tipo   {yyerror("Error: Se esperaba una constante en linea " + lineNumber);}
+								| 	ID ABRECOR CTE error CTE CIERRACOR VECTOR OF tipo   {yyerror("Error: Se esperaba '..' en linea " + lineNumber);}
+								|	ID ABRECOR CTE DOSPUNTO error CIERRACOR VECTOR OF tipo   {yyerror("Error: Se esperaba una constante en linea " + lineNumber);}
+								|	ID ABRECOR CTE DOSPUNTO CTE error VECTOR OF tipo   {yyerror("Error: se esperaba un ']' eb linea "+ lineNumber);}
+								|	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR error OF tipo   {yyerror("Error: Falta la palabra reservada 'VECTOR' en linea " + lineNumber);}	
+								|	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR error tipo   {yyerror("Error: Falta la palabra reservada 'DE' en linea " + lineNumber);}		
+								|	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF error   {yyerror("Error: Falta tipo del vector en linea " + lineNumber);}	
+								|	error ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo   {yyerror("Error: Nombre variable en linea " + lineNumber);}
 ;
 
 tipo : INT
@@ -50,23 +48,23 @@ variables : ID
 		|	variables COMA ID		
 ;
 
-bloque_sentencias : sentencia
+bloque_sentencias : sentencia PUNTOCOMA
 					|	ABRELLAV sentencias_ejecutables CIERRALLAV
 					
 ;
 
-sentencias_ejecutables : sentencia
-						| sentencias_ejecutables sentencia
+sentencias_ejecutables : sentencia PUNTOCOMA
+						| sentencias_ejecutables sentencia PUNTOCOMA
+						| seleccion
+						| sentencias_ejecutables seleccion
+						| sentencias_ejecutables error PUNTOCOMA  {yyerror("Codigo erroneo" + lineNumber);}
+						| error PUNTOCOMA {yyerror("Codigo erroneo" + lineNumber);}
+
 ;
 
-sentencia : PRINT ABREPAR CAD CIERRAPAR PUNTOCOMA { detections.add("Declaracion imprimir en linea  "+lineNumber+" cadena "+ $3.sval); }
-		| 	seleccion
-		| 	asignacion PUNTOCOMA
-		|	iteracion PUNTOCOMA
-		|	asignacion {yyerror("Error: Falta ';' en la asignacion en linea " + lineNumber);}
-		|	iteracion {yyerror("Error: Falta ';' en la iteracion en linea " + lineNumber);} 
-		|	PRINT ABREPAR CAD CIERRAPAR  {yyerror("Error: Falta ';' en imprimir en linea "+ lineNumber);} 
-		|	PRINT CAD CIERRAPAR PUNTOCOMA {yyerror("Error: Se espera un 'Parentesis abierto' en linea "+ lineNumber);} 			
+sentencia : PRINT ABREPAR CAD CIERRAPAR { detections.add("Declaracion imprimir en linea  "+lineNumber+" cadena "+ $3.sval); }
+		| 	asignacion 
+		|	iteracion 			
 ;
 
 asignacion : variable ASIG expresion { detections.add("Asignacion en linea  "+lineNumber); }
@@ -80,6 +78,7 @@ iteracion : DO bloque_sentencias UNTIL ABREPAR condicion CIERRAPAR { detections.
 ;
 
 seleccion : cabecera_seleccion THEN cuerpo_seleccion
+	| cabecera_seleccion cuerpo_seleccion {yyerror("vazco gato"+ lineNumber); }
 ; 
 	
 
@@ -153,7 +152,12 @@ private String s;
 
 
 void yyerror(String s) {
-	errors.add(s);
+	if("syntax error".equals(s)) {
+		errors.add("Error: linea erronea en "+ lineNumber);
+	} else {
+		errors.add(s);	
+	}
+
 }
 
 int yylex() {
