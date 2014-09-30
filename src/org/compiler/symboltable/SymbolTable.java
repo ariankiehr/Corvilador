@@ -19,6 +19,10 @@ public class SymbolTable {
 		}
 		return instance;
 	}
+	
+	public static void reset() {
+		instance = null;
+	}
 
 	private SymbolTable() {
 		table = new HashMap<String, Attribute>();

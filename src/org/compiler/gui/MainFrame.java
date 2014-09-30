@@ -249,6 +249,8 @@ public class MainFrame extends JFrame implements ActionListener {
 		for (String detection : Parser.detections) {
 			syntaxDetection.append(detection + '\n');
 		}
+		
+		SymbolTable.reset(); //se limpia la tabla de simbolos por si se abre otro archivo
 
 	}
 

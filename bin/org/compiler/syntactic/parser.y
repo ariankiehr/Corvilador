@@ -1,7 +1,7 @@
 %{
 import org.compiler.lex.LexicalAnalyzer;
 import java.util.*;
-import org.compiler.symboltable.SymbolTable;
+import org.compiler.symboltable.*;
 import org.compiler.lex.Token;
 %}
 
@@ -25,8 +25,8 @@ sentencias_declarativas : 	sentencias_declarativas_simples PUNTOCOMA
 						| 	sentencias_declarativas sentencias_declarativas_simples PUNTOCOMA									
 ;
 
-sentencias_declarativas_simples : tipo variables  { detections.add("Declaracion de variable comun en linea " + 										lineNumber); }
-								| 	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo { detections.add("Declaracion de variable vector en linea " + lineNumber); }
+sentencias_declarativas_simples : tipo variables  { add("Declaracion de variable comun en linea " + 										lineNumber); }
+								| 	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo { add("Declaracion de variable vector en linea " + lineNumber); }
 								//|	tipo variables  {yyerror("Error: Falta ';' en la declaracion en linea " + lineNumber);}
 								//| 	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo  {yyerror("Error: Falta ';' en la declaracion del vector en linea " + lineNumber);}
 								//| 	ID error CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo {yyerror("Error: se esperaba un '[' eb linea "+ lineNumber);}
@@ -38,6 +38,8 @@ sentencias_declarativas_simples : tipo variables  { detections.add("Declaracion 
 								|	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR error tipo   {yyerror("Error: Falta la palabra reservada 'DE' en linea " + lineNumber);}		
 								|	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF error   {yyerror("Error: Falta tipo del vector en linea " + lineNumber);}	
 								|	error ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo   {yyerror("Error: Nombre variable en linea " + lineNumber);}
+								| ID ID  {yyerror("Error: Palabra reservada mal escrita en linea " + lineNumber);}
+								| tipo tipo  {yyerror("Error: Nombre de variable igual al tipo en linea " + lineNumber);}
 ;
 
 tipo : INT
@@ -50,6 +52,8 @@ variables : ID
 
 bloque_sentencias : sentencia PUNTOCOMA
 					|	ABRELLAV sentencias_ejecutables CIERRALLAV
+					|	error sentencias_ejecutables CIERRALLAV {yyerror("Error: Se esperaba '{' " + lineNumber);}
+					|	ABRELLAV sentencias_ejecutables error {yyerror("Error: Se esperaba '}'" + lineNumber);}
 					
 ;
 
@@ -57,20 +61,23 @@ sentencias_ejecutables : sentencia PUNTOCOMA
 						| sentencias_ejecutables sentencia PUNTOCOMA
 						| seleccion
 						| sentencias_ejecutables seleccion
-						| sentencias_ejecutables error PUNTOCOMA  {yyerror("Codigo erroneo" + lineNumber);}
-						| error PUNTOCOMA {yyerror("Codigo erroneo" + lineNumber);}
+						| sentencias_ejecutables error PUNTOCOMA  {yyerror("Codigo erroneo en linea " + lineNumber);}
+						| error PUNTOCOMA {yyerror("Codigo erroneo en linea " + lineNumber);}
 
 ;
 
-sentencia : PRINT ABREPAR CAD CIERRAPAR { detections.add("Declaracion imprimir en linea  "+lineNumber+" cadena "+ $3.sval); }
+sentencia : PRINT ABREPAR CAD CIERRAPAR { add("Declaracion imprimir en linea  "+lineNumber+" cadena "+ $3.sval); }
 		| 	asignacion 
 		|	iteracion 			
+		|	PRINT error CAD CIERRAPAR {yyerror("Error: Se espera un '(' " + lineNumber);}
+		|	PRINT ABREPAR CAD error {yyerror("Error: Se espera un ')' " + lineNumber);}
+		|	PRINT ABREPAR error CIERRAPAR {yyerror("Error: Se espera una 'cadena' " + lineNumber);}
 ;
 
-asignacion : variable ASIG expresion { detections.add("Asignacion en linea  "+lineNumber); }
+asignacion : variable ASIG expresion { add("Asignacion en linea  "+lineNumber); }
 ;
 
-iteracion : DO bloque_sentencias UNTIL ABREPAR condicion CIERRAPAR { detections.add("Iterar en linea  "+lineNumber); }
+iteracion : DO bloque_sentencias UNTIL ABREPAR condicion CIERRAPAR { add("Iterar en linea  "+lineNumber); }
 			|	DO  UNTIL ABREPAR condicion CIERRAPAR {yyerror("Error: Se espera un bloque de sentencias en linea "+ lineNumber);} 
 			|	DO bloque_sentencias ABREPAR condicion CIERRAPAR {yyerror("Error: Se espera un 'Hasta' en linea "+ lineNumber);}
 			|	DO bloque_sentencias UNTIL condicion CIERRAPAR {yyerror("Error: Se espera un 'Parentesis abierto' en linea "+ lineNumber);} 
@@ -78,7 +85,7 @@ iteracion : DO bloque_sentencias UNTIL ABREPAR condicion CIERRAPAR { detections.
 ;
 
 seleccion : cabecera_seleccion THEN cuerpo_seleccion
-	| cabecera_seleccion cuerpo_seleccion {yyerror("vazco gato"+ lineNumber); }
+	| cabecera_seleccion cuerpo_seleccion {yyerror("Error: falta entonces"+ lineNumber); }
 ; 
 	
 
@@ -89,15 +96,16 @@ cuerpo_seleccion : 	bloque_then bloque_else
 bloque_then : bloque_sentencias ELSE				 
 ;
 
-bloque_final : bloque_sentencias %prec LOWER_THAN_ELSE { detections.add("Declaracion if en linea "+lineNumber); }		
+bloque_final : bloque_sentencias %prec LOWER_THAN_ELSE { add("Declaracion if en linea "+lineNumber); }		
 ;
 
-bloque_else : bloque_sentencias { detections.add("Declaracion if else en linea "+lineNumber); }
+bloque_else : bloque_sentencias { add("Declaracion if else en linea "+lineNumber); }
 ;
 
 cabecera_seleccion : 	IF ABREPAR condicion CIERRAPAR
 					|	IF error condicion CIERRAPAR {yyerror("Error: Se detecto IF erroneo despues del token if en linea "+ lineNumber);}
 					|	IF condicion CIERRAPAR {yyerror("Error: Se detecto IF erroneo falta parentesis "+ lineNumber);}
+					/*|	IF ABREPAR error CIERRAPAR {yyerror("Error: Se espera una condicion en el if en linea "+ lineNumber);}*/
 ;
 
 condicion : expresion comparador expresion
@@ -115,8 +123,8 @@ termino : termino POR factor
 		
 variable :  ID
 	| ID ABRECOR expresion CIERRACOR
-	| ID ABRECOR CIERRACOR {yyerror("Error: Se espera una exprecion entre los corchetes en linea "+ lineNumber);}
-	| ID ABRECOR expresion {yyerror("Error: Se espera que se cierre corchetes en linea "+ lineNumber);}
+	| ID ABRECOR error CIERRACOR   {yyerror("Error: Se espera una expresion entre los corchetes en linea "+ lineNumber);}
+	| ID ABRECOR expresion  {yyerror("Error: Se espera que se cierre corchetes en linea "+ lineNumber);}
 	| ID CIERRACOR {yyerror("Error: Cierre de corchetes inesperado en linea "+ lineNumber);}
 ;
 		
@@ -124,10 +132,12 @@ factor : ID
 	   | CTE
 	   | ID ABRECOR expresion CIERRACOR
    	   | MENOS CTE {
-   	   		if ($2.ival > 32768 ) {
+   	   		if (((Long)$2.obj) > 32768 ) {
    	   			yyerror("Numero negativo debajo del rango en linea "+lineNumber); 
+   	   			err = true;
+   	   		} else {
+   	   			SymbolTable.getInstance().addSymbol("-"+$2.obj, new Attribute("const"));
    	   		}
-   	   		/* Aca hay que agregar a la tabla de simbolos el - y sacar el otro, pero hay que usar semantico */
    	   	}
 ;
 	   
@@ -149,6 +159,14 @@ public static List<String> detections;
 private Map<String, Integer> hm = generateHash() ;
 private int lineNumber = 0;
 private String s;
+private boolean err = false;
+
+void add(String s) {
+	if(!err) {
+		detections.add(s);
+	}
+	err=false;
+}
 
 
 void yyerror(String s) {
