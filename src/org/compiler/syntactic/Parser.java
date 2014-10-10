@@ -460,7 +460,7 @@ final static String yyrule[] = {
 "comparador : DISTINTO",
 };
 
-//#line 272 "parser.y"
+//#line 273 "parser.y"
 
 String ins;
 LexicalAnalyzer la;
@@ -470,7 +470,8 @@ private Map<String, Integer> hm = generateHash() ;
 private int lineNumber = 0;
 private String s;
 private boolean err = false;
-public static List<String> declaradas ;
+private List<String> declaradas ;
+private List<Long> constPendientes ;
 
 void add(String s) {
 	if(!err) {
@@ -582,9 +583,15 @@ public void parsear(LexicalAnalyzer lex) {
  errors = new LinkedList<String>();
  detections = new LinkedList<String>();
  declaradas = new LinkedList<String>();
+ constPendientes = new LinkedList<Long> ();
  yyparse();
+ for(Long l : constPendientes) {
+ 	if( ((AttributeConst)SymbolTable.getInstance().get(l.toString())).getTypeOfElement() == null) {
+ 		SymbolTable.getInstance().removeSymbol(l.toString());
+ 	}
+ }
 }
-//#line 515 "Parser.java"
+//#line 522 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -749,7 +756,7 @@ case 7:
 								declaradas.add(s);
 							}
 							else {
-								yyerror("La variable ya esta declarada");
+								yyerror("La variable ya esta declarada" + lineNumber);
 							}
 						}
 	
@@ -999,9 +1006,9 @@ case 68:
 
 	   		yyval = new ParserVal(val_peek(0).obj);
 	   		SymbolTable.getInstance().addSymbol( String.valueOf((Long)val_peek(0).obj), new AttributeConst( 
-				SymbolTable.getInstance().get(String.valueOf((Long)val_peek(0).obj)).getTypeOfToken(), null) );
+				SymbolTable.getInstance().get(String.valueOf((Long)val_peek(0).obj)).getTypeOfToken(), "entero") );
 	   		/*devolver el valor de la constante*/
-			/* QUE HACER CON EL TIPO*/
+			/* QUE HACER CON EL TIPO esta jarcodeado ahora*/
 
 	   }
 break;
@@ -1024,6 +1031,7 @@ case 70:
    	   			err = true;
    	   		} else {
    	   			SymbolTable.getInstance().addSymbol("-"+val_peek(0).obj, new AttributeConst("const","entero"));
+   	   			constPendientes.add((Long)val_peek(0).obj);
    	   		}
 
    	   		/*devolver el valor*/
@@ -1031,7 +1039,7 @@ case 70:
 
    	   	}
 break;
-//#line 957 "Parser.java"
+//#line 965 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

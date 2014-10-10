@@ -60,5 +60,9 @@ public class SymbolTable {
 		return sb.toString();
 
 	}
+	
+	public void removeSymbol(String key) {
+		this.table.remove(key);
+	}
 
 }

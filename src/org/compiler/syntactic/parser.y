@@ -35,7 +35,7 @@ sentencias_declarativas_simples :
 								declaradas.add(s);
 							}
 							else {
-								yyerror("La variable ya esta declarada");
+								yyerror("La variable ya esta declarada" + lineNumber);
 							}
 						}
 	
@@ -232,9 +232,9 @@ factor : ID {
 
 	   		$$ = new ParserVal($1.obj);
 	   		SymbolTable.getInstance().addSymbol( String.valueOf((Long)$1.obj), new AttributeConst( 
-				SymbolTable.getInstance().get(String.valueOf((Long)$1.obj)).getTypeOfToken(), null) );
+				SymbolTable.getInstance().get(String.valueOf((Long)$1.obj)).getTypeOfToken(), "entero") );
 	   		//devolver el valor de la constante
-			// QUE HACER CON EL TIPO
+			// QUE HACER CON EL TIPO esta jarcodeado ahora
 
 	   }
 	   | ID ABRECOR expresion CIERRACOR {
@@ -251,6 +251,7 @@ factor : ID {
    	   			err = true;
    	   		} else {
    	   			SymbolTable.getInstance().addSymbol("-"+$2.obj, new AttributeConst("const","entero"));
+   	   			constPendientes.add((Long)$2.obj);
    	   		}
 
    	   		//devolver el valor
@@ -278,7 +279,8 @@ private Map<String, Integer> hm = generateHash() ;
 private int lineNumber = 0;
 private String s;
 private boolean err = false;
-public static List<String> declaradas ;
+private List<String> declaradas ;
+private List<Long> constPendientes ;
 
 void add(String s) {
 	if(!err) {
@@ -390,5 +392,11 @@ public void parsear(LexicalAnalyzer lex) {
  errors = new LinkedList<String>();
  detections = new LinkedList<String>();
  declaradas = new LinkedList<String>();
+ constPendientes = new LinkedList<Long> ();
  yyparse();
+ for(Long l : constPendientes) {
+ 	if( ((AttributeConst)SymbolTable.getInstance().get(l.toString())).getTypeOfElement() == null) {
+ 		SymbolTable.getInstance().removeSymbol(l.toString());
+ 	}
+ }
 }
