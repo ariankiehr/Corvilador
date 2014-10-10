@@ -9,7 +9,7 @@ import org.compiler.lex.DomainOfDiscurse;
 
 public class SymbolTable {
 
-	private Map<String, Attribute> table;
+	private Map<String, IAttribute> table;
 
 	private static SymbolTable instance = null;
 
@@ -25,30 +25,30 @@ public class SymbolTable {
 	}
 
 	private SymbolTable() {
-		table = new HashMap<String, Attribute>();
+		table = new HashMap<String, IAttribute>();
 		for (String palabraReservada : DomainOfDiscurse.palabrasReservadas) {
-			addSymbol(palabraReservada, new Attribute("Palabra Reservada"));
+			addSymbol(palabraReservada, new IAttribute("Palabra Reservada"));
 		}
 
 		for (String simbolo : DomainOfDiscurse.simbolos) {
-			addSymbol(simbolo, new Attribute("Simbolo"));
+			addSymbol(simbolo, new IAttribute("Simbolo"));
 		}
 
 	}
 
-	public void addSymbol(String s, Attribute a) {
+	public void addSymbol(String s, IAttribute a) {
 		table.put(s, a);
 	}
 
-	public Attribute get(String key) {
+	public IAttribute get(String key) {
 		return table.get(key);
 	}
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		Iterator<Entry<String, Attribute>> iter = table.entrySet().iterator();
+		Iterator<Entry<String, IAttribute>> iter = table.entrySet().iterator();
 		while (iter.hasNext()) {
-			Entry<String, Attribute> entry = iter.next();
+			Entry<String, IAttribute> entry = iter.next();
 			sb.append(entry.getKey());
 			sb.append(" de tipo ");
 			sb.append(entry.getValue());

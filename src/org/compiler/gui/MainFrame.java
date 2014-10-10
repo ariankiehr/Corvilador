@@ -229,7 +229,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		}
 		lexico.setNextToken(0);
 
-		Parser par = new Parser(true);
+		Parser par = new Parser(false);
 		par.parsear(lexico);
 		
 		for (String warning : LexicalAnalyzer.warnings) {
@@ -249,6 +249,8 @@ public class MainFrame extends JFrame implements ActionListener {
 		for (String detection : Parser.detections) {
 			syntaxDetection.append(detection + '\n');
 		}
+		
+		System.out.println(Parser.declaradas.size());
 		
 		SymbolTable.reset(); //se limpia la tabla de simbolos por si se abre otro archivo
 

@@ -2,7 +2,7 @@ package org.compiler.lex.actions;
 
 import org.compiler.lex.LexicalReaderException;
 import org.compiler.lex.StateMachine;
-import org.compiler.symboltable.Attribute;
+import org.compiler.symboltable.AttributeConst;
 import org.compiler.symboltable.SymbolTable;
 
 public class AddSymbolConst extends SemanticAction {
@@ -20,7 +20,7 @@ public class AddSymbolConst extends SemanticAction {
 			throw e;
 		}
 
-		SymbolTable.getInstance().addSymbol(ret, new Attribute("const"));
+		SymbolTable.getInstance().addSymbol(ret, new AttributeConst("const",null));
 
 		StateMachine.getInstance().cleanString();
 		return ret;
