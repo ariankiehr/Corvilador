@@ -22,7 +22,8 @@ import org.compiler.lex.LexicalAnalyzer;
 import java.util.*;
 import org.compiler.symboltable.*;
 import org.compiler.lex.Token;
-//#line 22 "Parser.java"
+import org.compiler.arbolito.*;
+//#line 23 "Parser.java"
 
 
 
@@ -460,7 +461,7 @@ final static String yyrule[] = {
 "comparador : DISTINTO",
 };
 
-//#line 273 "parser.y"
+//#line 344 "parser.y"
 
 String ins;
 LexicalAnalyzer la;
@@ -591,7 +592,7 @@ public void parsear(LexicalAnalyzer lex) {
  	}
  }
 }
-//#line 522 "Parser.java"
+//#line 523 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -745,8 +746,20 @@ boolean doaction;
     switch(yyn)
       {
 //########## USER-SUPPLIED ACTIONS ##########
+case 3:
+//#line 21 "parser.y"
+{
+		System.out.println( val_peek(0).obj.toString() );
+	}
+break;
+case 4:
+//#line 24 "parser.y"
+{
+		System.out.println( ((Arbol)val_peek(0).obj).toString() );
+	}
+break;
 case 7:
-//#line 29 "parser.y"
+//#line 34 "parser.y"
 {
 						List<String> vars = (List<String>)val_peek(1).obj;
 						for( String s : vars ) {
@@ -764,7 +777,7 @@ case 7:
 					}
 break;
 case 8:
-//#line 44 "parser.y"
+//#line 49 "parser.y"
 {
 	
 							SymbolTable.getInstance().addSymbol( val_peek(9).sval, new AttributeVector( 
@@ -795,177 +808,315 @@ case 8:
 						add("Declaracion de variable vector en linea " + lineNumber); }
 break;
 case 9:
-//#line 72 "parser.y"
+//#line 77 "parser.y"
 {yyerror("Error: Se esperaba una constante en linea " + lineNumber);}
 break;
 case 10:
-//#line 73 "parser.y"
+//#line 78 "parser.y"
 {yyerror("Error: Se esperaba '..' en linea " + lineNumber);}
 break;
 case 11:
-//#line 74 "parser.y"
+//#line 79 "parser.y"
 {yyerror("Error: Se esperaba una constante en linea " + lineNumber);}
 break;
 case 12:
-//#line 75 "parser.y"
+//#line 80 "parser.y"
 {yyerror("Error: se esperaba un ']' eb linea "+ lineNumber);}
 break;
 case 13:
-//#line 76 "parser.y"
+//#line 81 "parser.y"
 {yyerror("Error: Falta la palabra reservada 'VECTOR' en linea " + lineNumber);}
 break;
 case 14:
-//#line 77 "parser.y"
+//#line 82 "parser.y"
 {yyerror("Error: Falta la palabra reservada 'DE' en linea " + lineNumber);}
 break;
 case 15:
-//#line 78 "parser.y"
+//#line 83 "parser.y"
 {yyerror("Error: Falta tipo del vector en linea " + lineNumber);}
 break;
 case 16:
-//#line 79 "parser.y"
+//#line 84 "parser.y"
 {yyerror("Error: Nombre variable en linea " + lineNumber);}
 break;
 case 17:
-//#line 80 "parser.y"
+//#line 85 "parser.y"
 {yyerror("Error: Palabra reservada mal escrita en linea " + lineNumber);}
 break;
 case 18:
-//#line 81 "parser.y"
+//#line 86 "parser.y"
 {yyerror("Error: Nombre de variable igual al tipo en linea " + lineNumber);}
 break;
 case 19:
-//#line 84 "parser.y"
+//#line 89 "parser.y"
 { yyval = new ParserVal("entero");  }
 break;
 case 20:
-//#line 85 "parser.y"
+//#line 90 "parser.y"
 { yyval = new ParserVal("entero_ss");  }
 break;
 case 21:
-//#line 88 "parser.y"
+//#line 93 "parser.y"
 { List<String> vars = new LinkedList<String>(); 
 				vars.add( val_peek(0).sval );
 				yyval = new ParserVal(vars); 
 			}
 break;
 case 22:
-//#line 92 "parser.y"
+//#line 97 "parser.y"
 { List<String> vars = new LinkedList<String>(); 
 								vars.add( val_peek(0).sval );
 								vars.addAll( (LinkedList<String>)val_peek(2).obj );
 								yyval = new ParserVal(vars);
 		}
 break;
+case 23:
+//#line 104 "parser.y"
+{ yyval = val_peek(1); }
+break;
+case 24:
+//#line 105 "parser.y"
+{ yyval = val_peek(1); }
+break;
 case 25:
-//#line 101 "parser.y"
+//#line 106 "parser.y"
 {yyerror("Error: Se esperaba '{' " + lineNumber);}
 break;
 case 26:
-//#line 102 "parser.y"
+//#line 107 "parser.y"
 {yyerror("Error: Se esperaba '}'" + lineNumber);}
 break;
+case 27:
+//#line 113 "parser.y"
+{ yyval = val_peek(1); }
+break;
+case 28:
+//#line 114 "parser.y"
+{ yyval = new ParserVal(new NodoSinTipo("sentencia",(Arbol)(val_peek(2).obj),(Arbol)(val_peek(1).obj))); }
+break;
+case 29:
+//#line 115 "parser.y"
+{ yyval = val_peek(0); }
+break;
+case 30:
+//#line 116 "parser.y"
+{ yyval = new ParserVal(new NodoSinTipo("sentencia",(Arbol)(val_peek(1).obj),(Arbol)(val_peek(0).obj))); }
+break;
 case 31:
-//#line 110 "parser.y"
+//#line 117 "parser.y"
 {yyerror("Codigo erroneo en linea " + lineNumber);}
 break;
 case 32:
-//#line 111 "parser.y"
+//#line 118 "parser.y"
 {yyerror("Codigo erroneo en linea " + lineNumber);}
 break;
 case 33:
-//#line 115 "parser.y"
-{ add("Declaracion imprimir en linea  "+lineNumber+" cadena "+ val_peek(1).sval); }
+//#line 122 "parser.y"
+{ add("Declaracion imprimir en linea  "+lineNumber+" cadena "+ val_peek(1).sval); 
+						yyval = new ParserVal(new Hoja("imprimir", val_peek(1).sval));
+				}
+break;
+case 34:
+//#line 125 "parser.y"
+{ yyval = val_peek(0); }
+break;
+case 35:
+//#line 126 "parser.y"
+{ yyval = val_peek(0); }
 break;
 case 36:
-//#line 118 "parser.y"
+//#line 127 "parser.y"
 {yyerror("Error: Se espera un '(' " + lineNumber);}
 break;
 case 37:
-//#line 119 "parser.y"
+//#line 128 "parser.y"
 {yyerror("Error: Se espera un ')' " + lineNumber);}
 break;
 case 38:
-//#line 120 "parser.y"
+//#line 129 "parser.y"
 {yyerror("Error: Se espera una 'cadena' " + lineNumber);}
 break;
 case 39:
-//#line 123 "parser.y"
+//#line 132 "parser.y"
 {
 
-							if ( !estaDeclarada(val_peek(2).sval) ) {
-								yyerror("La variable " + val_peek(2).sval + "que intenta utilizar no ha sido declarada en la linea " + lineNumber);
+							if ( !estaDeclarada(((Arbol)val_peek(2).obj).getElem()) ) {
+								yyerror("La variable que intenta utilizar no ha sido declarada en la linea " + lineNumber);
 							}
 
 
-							 add("Asignacion en linea  "+lineNumber); }
+							add("Asignacion en linea  "+lineNumber); 
+
+							if( ((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ){
+								yyval = new ParserVal( new Nodo(":=", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
+							} else 
+								yyerror ("Error: a la variable " + val_peek(2).sval + " se le esta asignando algo de otro tipo");
+
+							/*errores de tipos. ASSEMBLER*/
+							/*	declaracion de tipo de constantes*/
+							/*errores de rango ASSEMBLER*/
+							/*CONSTANTES QUE CORRESPONDEN A 2 TIPOS?? (EJ: b_ss = 1)*/
+
+						}
 break;
 case 40:
-//#line 142 "parser.y"
-{ add("Iterar en linea  "+lineNumber); }
+//#line 154 "parser.y"
+{ 
+					add("Iterar en linea  "+lineNumber); 
+					yyval = new ParserVal(new NodoSinTipo("iterar", new NodoUnario("condicion",(Arbol)(val_peek(1).obj)), (Arbol)(val_peek(4).obj)));
+				}
 break;
 case 41:
-//#line 143 "parser.y"
+//#line 158 "parser.y"
 {yyerror("Error: Se espera un bloque de sentencias en linea "+ lineNumber);}
 break;
 case 42:
-//#line 144 "parser.y"
+//#line 159 "parser.y"
 {yyerror("Error: Se espera un 'Hasta' en linea "+ lineNumber);}
 break;
 case 43:
-//#line 145 "parser.y"
+//#line 160 "parser.y"
 {yyerror("Error: Se espera un 'Parentesis abierto' en linea "+ lineNumber);}
 break;
 case 44:
-//#line 146 "parser.y"
+//#line 161 "parser.y"
 {yyerror("Error: Se espera un 'Parentesis cerrado' en linea "+ lineNumber);}
 break;
+case 45:
+//#line 164 "parser.y"
+{yyval = new ParserVal( new NodoSinTipo("si", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj ) );}
+break;
 case 46:
-//#line 150 "parser.y"
+//#line 165 "parser.y"
 {yyerror("Error: falta entonces"+ lineNumber); }
 break;
+case 47:
+//#line 169 "parser.y"
+{ 
+						yyval = new ParserVal( new NodoSinTipo("cuerpo", (Arbol)val_peek(1).obj , (Arbol)val_peek(0).obj ) ); 
+					}
+break;
+case 48:
+//#line 172 "parser.y"
+{ yyval = new ParserVal(new NodoUnario("cuerpo",(Arbol)(val_peek(0).obj))); }
+break;
+case 49:
+//#line 175 "parser.y"
+{ yyval = new ParserVal(new NodoUnario("entonces",(Arbol)(val_peek(1).obj))); }
+break;
 case 50:
-//#line 161 "parser.y"
-{ add("Declaracion if en linea "+lineNumber); }
+//#line 178 "parser.y"
+{
+						 add("Declaracion if en linea " + lineNumber); 
+						 yyval = new ParserVal(new NodoUnario("entonces",(Arbol)(val_peek(0).obj))); 
+
+			}
 break;
 case 51:
-//#line 164 "parser.y"
-{ add("Declaracion if else en linea "+lineNumber); }
+//#line 185 "parser.y"
+{ 
+					add("Declaracion if else en linea " + lineNumber); 
+					yyval = new ParserVal(new NodoUnario("sino",(Arbol)(val_peek(0).obj))); 
+				}
+break;
+case 52:
+//#line 191 "parser.y"
+{
+										yyval = new ParserVal(new NodoUnario("condicion",(Arbol)(val_peek(1).obj)));
+								}
 break;
 case 53:
-//#line 168 "parser.y"
+//#line 195 "parser.y"
 {yyerror("Error: Se detecto IF erroneo despues del token if en linea "+ lineNumber);}
 break;
 case 54:
-//#line 169 "parser.y"
+//#line 196 "parser.y"
 {yyerror("Error: Se detecto IF erroneo falta parentesis "+ lineNumber);}
 break;
+case 55:
+//#line 199 "parser.y"
+{
+				if( ((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ) {
+					yyval = new ParserVal( new Nodo( val_peek(1).sval, (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
+				} else {
+					yyerror("difieren los tipos wuachin!");
+				}
+				
+			}
+break;
+case 56:
+//#line 209 "parser.y"
+{
+				if( ((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ) {
+					yyval = new ParserVal( new Nodo( "+", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
+				} else {
+					yyerror("difieren los tipos wuachin!");
+				}
+				
+			}
+break;
+case 57:
+//#line 217 "parser.y"
+{
+				if( ((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ) {
+					yyval = new ParserVal( new Nodo( "-", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
+				} else {
+					yyerror("difieren los tipos wuachin!");
+				}
+				
+			}
+break;
 case 58:
-//#line 179 "parser.y"
+//#line 225 "parser.y"
 {
 
-			yyval = new ParserVal(val_peek(0));
+			yyval = val_peek(0);
 
 		  }
 break;
+case 59:
+//#line 235 "parser.y"
+{
+				if( ((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ) {
+					yyval = new ParserVal( new Nodo( "*", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
+				} else {
+					yyerror("difieren los tipos wuachin!");
+				}
+				
+			}
+break;
+case 60:
+//#line 243 "parser.y"
+{
+				if( ((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ) {
+					yyval = new ParserVal( new Nodo( "/", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
+				} else {
+					yyerror("difieren los tipos wuachin!");
+				}
+				
+			}
+break;
 case 61:
-//#line 191 "parser.y"
+//#line 251 "parser.y"
 {
 
-			yyval = new ParserVal(val_peek(0));
+			yyval = val_peek(0);
 		}
 break;
 case 62:
-//#line 200 "parser.y"
+//#line 260 "parser.y"
 {
 
 			if( !estaDeclarada(val_peek(0).sval) ) {
 				yyerror("no esta declarada la variable");
 			}
-}
+
+			yyval = new ParserVal(new Hoja(  val_peek(0).sval, "entero" ));
+
+	}
 break;
 case 63:
-//#line 206 "parser.y"
+//#line 269 "parser.y"
 {
 
 		if( !estaDeclarada(val_peek(3).sval) ) {
@@ -978,19 +1129,19 @@ case 63:
 	}
 break;
 case 64:
-//#line 216 "parser.y"
+//#line 279 "parser.y"
 {yyerror("Error: Se espera una expresion entre los corchetes en linea "+ lineNumber);}
 break;
 case 65:
-//#line 217 "parser.y"
+//#line 280 "parser.y"
 {yyerror("Error: Se espera que se cierre corchetes en linea "+ lineNumber);}
 break;
 case 66:
-//#line 218 "parser.y"
+//#line 281 "parser.y"
 {yyerror("Error: Cierre de corchetes inesperado en linea "+ lineNumber);}
 break;
 case 67:
-//#line 223 "parser.y"
+//#line 286 "parser.y"
 {
 
 			if( !estaDeclarada(val_peek(0).sval) ) {
@@ -998,22 +1149,30 @@ case 67:
 			}
 			/*devolver el valor  que esta en la tabla de simbolos como nuevo atributo*/
 			/*si el id no tiene valor tirar error o DEFAULT?*/
-}
+
+			yyval = new ParserVal(new Hoja(  val_peek(0).sval, ((AttributeId)SymbolTable.getInstance().get(val_peek(0).sval)).getTypeOfElement() )); 
+
+		}
 break;
 case 68:
-//#line 231 "parser.y"
+//#line 297 "parser.y"
 {
 
-	   		yyval = new ParserVal(val_peek(0).obj);
-	   		SymbolTable.getInstance().addSymbol( String.valueOf((Long)val_peek(0).obj), new AttributeConst( 
-				SymbolTable.getInstance().get(String.valueOf((Long)val_peek(0).obj)).getTypeOfToken(), "entero") );
-	   		/*devolver el valor de la constante*/
+	   	/*	SymbolTable.getInstance().addSymbol( String.valueOf((Long)$1.obj), new AttributeConst( 
+				SymbolTable.getInstance().get(String.valueOf((Long)$1.obj)).getTypeOfToken(), "entero") );
+			lo hace el lexico (PONELE)
+				*/ 
+	   		
 			/* QUE HACER CON EL TIPO esta jarcodeado ahora*/
+			/* EL LEXICO QUEDO JARCODIADO CON EL ENTERO Y EL ENTERO_SS*/
+
+			yyval = new ParserVal(new Hoja( val_peek(0).obj.toString(), 
+				((AttributeConst)SymbolTable.getInstance().get(String.valueOf((Long)val_peek(0).obj))).getTypeOfElement() )); 
 
 	   }
 break;
 case 69:
-//#line 240 "parser.y"
+//#line 311 "parser.y"
 {
 
 	   		/*este declarada (en la lista)*/
@@ -1024,7 +1183,7 @@ case 69:
 	   }
 break;
 case 70:
-//#line 248 "parser.y"
+//#line 319 "parser.y"
 {
    	   		if (((Long)val_peek(0).obj) > 32768 ) {
    	   			yyerror("Numero negativo debajo del rango en linea "+lineNumber); 
@@ -1039,7 +1198,31 @@ case 70:
 
    	   	}
 break;
-//#line 965 "Parser.java"
+case 71:
+//#line 334 "parser.y"
+{ yyval = new ParserVal("=");}
+break;
+case 72:
+//#line 335 "parser.y"
+{ yyval = new ParserVal(">=");}
+break;
+case 73:
+//#line 336 "parser.y"
+{ yyval = new ParserVal("<=");}
+break;
+case 74:
+//#line 337 "parser.y"
+{ yyval = new ParserVal("<");}
+break;
+case 75:
+//#line 338 "parser.y"
+{ yyval = new ParserVal(">");}
+break;
+case 76:
+//#line 339 "parser.y"
+{ yyval = new ParserVal("^=");}
+break;
+//#line 1148 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

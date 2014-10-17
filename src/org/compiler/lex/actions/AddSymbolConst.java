@@ -11,17 +11,20 @@ public class AddSymbolConst extends SemanticAction {
 	public String execute(Character c) throws LexicalReaderException {
 
 		String ret = StateMachine.getInstance().getActualString();
-
+		Long l = null;
 		try {
-			Long l = Long.parseLong(ret);
+			l = Long.parseLong(ret);
 			if (l > 65535)
 				throw new LexicalReaderException("Numero fuera de rango");
 		} catch (NumberFormatException e) {
 			throw e;
 		}
-
-		SymbolTable.getInstance().addSymbol(ret, new AttributeConst("const",null));
-
+		if ( l > 32768 ) {
+			SymbolTable.getInstance().addSymbol(ret, new AttributeConst("const","entero_ss"));
+		} else{
+			SymbolTable.getInstance().addSymbol(ret, new AttributeConst("const","entero"));
+		}
+				
 		StateMachine.getInstance().cleanString();
 		return ret;
 	}
