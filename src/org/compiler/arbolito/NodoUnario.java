@@ -18,17 +18,17 @@ public class NodoUnario extends Arbol{
 		this.hijo = h;
 	}
 
-	public String toString() {
-		return mostrar("-");
-	}
-	
-	public String mostrar(String tab) {
-		String newTab = tab + "-";
-		return this.getElem() + " " + "\n" + tab + this.getHijo().mostrar(newTab)  ;
-	}
-	
 	public String getTipo() {
 		return null;
+	}
+
+	@Override
+	protected String mostrar(String prefix, boolean isTail) {
+	    StringBuilder ret = new StringBuilder();
+	    ret.append(prefix + (isTail ? "└── " : "├── ") + this.getElem()+ "\n");
+
+	    ret.append(hijo.mostrar(prefix + (isTail ? "    " : "│         "), true) );
+	    return ret.toString();
 	}
 	
 	

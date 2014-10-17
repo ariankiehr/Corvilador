@@ -10,9 +10,15 @@ public class Hoja extends NodoConTipo {
 		return elemento;
 	}
 
-		
-	@Override
+	
 	public String mostrar(String tab) {
 		return elemento + " " + this.getTipo();
+	}
+
+	@Override
+	protected String mostrar(String prefix, boolean isTail) {
+	    StringBuilder ret = new StringBuilder();
+	    ret.append(prefix + (isTail ? "└── " : "├── ") + this.getElem() + ":" + this.getTipo());
+	    return ret.toString();
 	}
 }

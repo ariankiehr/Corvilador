@@ -473,6 +473,7 @@ private String s;
 private boolean err = false;
 private List<String> declaradas ;
 private List<Long> constPendientes ;
+public static String tree;
 
 void add(String s) {
 	if(!err) {
@@ -592,7 +593,7 @@ public void parsear(LexicalAnalyzer lex) {
  	}
  }
 }
-//#line 523 "Parser.java"
+//#line 524 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -749,13 +750,13 @@ boolean doaction;
 case 3:
 //#line 21 "parser.y"
 {
-		System.out.println( val_peek(0).obj.toString() );
+		tree = val_peek(0).obj.toString() ;
 	}
 break;
 case 4:
 //#line 24 "parser.y"
 {
-		System.out.println( ((Arbol)val_peek(0).obj).toString() );
+		tree = ((Arbol)val_peek(0).obj).toString() ;
 	}
 break;
 case 7:
@@ -1222,7 +1223,7 @@ case 76:
 //#line 339 "parser.y"
 { yyval = new ParserVal("^=");}
 break;
-//#line 1148 "Parser.java"
+//#line 1149 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

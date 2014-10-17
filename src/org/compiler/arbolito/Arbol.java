@@ -21,7 +21,7 @@ public abstract class Arbol {
 		return elemento;
 	}
 	
-	public abstract String mostrar(String tab);
+	protected abstract String mostrar(String tab, boolean isTail);
 	public abstract String getTipo();
 	
 }

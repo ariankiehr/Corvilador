@@ -29,17 +29,24 @@ public class NodoSinTipo extends Arbol {
 	}
 	
 	public String toString() {
-		return mostrar("-");
-	}
-	
-	public String mostrar(String tab) {
-		String newTab = tab + "-";
-		return this.getElem() + " " + "\n" + tab + this.getHijo_izq().mostrar(newTab) + 
-				"\n" + tab + this.getHijo_der().mostrar(newTab);
+		return mostrar("",true);
 	}
 	
 	public String getTipo() {
 		return null;
+	}
+
+
+	@Override
+	protected String mostrar(String prefix, boolean isTail) {
+	    StringBuilder ret = new StringBuilder();
+		ret.append(prefix + (isTail ? "└── " : "├── ") + this.getElem() + "\n");
+
+		ret.append(hijoIzq.mostrar(prefix + (isTail ? "    " : "│         "), false));
+		ret.append(hijoDer.mostrar(prefix + (isTail ? "    " : "│         "), true)+ "\n");
+
+		
+		return ret.toString();
 	}
 
 }
