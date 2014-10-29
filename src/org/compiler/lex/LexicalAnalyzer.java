@@ -11,7 +11,7 @@ import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.compiler.symboltable.IAttribute;
+import org.compiler.symboltable.AttributeComun;
 import org.compiler.symboltable.SymbolTable;
 
 public class LexicalAnalyzer {
@@ -57,7 +57,7 @@ public class LexicalAnalyzer {
 			try {
 				if ((tsr = fsm.put(input.get(i))) != null) {
 
-					IAttribute a = SymbolTable.getInstance().get(tsr);
+					AttributeComun a = SymbolTable.getInstance().get(tsr);
 					Token t = new Token((a != null) ? a.getTypeOfToken() : null, tsr,
 							next);
 

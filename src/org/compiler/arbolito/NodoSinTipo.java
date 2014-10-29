@@ -1,5 +1,8 @@
 package org.compiler.arbolito;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class NodoSinTipo extends Arbol {
 	
 	private Arbol hijoIzq;
@@ -38,15 +41,37 @@ public class NodoSinTipo extends Arbol {
 
 
 	@Override
-	protected String mostrar(String prefix, boolean isTail) {
+	public String mostrar(String prefix, boolean isTail) {
 	    StringBuilder ret = new StringBuilder();
 		ret.append(prefix + (isTail ? "└── " : "├── ") + this.getElem() + "\n");
 
-		ret.append(hijoIzq.mostrar(prefix + (isTail ? "    " : "│         "), false));
-		ret.append(hijoDer.mostrar(prefix + (isTail ? "    " : "│         "), true)+ "\n");
+		ret.append(hijoIzq.mostrar(prefix + (isTail ? "    " : "│          "), false));
+		ret.append(hijoDer.mostrar(prefix + (isTail ? "    " : "│          "), true)+ "\n");
 
 		
 		return ret.toString();
+	}
+
+
+	@Override
+	public List<String> getSentencias() {
+		List<String> ret = new LinkedList<String>();
+		
+		ret.addAll(hijoIzq.getSentencias());
+		ret.addAll(hijoDer.getSentencias());
+		
+		if ("sentencia".equals(elemento)) {
+			return ret;
+		}
+		
+		return ret;
+	}
+
+
+	@Override
+	public boolean isLeaf() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

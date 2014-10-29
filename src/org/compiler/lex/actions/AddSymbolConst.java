@@ -2,7 +2,7 @@ package org.compiler.lex.actions;
 
 import org.compiler.lex.LexicalReaderException;
 import org.compiler.lex.StateMachine;
-import org.compiler.symboltable.AttributeConst;
+import org.compiler.symboltable.AttributeConTipo;
 import org.compiler.symboltable.SymbolTable;
 
 public class AddSymbolConst extends SemanticAction {
@@ -20,9 +20,9 @@ public class AddSymbolConst extends SemanticAction {
 			throw e;
 		}
 		if ( l > 32768 ) {
-			SymbolTable.getInstance().addSymbol(ret, new AttributeConst("const","entero_ss"));
+			SymbolTable.getInstance().addSymbol(ret, new AttributeConTipo("const","entero_ss"));
 		} else{
-			SymbolTable.getInstance().addSymbol(ret, new AttributeConst("const","entero"));
+			SymbolTable.getInstance().addSymbol(ret, new AttributeConTipo("const","entero"));
 		}
 				
 		StateMachine.getInstance().cleanString();

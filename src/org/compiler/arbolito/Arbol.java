@@ -1,11 +1,13 @@
 package org.compiler.arbolito;
 
-import org.compiler.symboltable.IAttribute;
+import java.util.List;
+
+import org.compiler.symboltable.AttributeComun;
 import org.compiler.symboltable.SymbolTable;
 
 public abstract class Arbol {
 	
-	protected String elemento;
+	protected String elemento; 
 	
 	public Arbol( String elemento) {
 		super();
@@ -13,7 +15,7 @@ public abstract class Arbol {
 	}
 	
 	
-	public IAttribute getPtrElem() {
+	public AttributeComun getPtrElem() {
 		return SymbolTable.getInstance().get(elemento);
 	}
 	
@@ -21,7 +23,9 @@ public abstract class Arbol {
 		return elemento;
 	}
 	
-	protected abstract String mostrar(String tab, boolean isTail);
+	public abstract String mostrar(String tab, boolean isTail);
 	public abstract String getTipo();
+	public abstract List<String> getSentencias();
+	public abstract boolean isLeaf();
 	
 }

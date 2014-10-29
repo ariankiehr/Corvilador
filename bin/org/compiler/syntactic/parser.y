@@ -19,10 +19,10 @@ import org.compiler.arbolito.*;
 programa : 
  	| sentencias_declarativas 
 	| sentencias_ejecutables {
-		System.out.println( $1.obj.toString() );
+		tree = (Arbol)$1.obj;
 	}
 	| sentencias_declarativas sentencias_ejecutables {
-		System.out.println( ((Arbol)$2.obj).toString() );
+		tree = (Arbol)$2.obj;
 	}
 ;
 
@@ -34,8 +34,8 @@ sentencias_declarativas_simples :
 					tipo variables PUNTOCOMA {
 						List<String> vars = (List<String>)$2.obj;
 						for( String s : vars ) {
-							SymbolTable.getInstance().addSymbol( s , new AttributeId( 
-								SymbolTable.getInstance().get(s).getTypeOfToken(),  $1.sval, "variable" , null ) );
+							SymbolTable.getInstance().addSymbol( s , new AttributeVariableID( 
+								SymbolTable.getInstance().get(s).getTypeOfToken(),  $1.sval, "variable" ) );
 							if (!estaDeclarada(s)) {
 								declaradas.add(s);
 							}
@@ -47,9 +47,13 @@ sentencias_declarativas_simples :
 						add("Declaracion de variable comun en linea " + lineNumber);
 					}
 					| 	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR OF tipo PUNTOCOMA {
-	
-							SymbolTable.getInstance().addSymbol( $1.sval, new AttributeVector( 
-								SymbolTable.getInstance().get($1.sval).getTypeOfToken(), $9.sval, "vector", (Long)$3.obj, (Long)$3.obj ) ); 
+								if ( !estaDeclarada($1.sval) ) {
+									declaradas.add($1.sval);
+								}
+								else {
+									yyerror("La variable ya esta declarada" + lineNumber);
+								}
+		
 		
 								if ( !esEntero((Long)$3.obj) || !esEntero((Long)$5.obj)) {
 									yyerror("no son enteros" + lineNumber);
@@ -61,16 +65,14 @@ sentencias_declarativas_simples :
 									yyerror("el limite inferior es mayor al limite superior" + lineNumber);
 								}
 								else {
-									SymbolTable.getInstance().addSymbol( String.valueOf((Long)$3.obj), new AttributeConst( 
+									SymbolTable.getInstance().addSymbol( String.valueOf((Long)$3.obj), new AttributeConTipo( 
 										SymbolTable.getInstance().get(String.valueOf((Long)$3.obj)).getTypeOfToken(), "entero") );
-									SymbolTable.getInstance().addSymbol( String.valueOf((Long)$5.obj), new AttributeConst( 
+									SymbolTable.getInstance().addSymbol( String.valueOf((Long)$5.obj), new AttributeConTipo( 
 										SymbolTable.getInstance().get(String.valueOf((Long)$5.obj)).getTypeOfToken(), "entero") );
-									if ( !estaDeclarada($1.sval) ) {
-										declaradas.add($1.sval);
-									}
-									else {
-										yyerror("La variable ya esta declarada" + lineNumber);
-									}
+									String typeOfToken = SymbolTable.getInstance().get($1.sval).getTypeOfToken();
+									SymbolTable.getInstance().removeSymbol($1.sval);
+									SymbolTable.getInstance().addSymbol( $1.sval, new AttributeVector( 
+										typeOfToken, $9.sval, "vector", (Long)$3.obj, (Long)$5.obj ) ); 
 								}
 										
 						add("Declaracion de variable vector en linea " + lineNumber); }
@@ -131,23 +133,17 @@ sentencia : PRINT ABREPAR CAD CIERRAPAR { add("Declaracion imprimir en linea  "+
 
 asignacion : variable ASIG expresion {
 
-							if ( !estaDeclarada(((Arbol)$1.obj).getElem()) ) {
+							if ( !estaDeclarada(   ((Arbol)$1.obj).getElem()) ) {
 								yyerror("La variable que intenta utilizar no ha sido declarada en la linea " + lineNumber);
 							}
 
-
-							add("Asignacion en linea  "+lineNumber); 
-
-							if( ((Arbol)$1.obj).getTipo().equals( ((Arbol)$3.obj).getTipo() ) ){
-								$$ = new ParserVal( new Nodo(":=", (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
-							} else 
-								yyerror ("Error: a la variable " + $1.sval + " se le esta asignando algo de otro tipo");
-
-							//errores de tipos. ASSEMBLER
-							//	declaracion de tipo de constantes
-							//errores de rango ASSEMBLER
-							//CONSTANTES QUE CORRESPONDEN A 2 TIPOS?? (EJ: b_ss = 1)
-
+							if( ! (((Arbol)$1.obj).getTipo().equals( ((Arbol)$3.obj).getTipo() )) ){
+								yyerror ("Error: a la variable " + ((Arbol)$1.obj).getElem() + " se le esta asignando algo de otro tipo");
+								
+							} else {
+								add("Asignacion en linea  "+lineNumber); 
+							}
+							$$ = new ParserVal( new Nodo(":=", (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
 						}
 ;
 
@@ -197,29 +193,28 @@ cabecera_seleccion : 	IF ABREPAR condicion CIERRAPAR{
 ;
 
 condicion : expresion comparador expresion  {
-				if( ((Arbol)$1.obj).getTipo().equals( ((Arbol)$3.obj).getTipo() ) ) {
-					$$ = new ParserVal( new Nodo( $2.sval, (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
-				} else {
+				if(! ((Arbol)$1.obj).getTipo().equals( ((Arbol)$3.obj).getTipo() ) ) {
+		
 					yyerror("difieren los tipos wuachin!");
-				}
-				
+				} 
+				$$ = new ParserVal( new Nodo( $2.sval, (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
 			}
 ;
 
 expresion : expresion MAS termino {
-				if( ((Arbol)$1.obj).getTipo().equals( ((Arbol)$3.obj).getTipo() ) ) {
-					$$ = new ParserVal( new Nodo( "+", (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
-				} else {
+				if( !((Arbol)$1.obj).getTipo().equals( ((Arbol)$3.obj).getTipo() ) ) {
 					yyerror("difieren los tipos wuachin!");
-				}
+				} 
 				
+				$$ = new ParserVal( new Nodo( "+", (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
 			}
 		  | expresion MENOS termino	{
-				if( ((Arbol)$1.obj).getTipo().equals( ((Arbol)$3.obj).getTipo() ) ) {
-					$$ = new ParserVal( new Nodo( "-", (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
-				} else {
+				if( !((Arbol)$1.obj).getTipo().equals( ((Arbol)$3.obj).getTipo() ) ) {
 					yyerror("difieren los tipos wuachin!");
-				}
+				} 
+					
+				
+				$$ = new ParserVal( new Nodo( "-", (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
 				
 			}
 		  | termino {
@@ -227,9 +222,6 @@ expresion : expresion MAS termino {
 			$$ = $1;
 
 		  }
-
-		  //mismos tipos para las operaciones
-		  //calcular la expresion ASSEMBLER
 ;
  
 termino : termino POR factor {
@@ -252,29 +244,13 @@ termino : termino POR factor {
 
 			$$ = $1;
 		}
-
-		//mismos tipos para las operaciones
-		//calcular la expresion ASSEMBLER
 ;
 		
-variable :  ID {
-
-			if( !estaDeclarada($1.sval) ) {
-				yyerror("no esta declarada la variable");
-			}
-
-			$$ = new ParserVal(new Hoja(  $1.sval, "entero" ));
-
-	}
-	| ID ABRECOR expresion CIERRACOR {
-
-		if( !estaDeclarada($1.sval) ) {
-				yyerror("no esta declarada la variable");
+variable :  id {
+			$$ = $1; 
 		}
-	
-		//tiene que ser entero, mayor que 0
-		//tiene que estar dentro del rango
-
+	| usovector {
+		$$ = $1;
 	}
 	| ID ABRECOR error CIERRACOR   {yyerror("Error: Se espera una expresion entre los corchetes en linea "+ lineNumber);}
 	| ID ABRECOR expresion  {yyerror("Error: Se espera que se cierre corchetes en linea "+ lineNumber);}
@@ -282,61 +258,73 @@ variable :  ID {
 
 
 ;
-		
-factor : ID {
 
+id :  ID {
 			if( !estaDeclarada($1.sval) ) {
 				yyerror("no esta declarada la variable");
 			}
-			//devolver el valor  que esta en la tabla de simbolos como nuevo atributo
-			//si el id no tiene valor tirar error o DEFAULT?
 
-			$$ = new ParserVal(new Hoja(  $1.sval, ((AttributeId)SymbolTable.getInstance().get($1.sval)).getTypeOfElement() )); 
+			if (!("variable".equals(((AttributeVariableID)SymbolTable.getInstance().get($1.sval)).getTypeOfId()) ) ){
+				yyerror("Error: La variable no es de tipo variable simple e la linea " + lineNumber);
+			}
 
+			$$ = new ParserVal(new Hoja(  $1.sval, ((AttributeVariableID)SymbolTable.getInstance().get($1.sval)).getTypeOfElement() )); 
 		}
-	   | CTE {
+;
 
-	   	/*	SymbolTable.getInstance().addSymbol( String.valueOf((Long)$1.obj), new AttributeConst( 
-				SymbolTable.getInstance().get(String.valueOf((Long)$1.obj)).getTypeOfToken(), "entero") );
-			lo hace el lexico (PONELE)
-				*/ 
-	   		
-			// QUE HACER CON EL TIPO esta jarcodeado ahora
-			// EL LEXICO QUEDO JARCODIADO CON EL ENTERO Y EL ENTERO_SS
+usovector : ID ABRECOR expresion CIERRACOR {
+
+		if (!((Arbol)$3.obj).getTipo().equals("entero")){
+			yyerror("Error: El tipo del indice del vector es incorrecto en la linea "+ lineNumber);
+		}
+
+		if( !estaDeclarada($1.sval) ) {
+				yyerror("no esta declarada la variable");
+		}
+		if (!("vector".equals(((AttributeVariableID)SymbolTable.getInstance().get($1.sval)).getTypeOfId()) ) ){
+			yyerror("Error: La variable no es de tipo vector e la linea " + lineNumber);
+		}
+
+		Arbol idv = new Hoja($1.sval, ((AttributeVector)SymbolTable.getInstance().get($1.sval)).getTypeOfElement() );
+
+		$$ = new ParserVal(new Nodo($1.sval , idv, (Arbol)$3.obj, idv.getTipo()  ));
+	}
+;
+		
+factor : id {
+			$$ = $1; 
+		}
+	   	| CTE {
+
+	   		positivosPendientes.add( (Long)$1.obj );
 
 			$$ = new ParserVal(new Hoja( $1.obj.toString(), 
-				((AttributeConst)SymbolTable.getInstance().get(String.valueOf((Long)$1.obj))).getTypeOfElement() )); 
-
-	   }
-	   | ID ABRECOR expresion CIERRACOR {
-
-	   		//este declarada (en la lista)
-			//tiene que ser entero, mayor que 0
-			//tiene que estar dentro del rango
-	   		//devolver el valor de la id
-
+				((AttributeConTipo)SymbolTable.getInstance().get(String.valueOf((Long)$1.obj))).getTypeOfElement() )); 
+	   	}
+		| usovector {
+			$$ = $1;
 	   }
    	   | MENOS CTE {
    	   		if (((Long)$2.obj) > 32768 ) {
-   	   			yyerror("Numero negativo debajo del rango en linea "+lineNumber); 
+   	   			yyerror("Numero negativo debajo del rango en linea " + lineNumber); 
    	   			err = true;
    	   		} else {
-   	   			SymbolTable.getInstance().addSymbol("-"+$2.obj, new AttributeConst("const","entero"));
-   	   			constPendientes.add((Long)$2.obj);
+   	   			SymbolTable.getInstance().addSymbol("-"+$2.obj, new AttributeConTipo("const","entero"));
+   	   			negativosPendientes.add((Long)$2.obj);
    	   		}
 
-   	   		//devolver el valor
-   	   		//fijarte si eliminar la constante positiva
+		$$ = new ParserVal(new Hoja( "-" + $2.obj.toString(), 
+				((AttributeConTipo)SymbolTable.getInstance().get("-" + String.valueOf((Long)$2.obj))).getTypeOfElement() )); 
 
    	   	}
 ;
 	   
 comparador : IGUAL { $$ = new ParserVal("=");}
-			|MAYORIGUAL { $$ = new ParserVal(">=");}
-			|MENORIGUAL { $$ = new ParserVal("<=");}
-			|MENOR { $$ = new ParserVal("<");}
-			|MAYOR { $$ = new ParserVal(">");}
-			|DISTINTO { $$ = new ParserVal("^=");}
+			| MAYORIGUAL { $$ = new ParserVal(">=");}
+			| MENORIGUAL { $$ = new ParserVal("<=");}
+			| MENOR { $$ = new ParserVal("<");}
+			| MAYOR { $$ = new ParserVal(">");}
+			| DISTINTO { $$ = new ParserVal("^=");}
 ;
 
 
@@ -346,12 +334,14 @@ String ins;
 LexicalAnalyzer la;
 public static List<String> errors;
 public static List<String> detections;
+public static Arbol tree;
 private Map<String, Integer> hm = generateHash() ;
 private int lineNumber = 0;
 private String s;
 private boolean err = false;
 private List<String> declaradas ;
-private List<Long> constPendientes ;
+private List<Long> negativosPendientes, positivosPendientes ;
+
 
 void add(String s) {
 	if(!err) {
@@ -463,11 +453,18 @@ public void parsear(LexicalAnalyzer lex) {
  errors = new LinkedList<String>();
  detections = new LinkedList<String>();
  declaradas = new LinkedList<String>();
- constPendientes = new LinkedList<Long> ();
+ negativosPendientes = new LinkedList<Long> ();
+ positivosPendientes = new LinkedList<Long> ();
+ tree = null;
  yyparse();
- for(Long l : constPendientes) {
- 	if( ((AttributeConst)SymbolTable.getInstance().get(l.toString())).getTypeOfElement() == null) {
- 		SymbolTable.getInstance().removeSymbol(l.toString());
- 	}
+
+ negativosPendientes.removeAll(positivosPendientes);
+
+ for(Long l : negativosPendientes) {
+
+
+ 	SymbolTable.getInstance().removeSymbol(l.toString());
  }
 }
+
+// VER SI HICIMOS DE SI UNA DECLARACION DE UNA VARIABLE SE USA COMO TAL Y NO SE PUEDA USAR COMO VECTOR Y VICEVERSA 

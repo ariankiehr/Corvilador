@@ -8,6 +8,7 @@ import java.io.*;
 import javax.swing.*;
 import javax.swing.text.EditorKit;
 
+import org.compiler.asm.CodeGenerator;
 import org.compiler.lex.LexicalAnalyzer;
 import org.compiler.symboltable.SymbolTable;
 import org.compiler.syntactic.Parser;
@@ -109,7 +110,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			jPanel1.setLayout(null);
 			jScrollPane1 = new JScrollPane();
 			jPanel1.add(jScrollPane1);
-			jScrollPane1.setBounds(12, 12, 1165, 135);
+			jScrollPane1.setBounds(12, 12, 1165, 68);
 			tokens = new JTextArea();
 			jScrollPane1.setViewportView(tokens);
 			tokens.setEditable(false);
@@ -119,7 +120,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			jPanel2.setLayout(null);
 			jScrollPane4 = new JScrollPane();
 			jPanel2.add(jScrollPane4);
-			jScrollPane4.setBounds(12, 12, 1165, 135);
+			jScrollPane4.setBounds(12, 12, 1165, 68);
 			warnings = new JTextArea();
 			jScrollPane4.setViewportView(warnings);
 			warnings.setEditable(false);
@@ -128,7 +129,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			jPanel3.setLayout(null);
 			jScrollPane5 = new JScrollPane();
 			jPanel3.add(jScrollPane5);
-			jScrollPane5.setBounds(12, 12, 1165, 135);
+			jScrollPane5.setBounds(12, 12, 1165, 68);
 			errores = new JTextArea();
 			jScrollPane5.setViewportView(errores);
 			errores.setEditable(false);
@@ -137,7 +138,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			jPanel4.setLayout(null);
 			jScrollPane6 = new JScrollPane();
 			jPanel4.add(jScrollPane6);
-			jScrollPane6.setBounds(12, 12, 1165, 135);
+			jScrollPane6.setBounds(12, 12, 1165, 68);
 			simbolos = new JTextArea();
 			jScrollPane6.setViewportView(simbolos);
 			simbolos.setEditable(false);
@@ -147,7 +148,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			jPanel5.setLayout(null);
 			jScrollPane7 = new JScrollPane();
 			jPanel5.add(jScrollPane7);
-			jScrollPane7.setBounds(12, 12, 1165, 135);
+			jScrollPane7.setBounds(12, 12, 1165, 68);
 			syntaxErrors = new JTextArea();
 			jScrollPane7.setViewportView(syntaxErrors);
 			syntaxErrors.setEditable(false);
@@ -157,7 +158,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			jPanel6.setLayout(null);
 			jScrollPane8 = new JScrollPane();
 			jPanel6.add(jScrollPane8);
-			jScrollPane8.setBounds(12, 12, 1165, 135);
+			jScrollPane8.setBounds(12, 12, 1165, 68);
 			syntaxDetection = new JTextArea();
 			jScrollPane8.setViewportView(syntaxDetection);
 			syntaxDetection.setEditable(false);
@@ -273,9 +274,14 @@ public class MainFrame extends JFrame implements ActionListener {
 		for (String detection : Parser.detections) {
 			syntaxDetection.append(detection + '\n');
 		}
+		if(Parser.tree == null){ 
+			syntaxTree.setText("  No hay arbol");
+		}else{
+			syntaxTree.setText(Parser.tree.toString());
+		}		
 		
-		syntaxTree.setText(Parser.tree);
-				
+		new CodeGenerator();
+		
 		SymbolTable.reset(); //se limpia la tabla de simbolos por si se abre otro archivo
 
 	}

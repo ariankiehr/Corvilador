@@ -1,5 +1,7 @@
 package org.compiler.arbolito;
 
+import java.util.List;
+
 public class NodoUnario extends Arbol{
 
 	private Arbol hijo;
@@ -23,12 +25,24 @@ public class NodoUnario extends Arbol{
 	}
 
 	@Override
-	protected String mostrar(String prefix, boolean isTail) {
+	public String mostrar(String prefix, boolean isTail) {
 	    StringBuilder ret = new StringBuilder();
 	    ret.append(prefix + (isTail ? "└── " : "├── ") + this.getElem()+ "\n");
 
-	    ret.append(hijo.mostrar(prefix + (isTail ? "    " : "│         "), true) );
+	    ret.append(hijo.mostrar(prefix + (isTail ? "    " : "│          "), true) );
 	    return ret.toString();
+	}
+
+	@Override
+	public List<String> getSentencias() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isLeaf() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	
