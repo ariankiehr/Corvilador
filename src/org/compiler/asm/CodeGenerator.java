@@ -1,8 +1,8 @@
 package org.compiler.asm;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,8 +17,8 @@ public class CodeGenerator {
 	
 	private PrintWriter fileWriter;
 
-	public CodeGenerator() {
-		initializeFile();
+	public CodeGenerator(File file) {
+		initializeFile(file);
 		
 		//encabezado
 		fileWriter.println(".386");
@@ -51,6 +51,8 @@ public class CodeGenerator {
 	}
 	
 	
+
+
 	public List<String> generarDeclaraciones() {
 
 		List<String> ret = new LinkedList<String>();
@@ -86,12 +88,18 @@ public class CodeGenerator {
 		return ret;
 	}
 
-	public void initializeFile() {
+	public void initializeFile(File file) {
+		
+		String nombreArchivo = file.getName().substring(0, file.getName().indexOf('.'));
+		
+		File arch = new File(file.getParentFile() + File.separator + nombreArchivo + ".asm");
+		System.out.println(arch.getAbsolutePath());
 		try {
-			fileWriter = new PrintWriter("source.asm", "UTF-8");
-		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			fileWriter = new PrintWriter(arch);
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+
 	}
 	
 	

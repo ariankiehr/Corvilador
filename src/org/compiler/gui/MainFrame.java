@@ -274,14 +274,15 @@ public class MainFrame extends JFrame implements ActionListener {
 		for (String detection : Parser.detections) {
 			syntaxDetection.append(detection + '\n');
 		}
-		if(Parser.tree == null){ 
-			syntaxTree.setText("  No hay arbol");
+		if(Parser.tree == null || !Parser.errors.isEmpty() || !LexicalAnalyzer.errors.isEmpty()){ 
+			syntaxTree.setText("No hay arbol");
 		}else{
 			syntaxTree.setText(Parser.tree.toString());
-		}		
+
+			new CodeGenerator(file);
+		}
 		
-		new CodeGenerator();
-		
+
 		SymbolTable.reset(); //se limpia la tabla de simbolos por si se abre otro archivo
 
 	}
