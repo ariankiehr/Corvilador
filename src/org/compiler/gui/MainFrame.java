@@ -275,10 +275,9 @@ public class MainFrame extends JFrame implements ActionListener {
 			syntaxDetection.append(detection + '\n');
 		}
 		if(Parser.tree == null || !Parser.errors.isEmpty() || !LexicalAnalyzer.errors.isEmpty()){ 
-			syntaxTree.setText("No hay arbol");
+			syntaxTree.setText("No se genero codigo debido a algun error en alguna declaracion");
 		}else{
 			syntaxTree.setText(Parser.tree.toString());
-
 			new CodeGenerator(file);
 		}
 		

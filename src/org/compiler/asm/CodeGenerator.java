@@ -93,7 +93,7 @@ public class CodeGenerator {
 		String nombreArchivo = file.getName().substring(0, file.getName().indexOf('.'));
 		
 		File arch = new File(file.getParentFile() + File.separator + nombreArchivo + ".asm");
-		System.out.println(arch.getAbsolutePath());
+
 		try {
 			fileWriter = new PrintWriter(arch);
 		} catch (FileNotFoundException e) {

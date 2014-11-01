@@ -3,7 +3,6 @@ package org.compiler.arbolito;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.compiler.asm.RegistryManager;
 import org.compiler.symboltable.AttributeCad;
 import org.compiler.symboltable.SymbolTable;
 
