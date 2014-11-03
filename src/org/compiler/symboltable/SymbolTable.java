@@ -55,13 +55,15 @@ public class SymbolTable {
 		Iterator<Entry<String, AttributeComun>> iter = table.entrySet().iterator();
 		while (iter.hasNext()) {
 			Entry<String, AttributeComun> entry = iter.next();
-			sb.append(entry.getKey());
-			sb.append(" de tipo ");
-			sb.append(entry.getValue());
-			if (iter.hasNext()) {
-				sb.append('\n');
+			if(!entry.getValue().getTypeOfToken().equals("Simbolo") 
+				&& !entry.getValue().getTypeOfToken().equals("Palabra Reservada")) {
+				sb.append(entry.getKey());
+				sb.append(" de tipo ");
+				sb.append(entry.getValue());
+				if (iter.hasNext()) {
+					sb.append('\n');
+				}
 			}
-
 		}
 		return sb.toString();
 

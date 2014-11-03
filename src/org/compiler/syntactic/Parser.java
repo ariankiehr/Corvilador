@@ -465,7 +465,7 @@ final static String yyrule[] = {
 "comparador : DISTINTO",
 };
 
-//#line 332 "parser.y"
+//#line 486 "parser.y"
 
 String ins;
 LexicalAnalyzer la;
@@ -864,21 +864,26 @@ case 18:
 break;
 case 19:
 //#line 91 "parser.y"
-{ yyval = new ParserVal("entero");  }
+{ 
+			yyval = new ParserVal("entero");  
+	}
 break;
 case 20:
-//#line 92 "parser.y"
-{ yyval = new ParserVal("entero_ss");  }
+//#line 94 "parser.y"
+{ 
+			yyval = new ParserVal("entero_ss"); 
+	}
 break;
 case 21:
-//#line 95 "parser.y"
-{ List<String> vars = new LinkedList<String>(); 
+//#line 99 "parser.y"
+{ 
+				List<String> vars = new LinkedList<String>(); 
 				vars.add( val_peek(0).sval );
 				yyval = new ParserVal(vars); 
-			}
+		}
 break;
 case 22:
-//#line 99 "parser.y"
+//#line 104 "parser.y"
 { List<String> vars = new LinkedList<String>(); 
 								vars.add( val_peek(0).sval );
 								vars.addAll( (LinkedList<String>)val_peek(2).obj );
@@ -886,73 +891,126 @@ case 22:
 		}
 break;
 case 23:
-//#line 106 "parser.y"
-{ yyval = val_peek(1); }
+//#line 111 "parser.y"
+{ 
+						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+							yyval = val_peek(1); 
+						} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+					}
 break;
 case 24:
-//#line 107 "parser.y"
-{ yyval = val_peek(1); }
+//#line 118 "parser.y"
+{ 
+						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+								yyval = val_peek(1); 
+						} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+					}
 break;
 case 25:
-//#line 108 "parser.y"
+//#line 125 "parser.y"
 {yyerror("Error: Se esperaba '{' " + lineNumber);}
 break;
 case 26:
-//#line 109 "parser.y"
+//#line 126 "parser.y"
 {yyerror("Error: Se esperaba '}'" + lineNumber);}
 break;
 case 27:
-//#line 115 "parser.y"
-{ yyval = val_peek(1); }
+//#line 132 "parser.y"
+{ 
+							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+								yyval = val_peek(1); 
+							} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+						}
 break;
 case 28:
-//#line 116 "parser.y"
-{ yyval = new ParserVal(new NodoSinTipo("sentencia",(Arbol)(val_peek(2).obj),(Arbol)(val_peek(1).obj))); }
+//#line 139 "parser.y"
+{ 
+							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+								yyval = new ParserVal(new NodoSinTipo("sentencia",(Arbol)(val_peek(2).obj),(Arbol)(val_peek(1).obj))); 
+							} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+						}
 break;
 case 29:
-//#line 117 "parser.y"
-{ yyval = val_peek(0); }
+//#line 146 "parser.y"
+{ 
+							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+								yyval = val_peek(0); 
+							} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+						}
 break;
 case 30:
-//#line 118 "parser.y"
-{ yyval = new ParserVal(new NodoSinTipo("sentencia",(Arbol)(val_peek(1).obj),(Arbol)(val_peek(0).obj))); }
+//#line 153 "parser.y"
+{ 
+							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+								yyval = new ParserVal(new NodoSinTipo("sentencia",(Arbol)(val_peek(1).obj),(Arbol)(val_peek(0).obj))); 
+							} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+						}
 break;
 case 31:
-//#line 119 "parser.y"
+//#line 160 "parser.y"
 {yyerror("Codigo erroneo en linea " + lineNumber);}
 break;
 case 32:
-//#line 120 "parser.y"
+//#line 161 "parser.y"
 {yyerror("Codigo erroneo en linea " + lineNumber);}
 break;
 case 33:
-//#line 124 "parser.y"
-{ add("Declaracion imprimir en linea  "+lineNumber+" cadena "+ val_peek(1).sval); 
+//#line 165 "parser.y"
+{ 
+				add("Declaracion imprimir en linea  "+lineNumber+" cadena "+ val_peek(1).sval); 
+				if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 						yyval = new ParserVal(new Hoja("imprimir", val_peek(1).sval));
+				} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
 				}
+			}
 break;
 case 34:
-//#line 127 "parser.y"
-{ yyval = val_peek(0); }
+//#line 173 "parser.y"
+{ 
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				yyval = val_peek(0); 
+			} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+		}
 break;
 case 35:
-//#line 128 "parser.y"
-{ yyval = val_peek(0); }
+//#line 180 "parser.y"
+{ 
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				yyval = val_peek(0);
+			}  else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+		}
 break;
 case 36:
-//#line 129 "parser.y"
+//#line 187 "parser.y"
 {yyerror("Error: Se espera un '(' " + lineNumber);}
 break;
 case 37:
-//#line 130 "parser.y"
+//#line 188 "parser.y"
 {yyerror("Error: Se espera un ')' " + lineNumber);}
 break;
 case 38:
-//#line 131 "parser.y"
+//#line 189 "parser.y"
 {yyerror("Error: Se espera una 'cadena' " + lineNumber);}
 break;
 case 39:
-//#line 134 "parser.y"
+//#line 192 "parser.y"
 {
 
 							if ( !estaDeclarada(   ((Arbol)val_peek(2).obj).getElem()) ) {
@@ -965,128 +1023,189 @@ case 39:
 							} else {
 								add("Asignacion en linea  "+lineNumber); 
 							}
-							yyval = new ParserVal( new Nodo(":=", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
+
+							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+								yyval = new ParserVal( new Nodo(":=", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
+							} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 						}
 break;
 case 40:
-//#line 150 "parser.y"
+//#line 213 "parser.y"
 { 
-					add("Iterar en linea  "+lineNumber); 
-					yyval = new ParserVal(new NodoSinTipo("iterar", new NodoUnario("condicion",(Arbol)(val_peek(1).obj)), (Arbol)(val_peek(4).obj)));
+					add("Iterar en linea  "+lineNumber);
+					if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+						yyval = new ParserVal(new NodoSinTipo("iterar", new NodoUnario("condicion",(Arbol)(val_peek(1).obj)), (Arbol)(val_peek(4).obj)));
+					} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 				}
 break;
 case 41:
-//#line 154 "parser.y"
+//#line 221 "parser.y"
 {yyerror("Error: Se espera un bloque de sentencias en linea "+ lineNumber);}
 break;
 case 42:
-//#line 155 "parser.y"
+//#line 222 "parser.y"
 {yyerror("Error: Se espera un 'Hasta' en linea "+ lineNumber);}
 break;
 case 43:
-//#line 156 "parser.y"
+//#line 223 "parser.y"
 {yyerror("Error: Se espera un 'Parentesis abierto' en linea "+ lineNumber);}
 break;
 case 44:
-//#line 157 "parser.y"
+//#line 224 "parser.y"
 {yyerror("Error: Se espera un 'Parentesis cerrado' en linea "+ lineNumber);}
 break;
 case 45:
-//#line 160 "parser.y"
-{yyval = new ParserVal( new NodoSinTipo("si", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj ) );}
+//#line 227 "parser.y"
+{
+		if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+			yyval = new ParserVal( new NodoSinTipo("si", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj ) );
+		} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+	}
 break;
 case 46:
-//#line 161 "parser.y"
+//#line 234 "parser.y"
 {yyerror("Error: falta entonces"+ lineNumber); }
 break;
 case 47:
-//#line 165 "parser.y"
+//#line 238 "parser.y"
 { 
-						yyval = new ParserVal( new NodoSinTipo("cuerpo", (Arbol)val_peek(1).obj , (Arbol)val_peek(0).obj ) ); 
+						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+							yyval = new ParserVal( new NodoSinTipo("cuerpo", (Arbol)val_peek(1).obj , (Arbol)val_peek(0).obj ) ); 
+						} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 					}
 break;
 case 48:
-//#line 168 "parser.y"
-{ yyval = new ParserVal(new NodoUnario("cuerpo",(Arbol)(val_peek(0).obj))); }
+//#line 245 "parser.y"
+{
+						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+							yyval = new ParserVal(new NodoUnario("cuerpo",(Arbol)(val_peek(0).obj))); 
+						} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+				}
 break;
 case 49:
-//#line 171 "parser.y"
-{ yyval = new ParserVal(new NodoUnario("entonces",(Arbol)(val_peek(1).obj))); }
+//#line 254 "parser.y"
+{ 
+	if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+		yyval = new ParserVal(new NodoUnario("entonces",(Arbol)(val_peek(1).obj))); 
+	} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+}
 break;
 case 50:
-//#line 174 "parser.y"
+//#line 263 "parser.y"
 {
-						 add("Declaracion if en linea " + lineNumber); 
-						 yyval = new ParserVal(new NodoUnario("entonces",(Arbol)(val_peek(0).obj))); 
+						add("Declaracion if en linea " + lineNumber); 
+						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+							yyval = new ParserVal(new NodoUnario("entonces",(Arbol)(val_peek(0).obj))); 
+						} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 
 			}
 break;
 case 51:
-//#line 181 "parser.y"
+//#line 274 "parser.y"
 { 
 					add("Declaracion if else en linea " + lineNumber); 
-					yyval = new ParserVal(new NodoUnario("sino",(Arbol)(val_peek(0).obj))); 
+					if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+						yyval = new ParserVal(new NodoUnario("sino",(Arbol)(val_peek(0).obj)));
+					} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 				}
 break;
 case 52:
-//#line 187 "parser.y"
+//#line 284 "parser.y"
 {
+									if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 										yyval = new ParserVal(new NodoUnario("condicion",(Arbol)(val_peek(1).obj)));
+									} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 								}
 break;
 case 53:
-//#line 191 "parser.y"
+//#line 292 "parser.y"
 {yyerror("Error: Se detecto IF erroneo despues del token if en linea "+ lineNumber);}
 break;
 case 54:
-//#line 192 "parser.y"
+//#line 293 "parser.y"
 {yyerror("Error: Se detecto IF erroneo falta parentesis "+ lineNumber);}
 break;
 case 55:
-//#line 195 "parser.y"
+//#line 296 "parser.y"
 {
 				if(! ((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ) {
 		
 					yyerror("difieren los tipos wuachin!");
-				} 
-				yyval = new ParserVal( new Nodo( val_peek(1).sval, (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
+				}
+
+				if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+					yyval = new ParserVal( new Nodo( val_peek(1).sval, (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
+				} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 			}
 break;
 case 56:
-//#line 204 "parser.y"
+//#line 310 "parser.y"
 {
 				if( !((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ) {
 					yyerror("difieren los tipos wuachin!");
 				} 
 				
-				yyval = new ParserVal( new Nodo( "+", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
+				if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+					yyval = new ParserVal( new Nodo( "+", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
+				} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 			}
 break;
 case 57:
-//#line 211 "parser.y"
+//#line 321 "parser.y"
 {
 				if( !((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ) {
 					yyerror("difieren los tipos wuachin!");
 				} 
-					
 				
-				yyval = new ParserVal( new Nodo( "-", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
+				if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+					yyval = new ParserVal( new Nodo( "-", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
+				} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 				
 			}
 break;
 case 58:
-//#line 220 "parser.y"
+//#line 333 "parser.y"
 {
-
-			yyval = val_peek(0);
-
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				yyval = val_peek(0);
+			} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+			}
 		  }
 break;
 case 59:
-//#line 227 "parser.y"
+//#line 342 "parser.y"
 {
 				if( ((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ) {
-					yyval = new ParserVal( new Nodo( "*", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
+					if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+						yyval = new ParserVal( new Nodo( "*", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
+					} else {
+						yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+					}
 				} else {
 					yyerror("difieren los tipos wuachin!");
 				}
@@ -1094,49 +1213,63 @@ case 59:
 			}
 break;
 case 60:
-//#line 235 "parser.y"
+//#line 354 "parser.y"
 {
-				if( ((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ) {
+			if( ((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ) {
+				if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 					yyval = new ParserVal( new Nodo( "/", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
 				} else {
-					yyerror("difieren los tipos wuachin!");
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
 				}
-				
+			} else {
+				yyerror("difieren los tipos wuachin!");
 			}
+		}
 break;
 case 61:
-//#line 243 "parser.y"
+//#line 365 "parser.y"
 {
-
-			yyval = val_peek(0);
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				yyval = val_peek(0);
+			} else {
+				yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+			}
 		}
 break;
 case 62:
-//#line 249 "parser.y"
+//#line 374 "parser.y"
 {
-			yyval = val_peek(0); 
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				yyval = val_peek(0); 
+			} else {
+				yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+			}
 		}
 break;
 case 63:
-//#line 252 "parser.y"
+//#line 381 "parser.y"
 {
-		yyval = val_peek(0);
+		if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+			yyval = val_peek(0);
+		} else {
+			yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+		}
 	}
 break;
 case 64:
-//#line 255 "parser.y"
+//#line 388 "parser.y"
 {yyerror("Error: Se espera una expresion entre los corchetes en linea "+ lineNumber);}
 break;
 case 65:
-//#line 256 "parser.y"
+//#line 389 "parser.y"
 {yyerror("Error: Se espera que se cierre corchetes en linea "+ lineNumber);}
 break;
 case 66:
-//#line 257 "parser.y"
+//#line 390 "parser.y"
 {yyerror("Error: Cierre de corchetes inesperado en linea "+ lineNumber);}
 break;
 case 67:
-//#line 262 "parser.y"
+//#line 395 "parser.y"
 {
 			if( !estaDeclarada(val_peek(0).sval) ) {
 				yyerror("no esta declarada la variable");
@@ -1145,15 +1278,19 @@ case 67:
 			if (!("variable".equals(((AttributeVariableID)SymbolTable.getInstance().get(val_peek(0).sval)).getTypeOfId()) ) ){
 				yyerror("Error: La variable no es de tipo variable simple e la linea " + lineNumber);
 			}
-
-			yyval = new ParserVal(new Hoja(  val_peek(0).sval, ((AttributeVariableID)SymbolTable.getInstance().get(val_peek(0).sval)).getTypeOfElement() )); 
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				yyval = new ParserVal(new Hoja(  val_peek(0).sval, ((AttributeVariableID)SymbolTable.getInstance().get(val_peek(0).sval)).getTypeOfElement() )); 
+			} else {
+				yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+			}
+			
 		}
 break;
 case 68:
-//#line 275 "parser.y"
+//#line 412 "parser.y"
 {
 
-		if (!((Arbol)val_peek(1).obj).getTipo().equals("entero")){
+		if (!((Arbol)val_peek(1).obj).getTipo().equals("entero")) {
 			yyerror("Error: El tipo del indice del vector es incorrecto en la linea "+ lineNumber);
 		}
 
@@ -1164,35 +1301,49 @@ case 68:
 			yyerror("Error: La variable no es de tipo vector e la linea " + lineNumber);
 		}
 
-		Arbol idv = new Hoja(val_peek(3).sval, ((AttributeVector)SymbolTable.getInstance().get(val_peek(3).sval)).getTypeOfElement() );
-
-		yyval = new ParserVal(new Nodo(val_peek(3).sval , idv, (Arbol)val_peek(1).obj, idv.getTipo()  ));
+		if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				Arbol idv = new Hoja(val_peek(3).sval, ((AttributeVector)SymbolTable.getInstance().get(val_peek(3).sval)).getTypeOfElement() );
+				yyval = new ParserVal(new Nodo(val_peek(3).sval , idv, (Arbol)val_peek(1).obj, idv.getTipo()  ));
+		} else {
+			yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+		}
 	}
 break;
 case 69:
-//#line 294 "parser.y"
+//#line 434 "parser.y"
 {
-			yyval = val_peek(0); 
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				yyval = val_peek(0); 
+			} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 		}
 break;
 case 70:
-//#line 297 "parser.y"
+//#line 441 "parser.y"
 {
 
 	   		positivosPendientes.add( (Long)val_peek(0).obj );
-
-			yyval = new ParserVal(new Hoja( val_peek(0).obj.toString(), 
+	   		if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				yyval = new ParserVal(new Hoja( val_peek(0).obj.toString(), 
 				((AttributeConTipo)SymbolTable.getInstance().get(String.valueOf((Long)val_peek(0).obj))).getTypeOfElement() )); 
+			} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 	   	}
 break;
 case 71:
-//#line 304 "parser.y"
+//#line 451 "parser.y"
 {
-			yyval = val_peek(0);
-	   }
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				yyval = val_peek(0);
+			} else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+	  	}
 break;
 case 72:
-//#line 307 "parser.y"
+//#line 458 "parser.y"
 {
    	   		if (((Long)val_peek(0).obj) > 32768 ) {
    	   			yyerror("Numero negativo debajo del rango en linea " + lineNumber); 
@@ -1201,37 +1352,40 @@ case 72:
    	   			SymbolTable.getInstance().addSymbol("-"+val_peek(0).obj, new AttributeConTipo("const","entero"));
    	   			negativosPendientes.add((Long)val_peek(0).obj);
    	   		}
-
-		yyval = new ParserVal(new Hoja( "-" + val_peek(0).obj.toString(), 
-				((AttributeConTipo)SymbolTable.getInstance().get("-" + String.valueOf((Long)val_peek(0).obj))).getTypeOfElement() )); 
-
+			
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				yyval = new ParserVal(new Hoja( "-" + val_peek(0).obj.toString(), 
+				((AttributeConTipo)SymbolTable.getInstance().get("-" + String.valueOf((Long)val_peek(0).obj))).getTypeOfElement() ));
+			}  else {
+					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
    	   	}
 break;
 case 73:
-//#line 322 "parser.y"
+//#line 476 "parser.y"
 { yyval = new ParserVal("=");}
 break;
 case 74:
-//#line 323 "parser.y"
+//#line 477 "parser.y"
 { yyval = new ParserVal(">=");}
 break;
 case 75:
-//#line 324 "parser.y"
+//#line 478 "parser.y"
 { yyval = new ParserVal("<=");}
 break;
 case 76:
-//#line 325 "parser.y"
+//#line 479 "parser.y"
 { yyval = new ParserVal("<");}
 break;
 case 77:
-//#line 326 "parser.y"
+//#line 480 "parser.y"
 { yyval = new ParserVal(">");}
 break;
 case 78:
-//#line 327 "parser.y"
+//#line 481 "parser.y"
 { yyval = new ParserVal("^=");}
 break;
-//#line 1157 "Parser.java"
+//#line 1311 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

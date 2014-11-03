@@ -88,14 +88,19 @@ sentencias_declarativas_simples :
 					| tipo tipo  {yyerror("Error: Nombre de variable igual al tipo en linea " + lineNumber);}
 ;
 
-tipo : INT { $$ = new ParserVal("entero");  }
-	|	UINT { $$ = new ParserVal("entero_ss");  }
+tipo : INT { 
+			$$ = new ParserVal("entero");  
+	}
+	|	UINT { 
+			$$ = new ParserVal("entero_ss"); 
+	}
 ;
 
-variables : ID { List<String> vars = new LinkedList<String>(); 
+variables : ID { 
+				List<String> vars = new LinkedList<String>(); 
 				vars.add( $1.sval );
 				$$ = new ParserVal(vars); 
-			}
+		}
 		|	variables COMA ID { List<String> vars = new LinkedList<String>(); 
 								vars.add( $3.sval );
 								vars.addAll( (LinkedList<String>)$1.obj );
@@ -103,8 +108,20 @@ variables : ID { List<String> vars = new LinkedList<String>();
 		}		
 ;
 
-bloque_sentencias : sentencia PUNTOCOMA { $$ = $1; }
-					|	ABRELLAV sentencias_ejecutables CIERRALLAV { $$ = $2; }
+bloque_sentencias : sentencia PUNTOCOMA { 
+						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+							$$ = $1; 
+						} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+					}
+					|	ABRELLAV sentencias_ejecutables CIERRALLAV { 
+						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+								$$ = $2; 
+						} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+					}
 					|	error sentencias_ejecutables CIERRALLAV {yyerror("Error: Se esperaba '{' " + lineNumber);}
 					|	ABRELLAV sentencias_ejecutables error {yyerror("Error: Se esperaba '}'" + lineNumber);}
 					
@@ -112,20 +129,61 @@ bloque_sentencias : sentencia PUNTOCOMA { $$ = $1; }
 
 ;
 
-sentencias_ejecutables : sentencia PUNTOCOMA { $$ = $1; }
-						| sentencias_ejecutables sentencia PUNTOCOMA { $$ = new ParserVal(new NodoSinTipo("sentencia",(Arbol)($1.obj),(Arbol)($2.obj))); }
-						| seleccion { $$ = $1; }
-						| sentencias_ejecutables seleccion 	{ $$ = new ParserVal(new NodoSinTipo("sentencia",(Arbol)($1.obj),(Arbol)($2.obj))); }
+sentencias_ejecutables : sentencia PUNTOCOMA { 
+							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+								$$ = $1; 
+							} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+						}
+						| sentencias_ejecutables sentencia PUNTOCOMA { 
+							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+								$$ = new ParserVal(new NodoSinTipo("sentencia",(Arbol)($1.obj),(Arbol)($2.obj))); 
+							} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+						}
+						| seleccion { 
+							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+								$$ = $1; 
+							} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+						}
+						| sentencias_ejecutables seleccion 	{ 
+							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+								$$ = new ParserVal(new NodoSinTipo("sentencia",(Arbol)($1.obj),(Arbol)($2.obj))); 
+							} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+						}
 						| sentencias_ejecutables error PUNTOCOMA  {yyerror("Codigo erroneo en linea " + lineNumber);}
 						| error PUNTOCOMA {yyerror("Codigo erroneo en linea " + lineNumber);}
 
 ;
 
-sentencia : PRINT ABREPAR CAD CIERRAPAR { add("Declaracion imprimir en linea  "+lineNumber+" cadena "+ $3.sval); 
+sentencia : PRINT ABREPAR CAD CIERRAPAR { 
+				add("Declaracion imprimir en linea  "+lineNumber+" cadena "+ $3.sval); 
+				if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 						$$ = new ParserVal(new Hoja("imprimir", $3.sval));
+				} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
 				}
-		| 	asignacion { $$ = $1; }
-		|	iteracion  { $$ = $1; }		
+			}
+		| asignacion { 
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				$$ = $1; 
+			} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+		}
+		|	iteracion  { 
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				$$ = $1;
+			}  else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+		}		
 		|	PRINT error CAD CIERRAPAR {yyerror("Error: Se espera un '(' " + lineNumber);}
 		|	PRINT ABREPAR CAD error {yyerror("Error: Se espera un ')' " + lineNumber);}
 		|	PRINT ABREPAR error CIERRAPAR {yyerror("Error: Se espera una 'cadena' " + lineNumber);}
@@ -143,13 +201,22 @@ asignacion : variable ASIG expresion {
 							} else {
 								add("Asignacion en linea  "+lineNumber); 
 							}
-							$$ = new ParserVal( new Nodo(":=", (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
+
+							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+								$$ = new ParserVal( new Nodo(":=", (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
+							} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 						}
 ;
 
 iteracion : DO bloque_sentencias UNTIL ABREPAR condicion CIERRAPAR { 
-					add("Iterar en linea  "+lineNumber); 
-					$$ = new ParserVal(new NodoSinTipo("iterar", new NodoUnario("condicion",(Arbol)($5.obj)), (Arbol)($2.obj)));
+					add("Iterar en linea  "+lineNumber);
+					if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+						$$ = new ParserVal(new NodoSinTipo("iterar", new NodoUnario("condicion",(Arbol)($5.obj)), (Arbol)($2.obj)));
+					} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 				}
 			|	DO  UNTIL ABREPAR condicion CIERRAPAR {yyerror("Error: Se espera un bloque de sentencias en linea "+ lineNumber);} 
 			|	DO bloque_sentencias ABREPAR condicion CIERRAPAR {yyerror("Error: Se espera un 'Hasta' en linea "+ lineNumber);}
@@ -157,35 +224,69 @@ iteracion : DO bloque_sentencias UNTIL ABREPAR condicion CIERRAPAR {
 			|	DO bloque_sentencias UNTIL ABREPAR condicion  {yyerror("Error: Se espera un 'Parentesis cerrado' en linea "+ lineNumber);} 		
 ;
 
-seleccion : cabecera_seleccion THEN cuerpo_seleccion {$$ = new ParserVal( new NodoSinTipo("si", (Arbol)$1.obj , (Arbol)$3.obj ) );}
+seleccion : cabecera_seleccion THEN cuerpo_seleccion {
+		if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+			$$ = new ParserVal( new NodoSinTipo("si", (Arbol)$1.obj , (Arbol)$3.obj ) );
+		} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+	}
 	| cabecera_seleccion cuerpo_seleccion {yyerror("Error: falta entonces"+ lineNumber); }
 ; 
 	
 
 cuerpo_seleccion : 	bloque_then bloque_else { 
-						$$ = new ParserVal( new NodoSinTipo("cuerpo", (Arbol)$1.obj , (Arbol)$2.obj ) ); 
+						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+							$$ = new ParserVal( new NodoSinTipo("cuerpo", (Arbol)$1.obj , (Arbol)$2.obj ) ); 
+						} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 					}
-				|	bloque_final { $$ = new ParserVal(new NodoUnario("cuerpo",(Arbol)($1.obj))); }
+				| bloque_final {
+						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+							$$ = new ParserVal(new NodoUnario("cuerpo",(Arbol)($1.obj))); 
+						} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+				}
 ;
 
-bloque_then : bloque_sentencias ELSE { $$ = new ParserVal(new NodoUnario("entonces",(Arbol)($1.obj))); }			 
+bloque_then : bloque_sentencias ELSE { 
+	if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+		$$ = new ParserVal(new NodoUnario("entonces",(Arbol)($1.obj))); 
+	} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+}			 
 ;
 
 bloque_final : bloque_sentencias %prec LOWER_THAN_ELSE {
-						 add("Declaracion if en linea " + lineNumber); 
-						 $$ = new ParserVal(new NodoUnario("entonces",(Arbol)($1.obj))); 
+						add("Declaracion if en linea " + lineNumber); 
+						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+							$$ = new ParserVal(new NodoUnario("entonces",(Arbol)($1.obj))); 
+						} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 
 			}		
 ;
 
 bloque_else : bloque_sentencias { 
 					add("Declaracion if else en linea " + lineNumber); 
-					$$ = new ParserVal(new NodoUnario("sino",(Arbol)($1.obj))); 
+					if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+						$$ = new ParserVal(new NodoUnario("sino",(Arbol)($1.obj)));
+					} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 				}
 ;
 
 cabecera_seleccion : 	IF ABREPAR condicion CIERRAPAR{
+									if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 										$$ = new ParserVal(new NodoUnario("condicion",(Arbol)($3.obj)));
+									} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 								}
 
 					|	IF error condicion CIERRAPAR {yyerror("Error: Se detecto IF erroneo despues del token if en linea "+ lineNumber);}
@@ -196,8 +297,13 @@ condicion : expresion comparador expresion  {
 				if(! ((Arbol)$1.obj).getTipo().equals( ((Arbol)$3.obj).getTipo() ) ) {
 		
 					yyerror("difieren los tipos wuachin!");
-				} 
-				$$ = new ParserVal( new Nodo( $2.sval, (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
+				}
+
+				if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+					$$ = new ParserVal( new Nodo( $2.sval, (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
+				} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 			}
 ;
 
@@ -206,51 +312,78 @@ expresion : expresion MAS termino {
 					yyerror("difieren los tipos wuachin!");
 				} 
 				
-				$$ = new ParserVal( new Nodo( "+", (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
+				if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+					$$ = new ParserVal( new Nodo( "+", (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
+				} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 			}
 		  | expresion MENOS termino	{
 				if( !((Arbol)$1.obj).getTipo().equals( ((Arbol)$3.obj).getTipo() ) ) {
 					yyerror("difieren los tipos wuachin!");
 				} 
-					
 				
-				$$ = new ParserVal( new Nodo( "-", (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
+				if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+					$$ = new ParserVal( new Nodo( "-", (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
+				} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 				
 			}
 		  | termino {
-
-			$$ = $1;
-
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				$$ = $1;
+			} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+			}
 		  }
 ;
  
 termino : termino POR factor {
 				if( ((Arbol)$1.obj).getTipo().equals( ((Arbol)$3.obj).getTipo() ) ) {
-					$$ = new ParserVal( new Nodo( "*", (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
+					if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+						$$ = new ParserVal( new Nodo( "*", (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
+					} else {
+						$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+					}
 				} else {
 					yyerror("difieren los tipos wuachin!");
 				}
 				
 			}
 		| termino DIV factor {
-				if( ((Arbol)$1.obj).getTipo().equals( ((Arbol)$3.obj).getTipo() ) ) {
+			if( ((Arbol)$1.obj).getTipo().equals( ((Arbol)$3.obj).getTipo() ) ) {
+				if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 					$$ = new ParserVal( new Nodo( "/", (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
 				} else {
-					yyerror("difieren los tipos wuachin!");
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
 				}
-				
+			} else {
+				yyerror("difieren los tipos wuachin!");
 			}
+		}
 		| factor {
-
-			$$ = $1;
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				$$ = $1;
+			} else {
+				$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+			}
 		}
 ;
 		
 variable :  id {
-			$$ = $1; 
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				$$ = $1; 
+			} else {
+				$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+			}
 		}
 	| usovector {
-		$$ = $1;
+		if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+			$$ = $1;
+		} else {
+			$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+		}
 	}
 	| ID ABRECOR error CIERRACOR   {yyerror("Error: Se espera una expresion entre los corchetes en linea "+ lineNumber);}
 	| ID ABRECOR expresion  {yyerror("Error: Se espera que se cierre corchetes en linea "+ lineNumber);}
@@ -267,14 +400,18 @@ id :  ID {
 			if (!("variable".equals(((AttributeVariableID)SymbolTable.getInstance().get($1.sval)).getTypeOfId()) ) ){
 				yyerror("Error: La variable no es de tipo variable simple e la linea " + lineNumber);
 			}
-
-			$$ = new ParserVal(new Hoja(  $1.sval, ((AttributeVariableID)SymbolTable.getInstance().get($1.sval)).getTypeOfElement() )); 
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				$$ = new ParserVal(new Hoja(  $1.sval, ((AttributeVariableID)SymbolTable.getInstance().get($1.sval)).getTypeOfElement() )); 
+			} else {
+				$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+			}
+			
 		}
 ;
 
 usovector : ID ABRECOR expresion CIERRACOR {
 
-		if (!((Arbol)$3.obj).getTipo().equals("entero")){
+		if (!((Arbol)$3.obj).getTipo().equals("entero")) {
 			yyerror("Error: El tipo del indice del vector es incorrecto en la linea "+ lineNumber);
 		}
 
@@ -285,26 +422,40 @@ usovector : ID ABRECOR expresion CIERRACOR {
 			yyerror("Error: La variable no es de tipo vector e la linea " + lineNumber);
 		}
 
-		Arbol idv = new Hoja($1.sval, ((AttributeVector)SymbolTable.getInstance().get($1.sval)).getTypeOfElement() );
-
-		$$ = new ParserVal(new Nodo($1.sval , idv, (Arbol)$3.obj, idv.getTipo()  ));
+		if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				Arbol idv = new Hoja($1.sval, ((AttributeVector)SymbolTable.getInstance().get($1.sval)).getTypeOfElement() );
+				$$ = new ParserVal(new Nodo($1.sval , idv, (Arbol)$3.obj, idv.getTipo()  ));
+		} else {
+			$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+		}
 	}
 ;
 		
 factor : id {
-			$$ = $1; 
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				$$ = $1; 
+			} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 		}
 	   	| CTE {
 
 	   		positivosPendientes.add( (Long)$1.obj );
-
-			$$ = new ParserVal(new Hoja( $1.obj.toString(), 
+	   		if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				$$ = new ParserVal(new Hoja( $1.obj.toString(), 
 				((AttributeConTipo)SymbolTable.getInstance().get(String.valueOf((Long)$1.obj))).getTypeOfElement() )); 
+			} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
 	   	}
 		| usovector {
-			$$ = $1;
-	   }
-   	   | MENOS CTE {
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				$$ = $1;
+			} else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
+	  	}
+   	    | MENOS CTE {
    	   		if (((Long)$2.obj) > 32768 ) {
    	   			yyerror("Numero negativo debajo del rango en linea " + lineNumber); 
    	   			err = true;
@@ -312,10 +463,13 @@ factor : id {
    	   			SymbolTable.getInstance().addSymbol("-"+$2.obj, new AttributeConTipo("const","entero"));
    	   			negativosPendientes.add((Long)$2.obj);
    	   		}
-
-		$$ = new ParserVal(new Hoja( "-" + $2.obj.toString(), 
-				((AttributeConTipo)SymbolTable.getInstance().get("-" + String.valueOf((Long)$2.obj))).getTypeOfElement() )); 
-
+			
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				$$ = new ParserVal(new Hoja( "-" + $2.obj.toString(), 
+				((AttributeConTipo)SymbolTable.getInstance().get("-" + String.valueOf((Long)$2.obj))).getTypeOfElement() ));
+			}  else {
+					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+				}
    	   	}
 ;
 	   
