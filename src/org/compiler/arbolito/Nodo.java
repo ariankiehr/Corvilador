@@ -72,9 +72,9 @@ public class Nodo extends NodoConTipo {
 		String elemIzq = hijoIzq.getElem();
 		String elemDer = hijoDer.getElem();
 		
-		if( "+".equals(elemento) || "*".equals(elemento) ) {
-			
-
+		
+		//SUMA
+		if( "+".equals(elemento) ) {
 			
 			if ( RegistryManager.getInstance().estaLibre(Names.getName(elemIzq)) != null ) {
 				//es un registro izq
@@ -82,14 +82,14 @@ public class Nodo extends NodoConTipo {
 					//es registro der
 					
 					//REG - REG 3
-					ret.add( (("+".equals(elemento))?"ADD ":"IMUL ")+ Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
+					ret.add( "ADD " + Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
 					RegistryManager.getInstance().desocuparRegistro(Names.getName(elemDer));
 					this.elemento = Names.getName(elemIzq);
 					
 				} else {
 					//es variable o consta der
 					//REG - VAR 2
-					ret.add( (("+".equals(elemento))?"ADD ":"IMUL ")+ Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
+					ret.add("ADD " + Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
 					this.elemento = Names.getName(elemIzq);
 				}
 				
@@ -99,7 +99,7 @@ public class Nodo extends NodoConTipo {
 				if ( RegistryManager.getInstance().estaLibre(Names.getName(elemDer)) != null ) {
 					//es registro der
 					//VAR -REG 4
-					ret.add( (("+".equals(elemento))?"ADD ":"IMUL ")+ Names.getName(elemDer) + ", " + Names.getName(elemIzq) );
+					ret.add( "ADD " + Names.getName(elemDer) + ", " + Names.getName(elemIzq) );
 					this.elemento = Names.getName(elemDer);
 					
 				} else {
@@ -107,12 +107,55 @@ public class Nodo extends NodoConTipo {
 					//VAR - VAR 1
 					String regaux = RegistryManager.getInstance().obtenerRegistro();
 					RegistryManager.getInstance().ocuparRegistro(regaux);
-					ret.add( "MOV "+ regaux + ", " + Names.getName(elemIzq) );
-					ret.add( (("+".equals(elemento))?"ADD ":"IMUL ")+ regaux + ", " + Names.getName(elemDer) );
+					ret.add( "MOV " + regaux + ", " + Names.getName(elemIzq) );
+					ret.add( "ADD " + regaux + ", " + Names.getName(elemDer) );
 					this.elemento = regaux;
 				}
 			}
-
+		
+			//MULTIPLICACION
+		} else if ( "*".equals(elemento) ) {
+			
+			if ( "AX".equals(Names.getName(elemIzq)) && RegistryManager.getInstance().estaLibre(Names.getName(elemIzq)) == true ) {
+				//es un registro izq y es AX
+				if ( RegistryManager.getInstance().estaLibre(Names.getName(elemDer)) != null ) {
+					//es registro der
+					
+					//REG - REG 3
+					ret.add( "IMUL " + Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
+					RegistryManager.getInstance().desocuparRegistro(Names.getName(elemDer));
+					this.elemento = Names.getName(elemIzq);
+					
+				} else {
+					//es variable o consta der
+					//REG - VAR 2
+					ret.add("IMUL " + Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
+					this.elemento = Names.getName(elemIzq);
+				}
+				
+			} else {
+				//es variable o constante izq
+				
+				if ( RegistryManager.getInstance().estaLibre(Names.getName(elemDer)) != null ) {
+					//es registro der
+					//VAR -REG 4
+					ret.add( "ADD " + Names.getName(elemDer) + ", " + Names.getName(elemIzq) );
+					this.elemento = Names.getName(elemDer);
+					
+				} else {
+					//es variable o consta der
+					//VAR - VAR 1
+					//debo ocupar si o si AX el lado izq.
+					
+					String regaux = RegistryManager.getInstance().obtenerRegistro();
+					RegistryManager.getInstance().ocuparRegistro(regaux);
+					ret.add( "MOV " + regaux + ", " + Names.getName(elemIzq) );
+					ret.add( "ADD " + regaux + ", " + Names.getName(elemDer) );
+					this.elemento = regaux;
+				}
+			}
+			
+			
 		} else if( "-".equals(elemento) || "/".equals(elemento) ) {
 			//ret.addAll(hijoDer.getSentencias());
 			if ( RegistryManager.getInstance().estaLibre(elemIzq) != null ) {
