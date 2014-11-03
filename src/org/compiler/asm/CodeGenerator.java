@@ -38,6 +38,8 @@ public class CodeGenerator {
 		}
 		//Mensajes de errores
 		fileWriter.println("indiceFueraDeRango db \"Indice fuera de rango\",0");
+		fileWriter.println("overflowProducto db \"Overflow en la multiplicacion\",0");
+
 		//TODO TODOS LOS POSIBLES MENSAJES DE ERRORES
 		fileWriter.println(".CODE");
 		fileWriter.println("START:");
@@ -45,6 +47,15 @@ public class CodeGenerator {
 		for (String sentencia : sentencias) {
 			fileWriter.println(sentencia);
 		}
+		
+		//TODO LABELS
+		fileWriter.println("invoke ExitProcess, 0");
+		fileWriter.println("overflow:");
+		fileWriter.println("invoke MessageBox, NULL, addr overflowProducto, addr overflowProducto, MB_OK");
+		fileWriter.println("invoke ExitProcess, 0");
+		fileWriter.println("indiceFueraRango:");
+		fileWriter.println("invoke MessageBox, NULL, addr indiceFueraDeRango, addr indiceFueraDeRango, MB_OK");
+		fileWriter.println("invoke ExitProcess, 0");
 		fileWriter.println("END START");
 		
 		fileWriter.close();
@@ -58,7 +69,7 @@ public class CodeGenerator {
 		List<String> ret = new LinkedList<String>();
 		List<String> keys = SymbolTable.getInstance().getAllKeys();
 		int contadorCadena = 1;
-		
+		ret.add("@swap_AX DW 0");
 		for (String key : keys) {
 			AttributeComun att = SymbolTable.getInstance().get(key);
 			

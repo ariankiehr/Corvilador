@@ -3,6 +3,9 @@ package org.compiler.arbolito;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.compiler.asm.ASMMultiplicacion;
+import org.compiler.asm.ASMResta;
+import org.compiler.asm.ASMSuma;
 import org.compiler.asm.Names;
 import org.compiler.asm.RegistryManager;
 
@@ -76,131 +79,40 @@ public class Nodo extends NodoConTipo {
 		//SUMA
 		if( "+".equals(elemento) ) {
 			
-			if ( RegistryManager.getInstance().estaLibre(Names.getName(elemIzq)) != null ) {
-				//es un registro izq
-				if ( RegistryManager.getInstance().estaLibre(Names.getName(elemDer)) != null ) {
-					//es registro der
-					
-					//REG - REG 3
-					ret.add( "ADD " + Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
-					RegistryManager.getInstance().desocuparRegistro(Names.getName(elemDer));
-					this.elemento = Names.getName(elemIzq);
-					
-				} else {
-					//es variable o consta der
-					//REG - VAR 2
-					ret.add("ADD " + Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
-					this.elemento = Names.getName(elemIzq);
-				}
-				
-			} else {
-				//es variable o constante izq
-				
-				if ( RegistryManager.getInstance().estaLibre(Names.getName(elemDer)) != null ) {
-					//es registro der
-					//VAR -REG 4
-					ret.add( "ADD " + Names.getName(elemDer) + ", " + Names.getName(elemIzq) );
-					this.elemento = Names.getName(elemDer);
-					
-				} else {
-					//es variable o consta der
-					//VAR - VAR 1
-					String regaux = RegistryManager.getInstance().obtenerRegistro();
-					RegistryManager.getInstance().ocuparRegistro(regaux);
-					ret.add( "MOV " + regaux + ", " + Names.getName(elemIzq) );
-					ret.add( "ADD " + regaux + ", " + Names.getName(elemDer) );
-					this.elemento = regaux;
-				}
-			}
+			ret.addAll( ASMSuma.getInstance().generarSuma(elemIzq, elemDer) );
+			this.elemento = ASMSuma.getInstance().getElemento();
+			
+		}
 		
-			//MULTIPLICACION
-		} else if ( "*".equals(elemento) ) {
+		//MULTIPLICACION
+		else if ( "*".equals(elemento) ) {
 			
-			if ( "AX".equals(Names.getName(elemIzq)) && RegistryManager.getInstance().estaLibre(Names.getName(elemIzq)) == true ) {
-				//es un registro izq y es AX
-				if ( RegistryManager.getInstance().estaLibre(Names.getName(elemDer)) != null ) {
-					//es registro der
-					
-					//REG - REG 3
-					ret.add( "IMUL " + Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
-					RegistryManager.getInstance().desocuparRegistro(Names.getName(elemDer));
-					this.elemento = Names.getName(elemIzq);
-					
-				} else {
-					//es variable o consta der
-					//REG - VAR 2
-					ret.add("IMUL " + Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
-					this.elemento = Names.getName(elemIzq);
-				}
-				
-			} else {
-				//es variable o constante izq
-				
-				if ( RegistryManager.getInstance().estaLibre(Names.getName(elemDer)) != null ) {
-					//es registro der
-					//VAR -REG 4
-					ret.add( "ADD " + Names.getName(elemDer) + ", " + Names.getName(elemIzq) );
-					this.elemento = Names.getName(elemDer);
-					
-				} else {
-					//es variable o consta der
-					//VAR - VAR 1
-					//debo ocupar si o si AX el lado izq.
-					
-					String regaux = RegistryManager.getInstance().obtenerRegistro();
-					RegistryManager.getInstance().ocuparRegistro(regaux);
-					ret.add( "MOV " + regaux + ", " + Names.getName(elemIzq) );
-					ret.add( "ADD " + regaux + ", " + Names.getName(elemDer) );
-					this.elemento = regaux;
-				}
-			}
-			
-			
-		} else if( "-".equals(elemento) || "/".equals(elemento) ) {
-			//ret.addAll(hijoDer.getSentencias());
-			if ( RegistryManager.getInstance().estaLibre(elemIzq) != null ) {
-				//izq una registro
-				if( RegistryManager.getInstance().estaLibre(elemDer) != null ) {
-					//der un registro
-					// REG- REG 
-					ret.add( (("-".equals(elemento))?"SUB ":"IDIV ")+ Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
-					RegistryManager.getInstance().desocuparRegistro(Names.getName(elemDer));
-					this.elemento = Names.getName(elemIzq);
-					
-					
-				} else {
-					//der variable
-					// REG - VAR
-					ret.add( (("-".equals(elemento))?"SUB ":"IDIV ")+ Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
-					this.elemento = Names.getName(elemIzq);
-					
-				}
-				
-			} else {
-				if ( RegistryManager.getInstance().estaLibre(elemDer) != null ) {
-					//izq var y der registro
-					// VAR - REG
-
-					String regaux = RegistryManager.getInstance().obtenerRegistro();
-					RegistryManager.getInstance().ocuparRegistro(regaux);
-					ret.add( "MOV " + regaux + ", " + Names.getName(elemIzq) );
-					ret.add( (("-".equals(elemento))?"SUB ":"IDIV ") + regaux + ", " + Names.getName(elemDer) );
-					RegistryManager.getInstance().desocuparRegistro(Names.getName(elemDer));
-					this.elemento = Names.getName(elemIzq);
+			ret.addAll( ASMMultiplicacion.getInstance().generarMultiplicacion(elemIzq, elemDer) );
+			this.elemento = ASMMultiplicacion.getInstance().getElemento();
 		
-				}else {
-					//izq var y der var
-					// VAR - VAR
-					String regaux = RegistryManager.getInstance().obtenerRegistro();
-					RegistryManager.getInstance().ocuparRegistro(regaux);
-					ret.add( "MOV "+ regaux + ", " + Names.getName(elemIzq) );
-					ret.add( (("-".equals(elemento))?"SUB ":"IDIV ")+ regaux + ", " + Names.getName(elemDer) );
-					this.elemento = regaux;
-					
-					
-				}
-			}
 			
+		}
+		
+		//RESTA	
+		else if( "-".equals(elemento) ) {
+			ret.addAll(ASMResta.getInstance().generarResta(elemIzq, elemDer));
+			this.elemento = ASMResta.getInstance().getElemento();
+			
+			
+			
+		} else if( "/".equals(elemento) ) {
+			
+		} else if( "<".equals(elemento) ) {
+			
+		} else if( ">".equals(elemento) ) {
+			
+		} else if( "=".equals(elemento) ) {
+			
+		} else if( "^=".equals(elemento) ) {
+			
+		} else if( "<=".equals(elemento) ) {
+			
+		} else if( ">=".equals(elemento) ) {
 			
 		} else if( ":=".equals(elemento) ) {
 			if ( RegistryManager.getInstance().estaLibre(Names.getName(elemDer)) != null ) {
@@ -215,8 +127,7 @@ public class Nodo extends NodoConTipo {
 				ret.add( "MOV "+ Names.getName(elemIzq) + ", " + regaux );
 				RegistryManager.getInstance().desocuparRegistro(regaux);
 			}
-			
-			
+
 		}
 		
 		

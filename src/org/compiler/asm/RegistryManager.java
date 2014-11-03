@@ -32,17 +32,17 @@ public class RegistryManager {
 	
 	public String obtenerRegistro() {
 		
-		if( this.estaLibre("AX") ){
-			return "AX";
+		if( this.estaLibre("CX") ){
+			return "CX";
 		}
 		else if( this.estaLibre("BX") ){
 			return "BX";
 		}
-		else if( this.estaLibre("CX" ) ){
-			return "CX";
-		}
 		else if( this.estaLibre("DX" ) ){
 			return "DX";
+		}
+		else if( this.estaLibre("AX" ) ){
+			return "AX";
 		}
 		return null;
 	}
