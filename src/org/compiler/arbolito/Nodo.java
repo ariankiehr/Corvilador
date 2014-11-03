@@ -51,8 +51,8 @@ public class Nodo extends NodoConTipo {
 	StringBuilder ret = new StringBuilder();
 	ret.append(prefix + (isTail ? "└── " : "├── ") + this.getElem()+ "\n");
 
-	ret.append(hijoIzq.mostrar(prefix + (isTail ? "    " : "│          "), false)+ "\n");
-	ret.append(hijoDer.mostrar(prefix + (isTail ? "    " : "│          "), true)+ "\n");
+	ret.append(hijoIzq.mostrar(prefix + (isTail ? "         " : "│        "), false)+ "\n");
+	ret.append(hijoDer.mostrar(prefix + (isTail ? "         " : "│        "), true));
 
 	return ret.toString();
     }
