@@ -3,8 +3,10 @@ package org.compiler.arbolito;
 import java.util.LinkedList;
 import java.util.List;
 
+
 import org.compiler.asm.ASMArreglo;
 import org.compiler.asm.ASMAsignacion;
+import org.compiler.asm.ASMDivision;
 import org.compiler.asm.ASMMultiplicacion;
 import org.compiler.asm.ASMResta;
 import org.compiler.asm.ASMSuma;
@@ -58,8 +60,8 @@ public class Nodo extends NodoConTipo {
 	StringBuilder ret = new StringBuilder();
 	ret.append(prefix + (isTail ? "└── " : "├── ") + this.getElem()+ "\n");
 
-	ret.append(hijoIzq.mostrar(prefix + (isTail ? "      " : "│     "), false)+ "\n");
-	ret.append(hijoDer.mostrar(prefix + (isTail ? "      " : "│     "), true));
+	ret.append(hijoIzq.mostrar(prefix + (isTail ? "      " : "|     "), false)+ "\n");
+	ret.append(hijoDer.mostrar(prefix + (isTail ? "      " : "|     "), true));
 
 	return ret.toString();
     }
@@ -91,6 +93,13 @@ public class Nodo extends NodoConTipo {
 		} else if( "-".equals(elemento) ) {
 			ret.addAll(ASMResta.getInstance().generarResta(elemIzq, elemDer));
 			this.elemento = ASMResta.getInstance().getElemento();
+				
+		} 
+		
+		//DIVISION
+		else if( "/".equals(elemento) ) {
+			ret.addAll(ASMDivision.getInstance().generarDivision(elemIzq, elemDer));
+			this.elemento = ASMDivision.getInstance().getElemento();
 			
 		} else if( "/".equals(elemento) ) {
 			//corivliano
@@ -102,6 +111,7 @@ public class Nodo extends NodoConTipo {
 			ret.add( "MOV BX, " + elemDer );
 				
 			ret.add("CMP AX, BX"); 
+
 			
 		} else if( ":=".equals(elemento) ) {
 			ret.addAll(ASMAsignacion.getInstance().generarAsignacion(elemIzq, elemDer));

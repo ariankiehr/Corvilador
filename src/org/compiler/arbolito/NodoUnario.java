@@ -29,7 +29,7 @@ public class NodoUnario extends Arbol{
 	    StringBuilder ret = new StringBuilder();
 	    ret.append(prefix + (isTail ? "└── " : "├── ") + this.getElem()+ "\n");
 
-	    ret.append(hijo.mostrar(prefix + (isTail ? "      " : "│     "), true) );
+	    ret.append(hijo.mostrar(prefix + (isTail ? "      " : "|     "), true) );
 	    return ret.toString();
 	}
 
