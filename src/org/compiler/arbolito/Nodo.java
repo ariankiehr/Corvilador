@@ -3,11 +3,15 @@ package org.compiler.arbolito;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.compiler.asm.ASMArreglo;
+import org.compiler.asm.ASMAsignacion;
 import org.compiler.asm.ASMMultiplicacion;
 import org.compiler.asm.ASMResta;
 import org.compiler.asm.ASMSuma;
 import org.compiler.asm.Names;
 import org.compiler.asm.RegistryManager;
+import org.compiler.symboltable.AttributeVector;
+import org.compiler.symboltable.SymbolTable;
 
 public class Nodo extends NodoConTipo {
 
@@ -76,57 +80,38 @@ public class Nodo extends NodoConTipo {
 		String elemDer = hijoDer.getElem();
 		
 		
-		//SUMA
 		if( "+".equals(elemento) ) {
-			
 			ret.addAll( ASMSuma.getInstance().generarSuma(elemIzq, elemDer) );
 			this.elemento = ASMSuma.getInstance().getElemento();
 			
-		}
-		
-		//MULTIPLICACION
-		else if ( "*".equals(elemento) ) {
-			
+		} else if ( "*".equals(elemento) ) {
 			ret.addAll( ASMMultiplicacion.getInstance().generarMultiplicacion(elemIzq, elemDer) );
 			this.elemento = ASMMultiplicacion.getInstance().getElemento();
-		
-			
-		}
-		
-		//RESTA	
-		else if( "-".equals(elemento) ) {
+	
+		} else if( "-".equals(elemento) ) {
 			ret.addAll(ASMResta.getInstance().generarResta(elemIzq, elemDer));
 			this.elemento = ASMResta.getInstance().getElemento();
 			
-			
-			
 		} else if( "/".equals(elemento) ) {
+			//corivliano
+		} else if( "<".equals(elemento) || ">".equals(elemento) || "=".equals(elemento) || "^=".equals(elemento) ||
+				"<=".equals(elemento) || ">=".equals(elemento) ) {
 			
-		} else if( "<".equals(elemento) ) {
-			
-		} else if( ">".equals(elemento) ) {
-			
-		} else if( "=".equals(elemento) ) {
-			
-		} else if( "^=".equals(elemento) ) {
-			
-		} else if( "<=".equals(elemento) ) {
-			
-		} else if( ">=".equals(elemento) ) {
+			//TODO ESTO ESTA JARCODEADO
+			ret.add( "MOV AX, " + elemIzq );
+			ret.add( "MOV BX, " + elemDer );
+				
+			ret.add("CMP AX, BX"); 
 			
 		} else if( ":=".equals(elemento) ) {
-			if ( RegistryManager.getInstance().estaLibre(Names.getName(elemDer)) != null ) {
-				// registro
-				ret.add( "MOV "+ Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
-				RegistryManager.getInstance().desocuparRegistro(Names.getName(elemDer));
-			} else {
-				//variable
-				String regaux = RegistryManager.getInstance().obtenerRegistro();
-				RegistryManager.getInstance().ocuparRegistro(regaux);
-				ret.add( "MOV "+ regaux + ", " + Names.getName(elemDer) );
-				ret.add( "MOV "+ Names.getName(elemIzq) + ", " + regaux );
-				RegistryManager.getInstance().desocuparRegistro(regaux);
-			}
+			ret.addAll(ASMAsignacion.getInstance().generarAsignacion(elemIzq, elemDer));
+			this.elemento = ASMAsignacion.getInstance().getElemento();
+			
+		} else {
+			//es un vector donde el elemento es el id del mismo
+			AttributeVector att = (AttributeVector)SymbolTable.getInstance().get(elemento);
+			ret.addAll(ASMArreglo.getInstance().generarArreglo(att));
+			this.elemento = ASMArreglo.getInstance().getElemento();
 
 		}
 		

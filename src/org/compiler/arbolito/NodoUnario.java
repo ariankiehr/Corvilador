@@ -35,8 +35,7 @@ public class NodoUnario extends Arbol{
 
 	@Override
 	public List<String> getSentencias() {
-		// TODO Auto-generated method stub
-		return null;
+		return hijo.getSentencias();
 	}
 
 	@Override

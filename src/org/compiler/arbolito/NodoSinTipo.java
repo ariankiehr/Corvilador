@@ -3,6 +3,8 @@ package org.compiler.arbolito;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.compiler.asm.CodeGenerator;
+
 public class NodoSinTipo extends Arbol {
 	
 	private Arbol hijoIzq;
@@ -57,11 +59,69 @@ public class NodoSinTipo extends Arbol {
 	public List<String> getSentencias() {
 		List<String> ret = new LinkedList<String>();
 		
-		ret.addAll(hijoIzq.getSentencias());
-		ret.addAll(hijoDer.getSentencias());
-		
 		if ("sentencia".equals(elemento)) {
+			ret.addAll(hijoIzq.getSentencias());
+			ret.addAll(hijoDer.getSentencias());
 			return ret;
+		} else if ( "si".equals(elemento)  ) {
+			
+			/*
+			└── si
+		      ├── condicion
+		      │     └── =
+		      │           ├── 1:entero
+		      │           └── 32:entero
+		      └── cuerpo
+		            ├── entonces
+		            │     └── imprimir:"asd"
+		            └── sino
+		                  └── imprimir:"sad"
+		                  
+		     mov ax,1
+		     mov bx, 32
+		     cmp ax,bx
+		     jne sino
+		     imprimir:"asd"
+		     jmp finsi
+		     sino:
+		     imprimir:"sad"
+		     finsi:
+		      
+		     */
+			ret.addAll(hijoIzq.getSentencias()); //condicion
+			
+			if( "=".equals( ((NodoUnario)hijoIzq).getHijo().getElem()  )) {
+				CodeGenerator.pushLabel();
+				String elseLabel = CodeGenerator.getLabel();
+				ret.add( "JNE " + elseLabel );
+				ret.addAll( ((NodoSinTipo)hijoDer).getHijo_izq().getSentencias() ); //cuerpo
+				CodeGenerator.pushLabel();
+				ret.add( "JMP " + CodeGenerator.getLabel());
+				ret.add( elseLabel+":" );
+				ret.addAll( ((NodoSinTipo)hijoDer).getHijo_der().getSentencias() ); //sino
+				ret.add( CodeGenerator.getLabel()+":" );
+				CodeGenerator.popLabel();
+				CodeGenerator.popLabel();
+			} else if ( ">".equals(hijoIzq.getElem()) ) {
+				
+			}
+			
+		} else if ( "iterar".equals(elemento) ) {
+			/*
+			 └── iterar
+			      ├── condicion
+			      │     └── =
+			      │           ├── 1:entero
+			      │           └── 32:entero
+			      └── imprimir:"asd"
+			      
+			 iterar:
+			 imprimir:"asd"
+			 mov ax,1
+		     mov bx, 32
+		     cmp ax,bx
+		     jne iterar
+			 */
 		}
 		
 		return ret;
@@ -70,7 +130,6 @@ public class NodoSinTipo extends Arbol {
 
 	@Override
 	public boolean isLeaf() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

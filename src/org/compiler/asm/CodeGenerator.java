@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 import org.compiler.symboltable.AttributeCad;
 import org.compiler.symboltable.AttributeComun;
@@ -16,9 +17,12 @@ import org.compiler.syntactic.Parser;
 public class CodeGenerator {
 	
 	private PrintWriter fileWriter;
+	private static Stack<String> labels;
+	private static Integer labelId = 0;
 
 	public CodeGenerator(File file) {
 		initializeFile(file);
+		labels = new Stack<String>();
 		
 		//encabezado
 		fileWriter.println(".386");
@@ -27,20 +31,18 @@ public class CodeGenerator {
 		fileWriter.println("include \\masm32\\include\\windows.inc");
 		fileWriter.println("include \\masm32\\include\\kernel32.inc");
 		fileWriter.println("include \\masm32\\include\\user32.inc");
-		//fileWriter.println("include \\masm32\\include\\masm32.inc");
 		fileWriter.println("includelib \\masm32\\lib\\kernel32.lib");
 		fileWriter.println("includelib \\masm32\\lib\\user32.lib");
-		//fileWriter.println("includelib \\masm32\\lib\\masm32.lib");
 		fileWriter.println(".DATA");
 		List<String> declaraciones = generarDeclaraciones();
 		for (String declaracion : declaraciones) {
 			fileWriter.println( declaracion );
 		}
-		//Mensajes de errores
-		fileWriter.println("indiceFueraDeRango db \"Indice fuera de rango\",0");
-		fileWriter.println("overflowProducto db \"Overflow en la multiplicacion\",0");
 
-		//TODO TODOS LOS POSIBLES MENSAJES DE ERRORES
+		fileWriter.println("overflowProducto db \"Overflow en la multiplicacion\",0");
+		fileWriter.println("indiceFueraDeRangoSup db \"Indice fuera de rango superior\",0");
+		fileWriter.println("indiceFueraDeRangoInf db \"Indice fuera de rango inferior\",0");
+
 		fileWriter.println(".CODE");
 		fileWriter.println("START:");
 		List<String> sentencias = Parser.tree.getSentencias();
@@ -48,19 +50,33 @@ public class CodeGenerator {
 			fileWriter.println(sentencia);
 		}
 		
-		//TODO LABELS
 		fileWriter.println("invoke ExitProcess, 0");
 		fileWriter.println("overflow:");
 		fileWriter.println("invoke MessageBox, NULL, addr overflowProducto, addr overflowProducto, MB_OK");
 		fileWriter.println("invoke ExitProcess, 0");
-		fileWriter.println("indiceFueraRango:");
-		fileWriter.println("invoke MessageBox, NULL, addr indiceFueraDeRango, addr indiceFueraDeRango, MB_OK");
+		fileWriter.println("indiceFueraRangoSup:");
+		fileWriter.println("invoke MessageBox, NULL, addr indiceFueraDeRangoSup, addr indiceFueraDeRangoSup, MB_OK");
+		fileWriter.println("invoke ExitProcess, 0");
+		fileWriter.println("indiceFueraRangoInf:");
+		fileWriter.println("invoke MessageBox, NULL, addr indiceFueraDeRangoInf, addr indiceFueraDeRangoInf, MB_OK");
 		fileWriter.println("invoke ExitProcess, 0");
 		fileWriter.println("END START");
 		
 		fileWriter.close();
 	}
 	
+	
+	public static String popLabel() {
+		return labels.pop();
+	}
+	
+	public static String getLabel() {
+		return labels.peek();
+	}
+	
+	public static void pushLabel() {
+		labels.push("label"+(labelId++));
+	}
 	
 
 
