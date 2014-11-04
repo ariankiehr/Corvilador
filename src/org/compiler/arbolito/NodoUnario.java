@@ -38,11 +38,5 @@ public class NodoUnario extends Arbol{
 		return hijo.getSentencias();
 	}
 
-	@Override
-	public boolean isLeaf() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	
+
 }

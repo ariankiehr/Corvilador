@@ -89,22 +89,63 @@ public class NodoSinTipo extends Arbol {
 		      
 		     */
 			ret.addAll(hijoIzq.getSentencias()); //condicion
+			CodeGenerator.pushLabel();
+			String elseLabel = CodeGenerator.getLabel();
 			
 			if( "=".equals( ((NodoUnario)hijoIzq).getHijo().getElem()  )) {
-				CodeGenerator.pushLabel();
-				String elseLabel = CodeGenerator.getLabel();
 				ret.add( "JNE " + elseLabel );
+			} else if ( ">".equals( ((NodoUnario)hijoIzq).getHijo().getElem()))  {
+				ret.add( "JLE " + elseLabel );
+			} else if ( "<".equals( ((NodoUnario)hijoIzq).getHijo().getElem()))  {
+				ret.add( "JGE " + elseLabel );
+			} else if ( "<=".equals( ((NodoUnario)hijoIzq).getHijo().getElem()))  {
+				ret.add( "JG " + elseLabel );
+			} else if ( ">=".equals( ((NodoUnario)hijoIzq).getHijo().getElem()))  {
+				ret.add( "JL " + elseLabel );
+			} else if ( "^=".equals( ((NodoUnario)hijoIzq).getHijo().getElem()))  {
+				ret.add( "JE " + elseLabel );
+			}
+			/*
+		     mov ax,1
+		     mov bx, 32
+		     cmp ax,bx
+		     jne sino
+		     imprimir:"asd"
+		     jmp finsi
+		     sino:
+		     imprimir:"sad"
+		     finsi:
+		     
+		     mov ax,1
+		     mov bx, 32
+		     cmp ax,bx
+		     jne sino
+		     imprimir:"asd"
+		     sino:
+		     
+			*/
+			
+			if( hijoDer instanceof NodoSinTipo  ) {
 				ret.addAll( ((NodoSinTipo)hijoDer).getHijo_izq().getSentencias() ); //cuerpo
+				
 				CodeGenerator.pushLabel();
 				ret.add( "JMP " + CodeGenerator.getLabel());
+				
 				ret.add( elseLabel+":" );
+				
 				ret.addAll( ((NodoSinTipo)hijoDer).getHijo_der().getSentencias() ); //sino
 				ret.add( CodeGenerator.getLabel()+":" );
 				CodeGenerator.popLabel();
 				CodeGenerator.popLabel();
-			} else if ( ">".equals(hijoIzq.getElem()) ) {
+			} else if ( hijoDer instanceof NodoUnario ) {
+				ret.addAll( ((NodoUnario)hijoDer).getHijo().getSentencias() ); //cuerpo
+
+				ret.add( elseLabel+":" );
 				
+				CodeGenerator.popLabel();
 			}
+
+			
 			
 		} else if ( "iterar".equals(elemento) ) {
 			/*
@@ -122,15 +163,31 @@ public class NodoSinTipo extends Arbol {
 		     cmp ax,bx
 		     jne iterar
 			 */
+			
+			CodeGenerator.pushLabel();
+			ret.add( CodeGenerator.getLabel()+":" );
+			ret.addAll( hijoDer.getSentencias() ); //CUERPO
+			ret.addAll(hijoIzq.getSentencias()); //condicion
+			
+			if( "=".equals( ((NodoUnario)hijoIzq).getHijo().getElem()  )) {
+				ret.add( "JNE " + CodeGenerator.popLabel() );
+			} else if ( ">".equals( ((NodoUnario)hijoIzq).getHijo().getElem()))  {
+				ret.add( "JLE " + CodeGenerator.popLabel() );
+			} else if ( "<".equals( ((NodoUnario)hijoIzq).getHijo().getElem()))  {
+				ret.add( "JGE " + CodeGenerator.popLabel() );
+			} else if ( "<=".equals( ((NodoUnario)hijoIzq).getHijo().getElem()))  {
+				ret.add( "JG " + CodeGenerator.popLabel() );
+			} else if ( ">=".equals( ((NodoUnario)hijoIzq).getHijo().getElem()))  {
+				ret.add( "JL " + CodeGenerator.popLabel() );
+			} else if ( "^=".equals( ((NodoUnario)hijoIzq).getHijo().getElem()))  {
+				ret.add( "JE " + CodeGenerator.popLabel() );
+			}
+			
 		}
 		
 		return ret;
 	}
 
 
-	@Override
-	public boolean isLeaf() {
-		return false;
-	}
 
 }

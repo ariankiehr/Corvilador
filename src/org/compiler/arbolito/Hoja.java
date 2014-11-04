@@ -42,8 +42,4 @@ public class Hoja extends NodoConTipo {
 		return ret;
 	}
 
-	@Override
-	public boolean isLeaf() {
-		return true;
-	}
 }

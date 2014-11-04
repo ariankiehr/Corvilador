@@ -19,7 +19,7 @@ public class AttributeCad extends AttributeComun {
 
 	@Override
 	public String toString() {
-		return "AttributeCad [nombreAsm=" + nombreAsm + "]";
+		return super.toString() + " , " + nombreAsm;
 	}
 	
 }

@@ -19,8 +19,7 @@ public class AttributeVariableID extends AttributeConTipo {
 
 	@Override
 	public String toString() {
-		return "AttributeVariableID [typeOfId=" + typeOfId + ", typeOfElement="
-				+ typeOfElement + ", typeOfToken=" + typeOfToken + "]";
+		return super.toString() + " , " + typeOfId;
 	}
 	
 }

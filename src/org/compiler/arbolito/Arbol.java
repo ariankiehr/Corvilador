@@ -26,6 +26,5 @@ public abstract class Arbol {
 	public abstract String mostrar(String tab, boolean isTail);
 	public abstract String getTipo();
 	public abstract List<String> getSentencias();
-	public abstract boolean isLeaf();
 	
 }

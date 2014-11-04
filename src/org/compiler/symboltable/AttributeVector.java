@@ -30,9 +30,7 @@ public class AttributeVector extends AttributeVariableID {
 
 	@Override
 	public String toString() {
-		return "AttributeVector [limInferior=" + limInferior + ", limSuperior="
-				+ limSuperior + ", typeOfId=" + typeOfId + ", typeOfElement="
-				+ typeOfElement + ", typeOfToken=" + typeOfToken + "]";
+		return super.toString() + " , " + limInferior + " , "+ limSuperior;
 	}
 	
 

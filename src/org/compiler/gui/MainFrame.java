@@ -21,26 +21,35 @@ public class MainFrame extends JFrame implements ActionListener {
 	private JButton jButton2;
 	private JTextArea simbolos;
 	private JTextArea syntaxErrors;
-	private JTextArea tokens;
+	//private JTextArea tokens;
+	
+	private JTextArea ejecutable;
+	
 	private JTextArea errores;
 	private JTextArea warnings;
 	private JTextArea syntaxTree;
-	private JTextArea syntaxDetection;
+	//private JTextArea syntaxDetection;
 	private JScrollPane jScrollPane6;
 	private JScrollPane jScrollPane5;
 	private JScrollPane jScrollPane4;
 	private JScrollPane jScrollPane3;
-	private JScrollPane jScrollPane1;
+	//private JScrollPane jScrollPane1;
+	
+	private JScrollPane sejecutable;
+	
 	private JScrollPane jScrollPane7;
-	private JScrollPane jScrollPane8;
+	//private JScrollPane jScrollPane8;
 	private JScrollPane jScrollPane2;
 	private JScrollPane jScrollPane9;
-	private JPanel jPanel6;
+	//private JPanel jPanel6;
+	
+	private JPanel pejecutable;
+	
 	private JPanel jPanel5;
 	private JPanel jPanel4;
 	private JPanel jPanel3;
 	private JPanel jPanel2;
-	private JPanel jPanel1;
+	//private JPanel jPanel1;
 	private JTabbedPane jTabbedPane1;
 	private JMenuItem jMenu1;
 	private JMenuBar jMenuBar1;
@@ -164,6 +173,16 @@ public class MainFrame extends JFrame implements ActionListener {
 			jScrollPane8.setViewportView(syntaxDetection);
 			syntaxDetection.setEditable(false);*/
 			
+			pejecutable = new JPanel();
+			jTabbedPane1.addTab("Generacion del Ejecutable", null, pejecutable, null);
+			pejecutable.setLayout(null);
+			sejecutable = new JScrollPane();
+			pejecutable.add(sejecutable);
+			sejecutable.setBounds(12, 12, 1165, 100);
+			ejecutable = new JTextArea();
+			sejecutable.setViewportView(ejecutable);
+			ejecutable.setEditable(false);
+			
 			
 			jScrollPane9 = new JScrollPane();
 			getContentPane().add(jScrollPane9, BorderLayout.EAST);
@@ -237,6 +256,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		errores.setText("");
 		simbolos.setText("");
 		//syntaxDetection.setText("");
+		ejecutable.setText("");
 		syntaxErrors.setText("");
 		syntaxTree.setText("");
 	}
@@ -279,7 +299,71 @@ public class MainFrame extends JFrame implements ActionListener {
 			syntaxTree.setText("No se genero codigo debido a algun error en alguna declaracion");
 		}else{
 			syntaxTree.setText(Parser.tree.toString());
-			new CodeGenerator(file);
+			CodeGenerator cg = new CodeGenerator(file);
+			
+			/** Generacion del .exe **/
+			String comc = "cmd /c \\masm32\\bin\\ml /c /Zd /coff " + cg.getArchivoAsm();
+			Process ptasm32;
+			try {
+				ptasm32 = Runtime.getRuntime().exec(comc, null, cg.getArchivoAsm().getParentFile());
+				ptasm32.waitFor();
+				
+				BufferedReader stdInput = new BufferedReader(new 
+					     InputStreamReader(ptasm32.getInputStream()));
+
+				BufferedReader stdError = new BufferedReader(new 
+				     InputStreamReader(ptasm32.getErrorStream()));
+
+				// read the output from the command
+				String s = null;
+				while ((s = stdInput.readLine()) != null) {
+					ejecutable.append(s + '\n');
+				    //System.out.println(s);
+				}
+
+				// read any errors from the attempted command
+				while ((s = stdError.readLine()) != null) {
+					ejecutable.append(s + '\n');
+				    //System.out.println(s);
+				}
+				
+			} catch (Exception e) {
+				ejecutable.append(e.getMessage() + '\n');
+				//e.printStackTrace();
+			}
+		
+
+			String coml = "cmd /c \\masm32\\bin\\link /SUBSYSTEM:CONSOLE " + cg.getArchivoObj();
+			Process ptlink32;
+			try {
+				ptlink32 = Runtime.getRuntime().exec(coml, null, cg.getArchivoAsm().getParentFile());
+				ptlink32.waitFor();
+				
+				
+				BufferedReader stdInput = new BufferedReader(new 
+					     InputStreamReader(ptlink32.getInputStream()));
+
+				BufferedReader stdError = new BufferedReader(new 
+				     InputStreamReader(ptlink32.getErrorStream()));
+
+				// read the output from the command
+				String s = null;
+				while ((s = stdInput.readLine()) != null) {
+					ejecutable.append(s + '\n');
+				    //System.out.println(s);
+				}
+
+				// read any errors from the attempted command
+				while ((s = stdError.readLine()) != null) {
+					ejecutable.append(s + '\n');
+				    //System.out.println(s);
+				}
+			} catch (Exception e) {
+				ejecutable.append(e.getMessage() + '\n');
+				//e.printStackTrace();
+			}
+			/** Fin de generacion del exe **/
+			
 		}
 		
 

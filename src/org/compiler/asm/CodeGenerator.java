@@ -17,6 +17,7 @@ import org.compiler.syntactic.Parser;
 public class CodeGenerator {
 	
 	private PrintWriter fileWriter;
+	private File archivoAsm, archivoObj;
 	private static Stack<String> labels;
 	private static Integer labelId = 0;
 
@@ -116,17 +117,43 @@ public class CodeGenerator {
 	}
 
 	public void initializeFile(File file) {
+		String nombreArchivo = null;
+		if(file.getName().indexOf('.')>0) {
+			nombreArchivo = file.getName().substring(0, file.getName().indexOf('.'));
+		} else {
+			nombreArchivo = file.getName();
+		}
+
 		
-		String nombreArchivo = file.getName().substring(0, file.getName().indexOf('.'));
-		
-		File arch = new File(file.getParentFile() + File.separator + nombreArchivo + ".asm");
+		archivoAsm = new File(file.getParentFile() + File.separator + nombreArchivo + ".asm");
+		archivoObj = new File(file.getParentFile() + File.separator + nombreArchivo + ".obj");
 
 		try {
-			fileWriter = new PrintWriter(arch);
+			fileWriter = new PrintWriter(archivoAsm);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 
+	}
+
+
+	public File getArchivoAsm() {
+		return archivoAsm;
+	}
+
+
+	public void setArchivoAsm(File archivoAsm) {
+		this.archivoAsm = archivoAsm;
+	}
+
+
+	public File getArchivoObj() {
+		return archivoObj;
+	}
+
+
+	public void setArchivoObj(File archivoObj) {
+		this.archivoObj = archivoObj;
 	}
 	
 	

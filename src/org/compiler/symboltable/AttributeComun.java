@@ -20,7 +20,7 @@ public class AttributeComun {
 
 	@Override
 	public String toString() {
-		return "IAttribute [typeOfToken=" + typeOfToken + "]";
+		return typeOfToken;
 	}
 
 }

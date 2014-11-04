@@ -18,8 +18,7 @@ public class AttributeConTipo extends AttributeComun {
 
 	@Override
 	public String toString() {
-		return "AttributeConTipo [typeOfElement=" + typeOfElement
-				+ ", typeOfToken=" + typeOfToken + "]";
+		return super.toString() + " , " + typeOfElement;
 	}
 
 	

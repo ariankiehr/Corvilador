@@ -10,8 +10,6 @@ import org.compiler.asm.ASMDivision;
 import org.compiler.asm.ASMMultiplicacion;
 import org.compiler.asm.ASMResta;
 import org.compiler.asm.ASMSuma;
-import org.compiler.asm.Names;
-import org.compiler.asm.RegistryManager;
 import org.compiler.symboltable.AttributeVector;
 import org.compiler.symboltable.SymbolTable;
 
@@ -70,13 +68,8 @@ public class Nodo extends NodoConTipo {
 	public List<String> getSentencias() {
 		List<String> ret = new LinkedList<String>();
 		
-		if( !hijoIzq.isLeaf()) {
-			ret.addAll(hijoIzq.getSentencias());
-		}
-		
-		if( !hijoDer.isLeaf()) {
-			ret.addAll(hijoDer.getSentencias());
-		}
+		ret.addAll(hijoIzq.getSentencias());
+		ret.addAll(hijoDer.getSentencias());
 		
 		String elemIzq = hijoIzq.getElem();
 		String elemDer = hijoDer.getElem();
@@ -101,8 +94,6 @@ public class Nodo extends NodoConTipo {
 			ret.addAll(ASMDivision.getInstance().generarDivision(elemIzq, elemDer));
 			this.elemento = ASMDivision.getInstance().getElemento();
 			
-		} else if( "/".equals(elemento) ) {
-			//corivliano
 		} else if( "<".equals(elemento) || ">".equals(elemento) || "=".equals(elemento) || "^=".equals(elemento) ||
 				"<=".equals(elemento) || ">=".equals(elemento) ) {
 			
@@ -129,9 +120,5 @@ public class Nodo extends NodoConTipo {
 		return ret;
 	}
 
-	@Override
-	public boolean isLeaf() {
-		return false;
-	}
 
 }
