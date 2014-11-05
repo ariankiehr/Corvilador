@@ -20,6 +20,7 @@ public class CodeGenerator {
 	private static Stack<String> labels;
 	private static Integer labelId = 0;
 
+
 	public CodeGenerator(File file) {
 		initializeFile(file);
 		labels = new Stack<String>();
@@ -45,6 +46,8 @@ public class CodeGenerator {
 
 		fileWriter.println(".CODE");
 		fileWriter.println("START:");
+
+
 		List<String> sentencias = Parser.tree.getSentencias();
 		for (String sentencia : sentencias) {
 			fileWriter.println(sentencia);
@@ -96,7 +99,7 @@ public class CodeGenerator {
 					ret.add("_" + key + " DW 0" );
 				} else if( "vector".equals(attv.getTypeOfId()) ) {
 					AttributeVector attvect = (AttributeVector)attv;
-					Long size = (attvect.getLimSuperior() - attvect.getLimInferior() + 1) * 2;
+					Long size = (attvect.getLimSuperior() - attvect.getLimInferior() + 1);
 					ret.add("_" + key + " DW " + size + " DUP(0)");
 				}
 				

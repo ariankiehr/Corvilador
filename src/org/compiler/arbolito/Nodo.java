@@ -4,8 +4,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 
+
 import org.compiler.asm.ASMArreglo;
 import org.compiler.asm.ASMAsignacion;
+import org.compiler.asm.ASMComparacion;
 import org.compiler.asm.ASMDivision;
 import org.compiler.asm.ASMMultiplicacion;
 import org.compiler.asm.ASMResta;
@@ -100,17 +102,11 @@ public class Nodo extends NodoConTipo {
 		else if( "/".equals(elemento) ) {
 			ret.addAll(ASMDivision.getInstance().generarDivision(elemIzq, elemDer));
 			this.elemento = ASMDivision.getInstance().getElemento();
-			
-		} else if( "/".equals(elemento) ) {
-			//corivliano
+		
 		} else if( "<".equals(elemento) || ">".equals(elemento) || "=".equals(elemento) || "^=".equals(elemento) ||
 				"<=".equals(elemento) || ">=".equals(elemento) ) {
-			
-			//TODO ESTO ESTA JARCODEADO
-			ret.add( "MOV AX, " + elemIzq );
-			ret.add( "MOV BX, " + elemDer );
-				
-			ret.add("CMP AX, BX"); 
+			ret.addAll(ASMComparacion.getInstance().generarComparacion(elemIzq, elemDer));
+			//this.elemento = ASMComparacion.getInstance().getElemento();
 
 			
 		} else if( ":=".equals(elemento) ) {
@@ -119,8 +115,7 @@ public class Nodo extends NodoConTipo {
 			
 		} else {
 			//es un vector donde el elemento es el id del mismo
-			AttributeVector att = (AttributeVector)SymbolTable.getInstance().get(elemento);
-			ret.addAll(ASMArreglo.getInstance().generarArreglo(att));
+			ret.addAll(ASMArreglo.getInstance().generarArreglo(elemento,elemDer));
 			this.elemento = ASMArreglo.getInstance().getElemento();
 
 		}

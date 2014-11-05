@@ -28,18 +28,40 @@ public class ASMAsignacion {
 	
 	public List<String> generarAsignacion(String elemIzq, String elemDer) {
 		this.sentencias = new LinkedList<String> ();
-		if ( RegistryManager.getInstance().estaLibre(Names.getName(elemDer)) != null ) {
-			// registro
-			sentencias.add( "MOV "+ Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
-			RegistryManager.getInstance().desocuparRegistro(Names.getName(elemDer));
+		
+		if ( RegistryManager.getInstance().estaLibre(Names.getName(elemIzq)) != null ) {
+			//es un registro la izq (por el vector puede ser)
+			if ( RegistryManager.getInstance().estaLibre(Names.getName(elemDer)) != null ) {
+				// registro der
+				sentencias.add( "MOV "+ Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
+				RegistryManager.getInstance().desocuparRegistro(Names.getName(elemDer));
+				RegistryManager.getInstance().desocuparRegistro(Names.getName(elemIzq));
+			} else {
+				//variable der
+				String regaux = RegistryManager.getInstance().obtenerRegistro();
+				RegistryManager.getInstance().ocuparRegistro(regaux);
+				sentencias.add( "MOV "+ regaux + ", " + Names.getName(elemDer) );
+				sentencias.add( "MOV "+ Names.getName(elemIzq) + ", " + regaux );
+				RegistryManager.getInstance().desocuparRegistro(regaux);
+				RegistryManager.getInstance().desocuparRegistro(Names.getName(elemIzq));
+			}
 		} else {
-			//variable
-			String regaux = RegistryManager.getInstance().obtenerRegistro();
-			RegistryManager.getInstance().ocuparRegistro(regaux);
-			sentencias.add( "MOV "+ regaux + ", " + Names.getName(elemDer) );
-			sentencias.add( "MOV "+ Names.getName(elemIzq) + ", " + regaux );
-			RegistryManager.getInstance().desocuparRegistro(regaux);
+			//no es registro el de la izq (no es vector)
+			if ( RegistryManager.getInstance().estaLibre(Names.getName(elemDer)) != null ) {
+				// registro der
+				sentencias.add( "MOV "+ Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
+				RegistryManager.getInstance().desocuparRegistro(Names.getName(elemDer));
+			} else {
+				//variable der
+				String regaux = RegistryManager.getInstance().obtenerRegistro();
+				RegistryManager.getInstance().ocuparRegistro(regaux);
+				sentencias.add( "MOV "+ regaux + ", " + Names.getName(elemDer) );
+				sentencias.add( "MOV "+ Names.getName(elemIzq) + ", " + regaux );
+				RegistryManager.getInstance().desocuparRegistro(regaux);
+		
+			}
 		}
+	
 		return this.sentencias;
 	}
 }

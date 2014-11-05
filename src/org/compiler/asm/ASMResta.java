@@ -32,17 +32,14 @@ public class ASMResta {
 				// es registro der
 
 				// REG - REG 3
-				sentencias.add("SUB " + Names.getName(elemIzq) + ", "
-						+ Names.getName(elemDer));
-				RegistryManager.getInstance().desocuparRegistro(
-						Names.getName(elemDer));
+				sentencias.add("SUB " + Names.getName(elemIzq) + ", " + Names.getName(elemDer));
+				RegistryManager.getInstance().desocuparRegistro(Names.getName(elemDer));
 				this.elemento = Names.getName(elemIzq);
 
 			} else {
 				// es variable o consta der
 				// REG - VAR 2
-				sentencias.add("SUB " + Names.getName(elemIzq) + ", "
-						+ Names.getName(elemDer));
+				sentencias.add("SUB " + Names.getName(elemIzq) + ", " + Names.getName(elemDer));
 				this.elemento = Names.getName(elemIzq);
 			}
 
@@ -53,6 +50,7 @@ public class ASMResta {
 				// es registro der
 				// VAR -REG 4
 				String reg = RegistryManager.getInstance().obtenerRegistro();
+				RegistryManager.getInstance().ocuparRegistro(reg);
 				sentencias.add("MOV " + reg + ", " + Names.getName(elemIzq));
 				sentencias.add("SUB " + reg + ", " + Names.getName(elemDer));
 				RegistryManager.getInstance().desocuparRegistro(

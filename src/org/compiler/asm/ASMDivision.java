@@ -71,6 +71,7 @@ public class ASMDivision {
 								sentencias.add("IDIV " + Names.getName(elemDer));
 								RegistryManager.getInstance().desocuparRegistro(Names.getName(elemDer));
 								String reg = RegistryManager.getInstance().obtenerRegistro();
+								RegistryManager.getInstance().ocuparRegistro(reg);
 								sentencias.add("MOV " + reg + ", " + regDivAX); 
 								sentencias.add("MOV " + regDivAX +" , " + "@swap_AX"); //le devuelvo a AX el valor q tenia antes
 								this.elemento = reg;
@@ -80,6 +81,7 @@ public class ASMDivision {
 								RegistryManager.getInstance().desocuparRegistro(Names.getName(elemIzq));
 								RegistryManager.getInstance().ocuparRegistro(regDivAX);
 								String reg = RegistryManager.getInstance().obtenerRegistro();  // comprobar si hay libres
+								RegistryManager.getInstance().ocuparRegistro(reg);
 								sentencias.add("MOV " + reg +" , " + Names.getName(elemDer));
 								sentencias.add("CWD");
 								sentencias.add("IDIV " + reg);
@@ -95,6 +97,7 @@ public class ASMDivision {
 					// REG - VAR
 					if (regDivAX.equals(elemIzq)){ //REG izq es AX
 						String reg = RegistryManager.getInstance().obtenerRegistro();  // comprobar si hay libres
+						RegistryManager.getInstance().ocuparRegistro(reg);
 						sentencias.add("MOV " + reg +" , " + Names.getName(elemDer));
 						sentencias.add("CWD");
 						sentencias.add("IDIV " + reg);
@@ -107,12 +110,14 @@ public class ASMDivision {
 							sentencias.add("MOV " + regDivAX +" , " + Names.getName(elemIzq));
 							RegistryManager.getInstance().desocuparRegistro(Names.getName(elemIzq));
 							String regaux = RegistryManager.getInstance().obtenerRegistro();  // comprobar si hay libres
+							RegistryManager.getInstance().ocuparRegistro(regaux);
 							sentencias.add("MOV " + regaux +" , " + Names.getName(elemDer));
 							sentencias.add("CWD");
 							sentencias.add("IDIV " + regaux);
 							RegistryManager.getInstance().desocuparRegistro(regaux);
 							
 							String reg = RegistryManager.getInstance().obtenerRegistro();
+							RegistryManager.getInstance().ocuparRegistro(reg);
 							sentencias.add("MOV " + reg + ", " + regDivAX); 
 							sentencias.add("MOV " + regDivAX +" , " + "@swap_AX"); //le devuelvo a AX el valor q tenia antes
 							this.elemento = reg;
@@ -122,6 +127,7 @@ public class ASMDivision {
 							RegistryManager.getInstance().desocuparRegistro(Names.getName(elemIzq));
 							RegistryManager.getInstance().ocuparRegistro(regDivAX);
 							String reg = RegistryManager.getInstance().obtenerRegistro();  // comprobar si hay libres
+							RegistryManager.getInstance().ocuparRegistro(reg);
 							sentencias.add("MOV " + reg +" , " + Names.getName(elemDer));
 							sentencias.add("CWD");
 							sentencias.add("IDIV " + reg);
@@ -160,6 +166,7 @@ public class ASMDivision {
 
 							}
 							String reg = RegistryManager.getInstance().obtenerRegistro();
+							RegistryManager.getInstance().ocuparRegistro(reg);
 							sentencias.add("MOV " + reg + ", " + regDivAX); 
 							sentencias.add("MOV " + regDivAX +" , " + "@swap_AX"); //le devuelvo a AX el valor q tenia antes
 							this.elemento = reg;
@@ -170,6 +177,7 @@ public class ASMDivision {
 							sentencias.add("MOV " + regDivAX + " ," + Names.getName(elemIzq));
 							RegistryManager.getInstance().ocuparRegistro(regDivAX);
 							String reg = RegistryManager.getInstance().obtenerRegistro();
+							RegistryManager.getInstance().ocuparRegistro(reg);
 							sentencias.add("MOV " + reg + " ," + Names.getName(elemDer));
 							sentencias.add("CWD");
 							sentencias.add("IDIV " + reg);
@@ -180,11 +188,13 @@ public class ASMDivision {
 							sentencias.add("MOV @swap_AX , " + regDivAX);
 							sentencias.add("MOV " + regDivAX +" , " + Names.getName(elemIzq));
 							String aux = RegistryManager.getInstance().obtenerRegistro();
+							RegistryManager.getInstance().ocuparRegistro(aux);
 							sentencias.add("MOV " + aux + " ," + Names.getName(elemDer));
 							sentencias.add("CWD");
 							sentencias.add("IDIV " + aux);
 							RegistryManager.getInstance().desocuparRegistro(aux);
 							String reg = RegistryManager.getInstance().obtenerRegistro();
+							RegistryManager.getInstance().ocuparRegistro(reg);
 							sentencias.add("MOV " + reg + ", " + regDivAX); 
 							sentencias.add("MOV " + regDivAX +" , " + "@swap_AX"); //le devuelvo a AX el valor q tenia antes
 							this.elemento = reg;

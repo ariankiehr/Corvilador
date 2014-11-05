@@ -61,6 +61,7 @@ public class ASMMultiplicacion {
 					sentencias.add("IMUL " + regMul + " ," + Names.getName(elemDer));
 					sentencias.add("JO overflow" );
 					String reg = RegistryManager.getInstance().obtenerRegistro();
+					RegistryManager.getInstance().ocuparRegistro(reg);
 					sentencias.add("MOV "+ reg + ", " + regMul);
 					sentencias.add("MOV " + regMul + ", " + "@swap_AX");
 					RegistryManager.getInstance().desocuparRegistro(elemDer);
@@ -90,6 +91,7 @@ public class ASMMultiplicacion {
 						sentencias.add("IMUL " + regMul + " ," + Names.getName(elemDer));
 						sentencias.add("JO overflow" );
 						String reg = RegistryManager.getInstance().obtenerRegistro();
+						RegistryManager.getInstance().ocuparRegistro(reg);
 						sentencias.add("MOV "+ reg + ", " + regMul);
 						sentencias.add("MOV " + regMul + ", " + "@swap_AX");
 						this.elemento = reg;
@@ -125,6 +127,7 @@ public class ASMMultiplicacion {
 						sentencias.add("IMUL " + regMul + " ," + Names.getName(elemDer));
 						sentencias.add("JO overflow" );
 						String reg = RegistryManager.getInstance().obtenerRegistro();
+						RegistryManager.getInstance().ocuparRegistro(reg);
 						sentencias.add("MOV "+ reg + ", " + regMul);
 						sentencias.add("MOV " + regMul + ", " + "@swap_AX");
 						RegistryManager.getInstance().desocuparRegistro(elemDer);
@@ -147,6 +150,7 @@ public class ASMMultiplicacion {
 					sentencias.add("IMUL " + regMul + " ," + Names.getName(elemDer));
 					sentencias.add("JO overflow" );
 					String reg = RegistryManager.getInstance().obtenerRegistro();
+					RegistryManager.getInstance().ocuparRegistro(reg);
 					sentencias.add("MOV "+ reg + ", " + regMul);
 					sentencias.add("MOV " + regMul + ", " + "@swap_AX");
 					this.elemento = reg;
