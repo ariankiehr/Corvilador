@@ -1,7 +1,9 @@
 package org.compiler.asm;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class RegistryManager {
 	
@@ -24,6 +26,25 @@ public class RegistryManager {
 		}
 		return instance;
 	}
+	
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		Iterator<Entry<String, Boolean>> iter = this.registros.entrySet().iterator();
+		while (iter.hasNext()) {
+			Entry<String, Boolean> entry = iter.next();
+
+			sb.append(entry.getKey());
+			sb.append("->");
+			sb.append(entry.getValue());
+			sb.append(" : ");
+		}
+		sb.append('\n');
+
+		return sb.toString();
+		
+	}
+	
 	
 	public Boolean estaLibre(String registro) {
 		

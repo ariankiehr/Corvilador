@@ -98,7 +98,7 @@ public class LexicalAnalyzer {
 				input.add(ch);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println( e.getMessage() );
 		}
 		input.add('\n'); // para finalizar
 

@@ -29,15 +29,23 @@ public class ASMSuma {
 	
 	public List<String> generarSuma(String elemIzq, String elemDer) {
 		this.sentencias = new LinkedList<String> ();
-		if ( RegistryManager.getInstance().estaLibre(Names.getName(elemIzq)) != null ) {
+		if ( RegistryManager.getInstance().estaLibre(Names.getReg(elemIzq)) != null ) {
 			//es un registro izq
-			if ( RegistryManager.getInstance().estaLibre(Names.getName(elemDer)) != null ) {
+			if ( RegistryManager.getInstance().estaLibre(Names.getReg(elemDer)) != null ) {
 				//es registro der
 				
 				//REG - REG 3
-				sentencias.add( "ADD " + Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
-				RegistryManager.getInstance().desocuparRegistro(Names.getName(elemDer));
+				
+				if(elemDer.contains("[")) {
+					sentencias.add( "MOV " + Names.getReg(elemDer) +", " + elemDer );
+					sentencias.add( "ADD " + Names.getName(elemIzq) + ", " + Names.getReg(elemDer) );
+				} else {
+					sentencias.add( "ADD " + Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
+				}
+				
+				RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemDer));
 				this.elemento = Names.getName(elemIzq);
+				
 				
 			} else {
 				//es variable o consta der
@@ -49,7 +57,7 @@ public class ASMSuma {
 		} else {
 			//es variable o constante izq
 			
-			if ( RegistryManager.getInstance().estaLibre(Names.getName(elemDer)) != null ) {
+			if ( RegistryManager.getInstance().estaLibre(Names.getReg(elemDer)) != null ) {
 				//es registro der
 				//VAR -REG 4
 				sentencias.add( "ADD " + Names.getName(elemDer) + ", " + Names.getName(elemIzq) );
@@ -62,7 +70,7 @@ public class ASMSuma {
 				try {
 					regaux = RegistryManager.getInstance().obtenerRegistro();
 				} catch (FullRegistersException e) {
-					e.printStackTrace();
+					System.out.println( e.getMessage() );
 				}
 				RegistryManager.getInstance().ocuparRegistro(regaux);
 				sentencias.add( "MOV " + regaux + ", " + Names.getName(elemIzq) );

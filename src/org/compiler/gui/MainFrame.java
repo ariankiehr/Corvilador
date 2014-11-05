@@ -75,13 +75,13 @@ public class MainFrame extends JFrame implements ActionListener {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			System.out.println( e.getMessage() );
 		} catch (InstantiationException e) {
-			e.printStackTrace();
+			System.out.println( e.getMessage() );
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+			System.out.println( e.getMessage() );
 		} catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
+			System.out.println( e.getMessage() );
 		}
 		editor = new NumberedEditorKit();
 		initGUI();
@@ -204,7 +204,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			pack();
 			setSize(1205, 700);
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println( e.getMessage() );
 		}
 	}
 

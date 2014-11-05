@@ -29,9 +29,9 @@ public class ASMMultiplicacion {
 	
 	public List<String> generarMultiplicacion(String elemIzq, String elemDer) {
 		this.sentencias = new LinkedList<String> ();
-		if ( RegistryManager.getInstance().estaLibre(Names.getName(elemIzq)) != null ) {
+		if ( RegistryManager.getInstance().estaLibre(Names.getReg(elemIzq)) != null ) {
 			//es un registro izq
-			if ( RegistryManager.getInstance().estaLibre(Names.getName(elemDer)) != null ) {
+			if ( RegistryManager.getInstance().estaLibre(Names.getReg(elemDer)) != null ) {
 				//es registro der
 				
 				//REG - REG 3
@@ -39,11 +39,13 @@ public class ASMMultiplicacion {
 				if ( regMul.equals(elemDer) ){
 					sentencias.add( "IMUL " + Names.getName(elemDer) + ", " + Names.getName(elemIzq) );
 					sentencias.add("JO overflow" );
+					RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
 					this.elemento = Names.getName(elemDer);	
 				
 				}else if ( regMul.equals(elemIzq) ) {
 					sentencias.add( "IMUL " + Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
 					sentencias.add("JO overflow" );
+					RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemDer));
 					this.elemento = Names.getName(elemIzq);					
 				
 				} else if ( RegistryManager.getInstance().estaLibre(regMul) ) {
@@ -51,8 +53,8 @@ public class ASMMultiplicacion {
 					sentencias.add( "MOV " + regMul + ", " + Names.getName(elemIzq) );
 					sentencias.add( "IMUL " + regMul + ", " + Names.getName(elemDer) );
 					sentencias.add("JO overflow" );
-					RegistryManager.getInstance().desocuparRegistro(elemDer);
-					RegistryManager.getInstance().desocuparRegistro(elemIzq);
+					RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemDer));
+					RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
 					this.elemento = regMul;
 				
 				} else {
@@ -65,12 +67,15 @@ public class ASMMultiplicacion {
 					try {
 						reg = RegistryManager.getInstance().obtenerRegistro();
 					} catch (FullRegistersException e) {
-						e.printStackTrace();
+						System.out.println( e.getMessage() );
 					}
+
+					RegistryManager.getInstance().ocuparRegistro(reg);
+
 					sentencias.add("MOV "+ reg + ", " + regMul);
 					sentencias.add("MOV " + regMul + ", " + "@swap_AX");
-					RegistryManager.getInstance().desocuparRegistro(elemDer);
-					RegistryManager.getInstance().desocuparRegistro(elemIzq);
+					RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemDer));
+					RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
 					this.elemento = reg;
 				}
 		
@@ -88,6 +93,7 @@ public class ASMMultiplicacion {
 						sentencias.add( "MOV " + regMul + ", " + Names.getName(elemIzq) );
 						sentencias.add( "IMUL " + regMul + ", " + Names.getName(elemDer) );
 						sentencias.add("JO overflow" );
+						RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
 						this.elemento = regMul;
 					}
 					else {
@@ -100,10 +106,14 @@ public class ASMMultiplicacion {
 						try {
 							reg = RegistryManager.getInstance().obtenerRegistro();
 						} catch (FullRegistersException e) {
-							e.printStackTrace();
+							System.out.println( e.getMessage() );
 						}
+
+						RegistryManager.getInstance().ocuparRegistro(reg);
+
 						sentencias.add("MOV "+ reg + ", " + regMul);
 						sentencias.add("MOV " + regMul + ", " + "@swap_AX");
+						RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
 						this.elemento = reg;
 					}
 				}
@@ -113,7 +123,7 @@ public class ASMMultiplicacion {
 		} else {
 			//es variable o constante izq
 			
-			if ( RegistryManager.getInstance().estaLibre(Names.getName(elemDer)) != null ) {
+			if ( RegistryManager.getInstance().estaLibre(Names.getReg(elemDer)) != null ) {
 				//es registro der
 				//VAR -REG 4
 				if ( regMul.equals(elemDer) ) {
@@ -128,7 +138,7 @@ public class ASMMultiplicacion {
 						sentencias.add( "MOV " + regMul + ", " + Names.getName(elemIzq) );
 						sentencias.add( "IMUL " + regMul + ", " + Names.getName(elemDer) );
 						sentencias.add("JO overflow" );
-						RegistryManager.getInstance().desocuparRegistro(elemDer);
+						RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemDer));
 						this.elemento = regMul;
 					}
 					else {
@@ -138,15 +148,19 @@ public class ASMMultiplicacion {
 						sentencias.add("MOV " + regMul +" , " + Names.getName(elemIzq));
 						sentencias.add("IMUL " + regMul + " ," + Names.getName(elemDer));
 						sentencias.add("JO overflow" );
+
 						String reg = null;
 						try {
 							reg = RegistryManager.getInstance().obtenerRegistro();
 						} catch (FullRegistersException e) {
-							e.printStackTrace();
+							System.out.println( e.getMessage() );
 						}
+
+						RegistryManager.getInstance().ocuparRegistro(reg);
+
 						sentencias.add("MOV "+ reg + ", " + regMul);
 						sentencias.add("MOV " + regMul + ", " + "@swap_AX");
-						RegistryManager.getInstance().desocuparRegistro(elemDer);
+						RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemDer));
 						this.elemento = reg;
 					}
 				}
@@ -167,12 +181,16 @@ public class ASMMultiplicacion {
 					sentencias.add("MOV " + regMul +" , " + Names.getName(elemIzq));
 					sentencias.add("IMUL " + regMul + " ," + Names.getName(elemDer));
 					sentencias.add("JO overflow" );
+
 					String reg = null;
 					try {
 						reg = RegistryManager.getInstance().obtenerRegistro();
 					} catch (FullRegistersException e) {
-						e.printStackTrace();
+						System.out.println( e.getMessage() );
 					}
+
+					RegistryManager.getInstance().ocuparRegistro(reg);
+
 					sentencias.add("MOV "+ reg + ", " + regMul);
 					sentencias.add("MOV " + regMul + ", " + "@swap_AX");
 					this.elemento = reg;

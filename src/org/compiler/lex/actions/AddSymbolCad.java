@@ -3,7 +3,6 @@ package org.compiler.lex.actions;
 import org.compiler.lex.LexicalReaderException;
 import org.compiler.lex.StateMachine;
 import org.compiler.symboltable.AttributeCad;
-import org.compiler.symboltable.AttributeComun;
 import org.compiler.symboltable.SymbolTable;
 
 public class AddSymbolCad extends SemanticAction {

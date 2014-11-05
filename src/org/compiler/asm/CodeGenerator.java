@@ -22,6 +22,7 @@ public class CodeGenerator {
 	private static Integer labelId, contadorCadena;
 	private static boolean swapAX, swapDX;
 
+
 	public CodeGenerator(File file) {
 		initializeFile(file);
 		labels = new Stack<String>();
@@ -123,7 +124,7 @@ public class CodeGenerator {
 					ret.add("_" + key + " DW 0" );
 				} else if( "vector".equals(attv.getTypeOfId()) ) {
 					AttributeVector attvect = (AttributeVector)attv;
-					Long size = (attvect.getLimSuperior() - attvect.getLimInferior() + 1) * 2;
+					Long size = (attvect.getLimSuperior() - attvect.getLimInferior() + 1);
 					ret.add("_" + key + " DW " + size + " DUP(0)");
 				}
 				
@@ -153,7 +154,7 @@ public class CodeGenerator {
 		try {
 			fileWriter = new PrintWriter(archivoAsm);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			System.out.println( e.getMessage() );
 		}
 
 	}
