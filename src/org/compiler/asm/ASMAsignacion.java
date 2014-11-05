@@ -34,7 +34,12 @@ public class ASMAsignacion {
 			RegistryManager.getInstance().desocuparRegistro(Names.getName(elemDer));
 		} else {
 			//variable
-			String regaux = RegistryManager.getInstance().obtenerRegistro();
+			String regaux = null;
+			try {
+				regaux = RegistryManager.getInstance().obtenerRegistro();
+			} catch (FullRegistersException e) {
+				e.printStackTrace();
+			}
 			RegistryManager.getInstance().ocuparRegistro(regaux);
 			sentencias.add( "MOV "+ regaux + ", " + Names.getName(elemDer) );
 			sentencias.add( "MOV "+ Names.getName(elemIzq) + ", " + regaux );

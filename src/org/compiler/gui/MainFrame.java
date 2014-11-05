@@ -318,18 +318,15 @@ public class MainFrame extends JFrame implements ActionListener {
 				String s = null;
 				while ((s = stdInput.readLine()) != null) {
 					ejecutable.append(s + '\n');
-				    //System.out.println(s);
 				}
 
 				// read any errors from the attempted command
 				while ((s = stdError.readLine()) != null) {
 					ejecutable.append(s + '\n');
-				    //System.out.println(s);
 				}
 				
 			} catch (Exception e) {
 				ejecutable.append(e.getMessage() + '\n');
-				//e.printStackTrace();
 			}
 		
 
@@ -350,17 +347,14 @@ public class MainFrame extends JFrame implements ActionListener {
 				String s = null;
 				while ((s = stdInput.readLine()) != null) {
 					ejecutable.append(s + '\n');
-				    //System.out.println(s);
 				}
 
 				// read any errors from the attempted command
 				while ((s = stdError.readLine()) != null) {
 					ejecutable.append(s + '\n');
-				    //System.out.println(s);
 				}
 			} catch (Exception e) {
 				ejecutable.append(e.getMessage() + '\n');
-				//e.printStackTrace();
 			}
 			/** Fin de generacion del exe **/
 			

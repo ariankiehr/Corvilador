@@ -52,7 +52,12 @@ public class ASMResta {
 			if (RegistryManager.getInstance().estaLibre(Names.getName(elemDer)) != null) {
 				// es registro der
 				// VAR -REG 4
-				String reg = RegistryManager.getInstance().obtenerRegistro();
+				String reg = null;
+				try {
+					reg = RegistryManager.getInstance().obtenerRegistro();
+				} catch (FullRegistersException e) {
+					e.printStackTrace();
+				}
 				sentencias.add("MOV " + reg + ", " + Names.getName(elemIzq));
 				sentencias.add("SUB " + reg + ", " + Names.getName(elemDer));
 				RegistryManager.getInstance().desocuparRegistro(
@@ -62,7 +67,12 @@ public class ASMResta {
 			} else {
 				// es variable o consta der
 				// VAR - VAR 1
-				String regaux = RegistryManager.getInstance().obtenerRegistro();
+				String regaux = null;
+				try {
+					regaux = RegistryManager.getInstance().obtenerRegistro();
+				} catch (FullRegistersException e) {
+					e.printStackTrace();
+				}
 				RegistryManager.getInstance().ocuparRegistro(regaux);
 				sentencias.add("MOV " + regaux + ", " + Names.getName(elemIzq));
 				sentencias.add("SUB " + regaux + ", " + Names.getName(elemDer));

@@ -19,11 +19,17 @@ public class CodeGenerator {
 	private PrintWriter fileWriter;
 	private File archivoAsm, archivoObj;
 	private static Stack<String> labels;
-	private static Integer labelId = 0;
+	private static Integer labelId;
+	private static boolean swapAX, swapDX;
 
 	public CodeGenerator(File file) {
 		initializeFile(file);
 		labels = new Stack<String>();
+		swapAX = false;
+		swapDX = false;
+		labelId = 0;
+		
+		List<String> sentencias = Parser.tree.getSentencias();
 		
 		//encabezado
 		fileWriter.println(".386");
@@ -46,7 +52,7 @@ public class CodeGenerator {
 
 		fileWriter.println(".CODE");
 		fileWriter.println("START:");
-		List<String> sentencias = Parser.tree.getSentencias();
+
 		for (String sentencia : sentencias) {
 			fileWriter.println(sentencia);
 		}
@@ -79,14 +85,29 @@ public class CodeGenerator {
 		labels.push("label"+(labelId++));
 	}
 	
-
-
+	
+	public static void useSwapAX() {
+		swapAX = true;
+	}
+	
+	public static void useSwapDX() {
+		swapDX = true;
+	}
+	
 	public List<String> generarDeclaraciones() {
 
 		List<String> ret = new LinkedList<String>();
 		List<String> keys = SymbolTable.getInstance().getAllKeys();
 		int contadorCadena = 1;
-		ret.add("@swap_AX DW 0");
+
+		if( swapDX == true) {
+			ret.add("@swap_DX DW 0");
+		}
+		
+		if( swapAX == true) {
+			ret.add("@swap_AX DW 0");
+		}
+		
 		for (String key : keys) {
 			AttributeComun att = SymbolTable.getInstance().get(key);
 			

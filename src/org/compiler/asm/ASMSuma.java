@@ -58,7 +58,12 @@ public class ASMSuma {
 			} else {
 				//es variable o consta der
 				//VAR - VAR 1
-				String regaux = RegistryManager.getInstance().obtenerRegistro();
+				String regaux = null;
+				try {
+					regaux = RegistryManager.getInstance().obtenerRegistro();
+				} catch (FullRegistersException e) {
+					e.printStackTrace();
+				}
 				RegistryManager.getInstance().ocuparRegistro(regaux);
 				sentencias.add( "MOV " + regaux + ", " + Names.getName(elemIzq) );
 				sentencias.add( "ADD " + regaux + ", " + Names.getName(elemDer) );

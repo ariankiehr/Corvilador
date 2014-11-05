@@ -30,9 +30,9 @@ public class RegistryManager {
 		return this.registros.get(registro);
 	}
 	
-	public String obtenerRegistro() {
+	public String obtenerRegistro() throws FullRegistersException {
 		
-		if( this.estaLibre("CX") ){
+		if( this.estaLibre("CX") ) {
 			return "CX";
 		}
 		else if( this.estaLibre("BX") ){
@@ -44,7 +44,9 @@ public class RegistryManager {
 		else if( this.estaLibre("AX" ) ){
 			return "AX";
 		}
-		return null;
+		
+		throw new FullRegistersException("No hay mas registros libres");
+		//return null;
 	}
 	
 	public void ocuparRegistro(String registro) {
