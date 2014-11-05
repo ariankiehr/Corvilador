@@ -3,6 +3,7 @@ package org.compiler.arbolito;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.compiler.asm.CodeGenerator;
 import org.compiler.symboltable.AttributeCad;
 import org.compiler.symboltable.SymbolTable;
 
@@ -34,6 +35,7 @@ public class Hoja extends NodoConTipo {
 		
 		if( "imprimir".equals(elemento) ) {
 			AttributeCad att = (AttributeCad)SymbolTable.getInstance().get(tipo);
+			att.setNombreAsm( "_cadena" + CodeGenerator.getContadorCadena() );
 			String sentencia = "invoke MessageBox, NULL, addr " + att.getNombreAsm() +", addr "+ att.getNombreAsm() +", MB_OK";
 			ret.add(sentencia);
 		}

@@ -19,7 +19,7 @@ public class CodeGenerator {
 	private PrintWriter fileWriter;
 	private File archivoAsm, archivoObj;
 	private static Stack<String> labels;
-	private static Integer labelId;
+	private static Integer labelId, contadorCadena;
 	private static boolean swapAX, swapDX;
 
 	public CodeGenerator(File file) {
@@ -28,6 +28,7 @@ public class CodeGenerator {
 		swapAX = false;
 		swapDX = false;
 		labelId = 0;
+		contadorCadena = 0;
 		
 		List<String> sentencias = Parser.tree.getSentencias();
 		
@@ -73,6 +74,10 @@ public class CodeGenerator {
 	}
 	
 	
+	public static int getContadorCadena() {
+		return contadorCadena++;
+	}
+	
 	public static String popLabel() {
 		return labels.pop();
 	}
@@ -98,7 +103,7 @@ public class CodeGenerator {
 
 		List<String> ret = new LinkedList<String>();
 		List<String> keys = SymbolTable.getInstance().getAllKeys();
-		int contadorCadena = 1;
+		
 
 		if( swapDX == true) {
 			ret.add("@swap_DX DW 0");
@@ -124,11 +129,7 @@ public class CodeGenerator {
 				
 			}
 			if( "cadena".equals(att.getTypeOfToken())  ) {
-				String nombre = "_cadena"+ contadorCadena;
-				ret.add(nombre + " DB " + key + ",0");
-				SymbolTable.getInstance().removeSymbol(key);
-				SymbolTable.getInstance().addSymbol(key, new AttributeCad("cadena", nombre));
-				contadorCadena++;
+				ret.add(   ((AttributeCad)att).getNombreAsm() + " DB " + key + ",0");
 			}
 			
 			
