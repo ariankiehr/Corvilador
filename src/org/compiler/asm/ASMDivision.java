@@ -31,6 +31,9 @@ public class ASMDivision {
 		public List<String> generarDivision(String elemIzq, String elemDer) {
 			this.sentencias = new LinkedList<String> ();
 			boolean dxUsado = false;
+			
+			sentencias.add( "; comienzo division" );
+			
 			if(!RegistryManager.getInstance().estaLibre(regDivDX)){ // DX usado 
 				CodeGenerator.useSwapDX();
 				sentencias.add("MOV @swap_DX , " + regDivDX);
@@ -49,7 +52,7 @@ public class ASMDivision {
 					if (regDivAX.equals(elemDer)){
 						CodeGenerator.useSwapAX();
 						sentencias.add("MOV @swap_AX , " + regDivAX);
-						sentencias.add("MOV " + regDivAX +" , " + Names.getName(elemIzq));
+						sentencias.add("MOV " + regDivAX +" , " + Names.getName(elemIzq) + "  ; ocupe AX");
 						sentencias.add("CWD");
 						sentencias.add("IDIV " + "@swap_AX");
 						RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
@@ -71,6 +74,7 @@ public class ASMDivision {
 								sentencias.add("CWD");
 								sentencias.add("IDIV " + Names.getName(elemDer));
 								RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemDer));
+								RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
 
 								String reg = null;
 								try {
@@ -295,6 +299,8 @@ public class ASMDivision {
 			else {
 				RegistryManager.getInstance().desocuparRegistro(regDivDX);
 			}
+			
+			sentencias.add( "; fin de division" );
 			
 			return this.sentencias;
 		}				

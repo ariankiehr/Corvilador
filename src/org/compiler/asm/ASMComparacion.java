@@ -50,6 +50,7 @@ public class ASMComparacion {
 				sentencias.add( "MOV " + reg + ", " + Names.getName(elemDer) );
 				sentencias.add("CMP " + Names.getName(elemIzq) + ", " + reg );
 				RegistryManager.getInstance().desocuparRegistro(reg);
+				RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
 
 			}
 		}else{
@@ -68,7 +69,7 @@ public class ASMComparacion {
 				sentencias.add( "MOV " + regaux + ", " + Names.getName(elemIzq) );
 				sentencias.add( "CMP " + regaux + ", " + Names.getName(elemIzq) );
 				RegistryManager.getInstance().desocuparRegistro(regaux);
-
+				RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemDer));
 		
 			}else{
 				//es variable o consta der
