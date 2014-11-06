@@ -67,7 +67,7 @@ public class ASMDivision {
 						
 						} else{//si ninguno es AX
 						
-							if (!RegistryManager.getInstance().estaLibre(regDivAX)){//si esta usado AX
+							if (!RegistryManager.getInstance().estaLibre(regDivAX)) { //si esta usado AX
 								CodeGenerator.useSwapAX();
 								sentencias.add("MOV @swap_AX , " + regDivAX);
 								sentencias.add("MOV " + regDivAX +" , " + Names.getName(elemIzq));
@@ -89,7 +89,7 @@ public class ASMDivision {
 								sentencias.add("MOV " + regDivAX +" , " + "@swap_AX"); //le devuelvo a AX el valor q tenia antes
 								this.elemento = reg;
 							
-							} else {//si AX esta libre lo tengo que ocupar con lo q tiene el izq
+							} else { //si AX esta libre lo tengo que ocupar con lo q tiene el izq
 								sentencias.add("MOV " + regDivAX +" , " + Names.getName(elemIzq));
 								RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
 								RegistryManager.getInstance().ocuparRegistro(regDivAX);
@@ -148,7 +148,7 @@ public class ASMDivision {
 								System.out.println( e.getMessage() );
 							}  // comprobar si hay libres
 
-							RegistryManager.getInstance().ocuparRegistro(regaux);
+							RegistryManager.getInstance().ocuparRegistro(Names.getReg(regaux));
 
 							sentencias.add("MOV " + regaux +" , " + Names.getName(elemDer));
 							sentencias.add("CWD");
@@ -257,7 +257,7 @@ public class ASMDivision {
 							RegistryManager.getInstance().desocuparRegistro(Names.getReg(reg));
 							this.elemento = regDivAX;
 						
-						}else {// AX OCUPADO
+						} else {// AX OCUPADO
 							CodeGenerator.useSwapAX();
 							sentencias.add("MOV @swap_AX , " + regDivAX);
 							sentencias.add("MOV " + regDivAX +" , " + Names.getName(elemIzq));

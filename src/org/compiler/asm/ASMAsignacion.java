@@ -27,6 +27,12 @@ public class ASMAsignacion {
 	}
 
 	public List<String> generarAsignacion(String elemIzq, String elemDer) {
+		
+		String aux = elemIzq;
+		elemIzq = elemDer;
+		elemDer = aux;
+		
+		
 		this.sentencias = new LinkedList<String>();
 
 		if (RegistryManager.getInstance().estaLibre(Names.getReg(elemIzq)) != null) {
