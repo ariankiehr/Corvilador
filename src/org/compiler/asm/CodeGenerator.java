@@ -113,6 +113,7 @@ public class CodeGenerator {
 		if( swapAX == true) {
 			ret.add("@swap_AX DW 0");
 		}
+		ret.add("@swap_CX Dw 0");
 		
 		for (String key : keys) {
 			AttributeComun att = SymbolTable.getInstance().get(key);
