@@ -72,10 +72,20 @@ public class RegistryManager {
 	
 	public void ocuparRegistro(String registro) {
 		
+		if( registro == null ) {
+			System.exit(1);
+		}
+		
 		this.registros.put(registro,false);
 	}
 	
 	public void desocuparRegistro(String registro) {
+		
+		if( registro == null ) {
+	
+			System.exit(1);
+		}
+		
 		this.registros.put(registro,true);
 	}
 	

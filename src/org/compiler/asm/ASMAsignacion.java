@@ -48,6 +48,7 @@ public class ASMAsignacion {
 							Names.getReg(elemDer));
 					RegistryManager.getInstance().desocuparRegistro(
 							Names.getReg(elemIzq));
+					
 				} else {
 					sentencias.add("MOV " + Names.getName(elemIzq) + ", "
 							+ Names.getName(elemDer));

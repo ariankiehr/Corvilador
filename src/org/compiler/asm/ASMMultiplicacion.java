@@ -67,7 +67,7 @@ public class ASMMultiplicacion {
 					try {
 						reg = RegistryManager.getInstance().obtenerRegistro();
 					} catch (FullRegistersException e) {
-						System.out.println( e.getMessage() );
+						System.out.println( e.getMessage());
 					}
 
 					RegistryManager.getInstance().ocuparRegistro(reg);
@@ -106,7 +106,7 @@ public class ASMMultiplicacion {
 						try {
 							reg = RegistryManager.getInstance().obtenerRegistro();
 						} catch (FullRegistersException e) {
-							System.out.println( e.getMessage() );
+							System.out.println( e.getMessage()  );
 						}
 
 						RegistryManager.getInstance().ocuparRegistro(reg);
@@ -126,7 +126,8 @@ public class ASMMultiplicacion {
 			if ( RegistryManager.getInstance().estaLibre(Names.getReg(elemDer)) != null ) {
 				//es registro der
 				//VAR -REG 4
-				if ( regMul.equals(elemDer) ) {
+				if ( regMul.equals(Names.getReg(elemDer)) ) {
+					//TODO PENSARLO PARA CNAD
 					sentencias.add( "IMUL " + Names.getName(elemDer) + ", " + Names.getName(elemIzq) );
 					sentencias.add("JO overflow" );
 					this.elemento = Names.getName(elemDer);
@@ -153,6 +154,9 @@ public class ASMMultiplicacion {
 						try {
 							reg = RegistryManager.getInstance().obtenerRegistro();
 						} catch (FullRegistersException e) {
+							
+							
+							
 							System.out.println( e.getMessage() );
 						}
 

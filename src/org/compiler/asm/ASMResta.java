@@ -62,7 +62,7 @@ public class ASMResta {
 				sentencias.add("SUB " + reg + ", " + Names.getName(elemDer));
 				RegistryManager.getInstance().desocuparRegistro(
 						Names.getName(elemDer));
-				this.elemento = Names.getName(elemDer);
+				this.elemento = Names.getName(reg);
 
 			} else {
 				// es variable o consta der
