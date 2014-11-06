@@ -55,10 +55,37 @@ public class ASMAsignacion {
 				
 			} else {
 				// variable der
-				sentencias.add("MOV " + Names.getName(elemIzq) + ", " + Names.getName(elemDer));
-				RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
-			}
-		} else {
+				if ("id".equals(SymbolTable.getInstance().get(elemDer).getTypeOfToken()) ){
+					if(elemIzq.contains("[")) { 
+						//el lado izq es un vector(viene con registro), der es variable	
+						String reg = null;
+						try {
+							reg = RegistryManager.getInstance().obtenerRegistro();
+						} catch (FullRegistersException e) {
+							e.printStackTrace();
+						}
+						sentencias.add( "MOV " + reg +", " + Names.getName(elemDer) + "; entre");
+						sentencias.add("MOV " + Names.getName(elemIzq) + ", " + reg);
+						RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
+						RegistryManager.getInstance().desocuparRegistro(reg);
+					} else {
+						//el lado izq no es un vector, la der es variable
+						sentencias.add("MOV " + Names.getName(elemIzq) + ", "
+								+ Names.getName(elemDer));
+						RegistryManager.getInstance().desocuparRegistro(
+								Names.getReg(elemDer));
+						RegistryManager.getInstance().desocuparRegistro(
+								Names.getReg(elemIzq));
+					
+					}
+				}else{
+					//der es constante
+						sentencias.add("MOV " + Names.getName(elemIzq) + ", " + Names.getName(elemDer));
+						RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
+						
+					}
+			} 
+		}else {
 			// no es registro el de la izq (no es vector)
 			if (RegistryManager.getInstance().estaLibre(Names.getReg(elemDer)) != null) {
 				// registro der
