@@ -27,7 +27,7 @@ public class ASMMultiplicacion {
 		return this.elemento;
 	}
 	
-	public List<String> generarMultiplicacion(String elemIzq, String elemDer) {
+	public List<String> generarMultiplicacion(String elemIzq, String elemDer, String tipo) {
 		this.sentencias = new LinkedList<String> ();
 		if ( RegistryManager.getInstance().estaLibre(Names.getReg(elemIzq)) != null ) {
 			//es un registro izq
@@ -44,7 +44,15 @@ public class ASMMultiplicacion {
 						}
 					//no esta en el vector	
 					sentencias.add( "IMUL " + regMul + ", " + Names.getName(elemIzq) );
-					sentencias.add("JO overflow" );
+					//verificar el overflow de los distintos tipos
+					if ("entero_ss".equals(tipo)) {
+						sentencias.add("CMP " + regMul + " , 65535" );
+						sentencias.add("JG overflow");
+					}else {
+						sentencias.add("JO overflow" );
+						
+					}
+					
 					RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
 					this.elemento = regMul;	
 				
@@ -56,7 +64,15 @@ public class ASMMultiplicacion {
 					}
 					//no esta en el vector
 					sentencias.add( "IMUL " + Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
-					sentencias.add("JO overflow" );
+					//verificar el overflow de los distintos tipos
+					if ("entero_ss".equals(tipo)) {
+						sentencias.add("CMP " + regMul + " , 65535" );
+						sentencias.add("JG overflow");
+					}else {
+						sentencias.add("JO overflow" );
+						
+					}
+					
 					RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemDer));
 					this.elemento = Names.getName(elemIzq);					
 				
@@ -65,7 +81,14 @@ public class ASMMultiplicacion {
 					RegistryManager.getInstance().ocuparRegistro(regMul);
 					sentencias.add( "MOV " + regMul + ", " + Names.getName(elemIzq) );
 					sentencias.add( "IMUL " + regMul + ", " + Names.getName(elemDer) );
-					sentencias.add("JO overflow" );
+					//verificar el overflow de los distintos tipos
+					if ("entero_ss".equals(tipo)) {
+						sentencias.add("CMP " + regMul + " , 65535" );
+						sentencias.add("JG overflow");
+					}else {
+						sentencias.add("JO overflow" );
+						
+					}
 					RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemDer));
 					RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
 					this.elemento = regMul;
@@ -76,7 +99,14 @@ public class ASMMultiplicacion {
 					sentencias.add("MOV @swap_AX , " + regMul);
 					sentencias.add("MOV " + regMul +" , " + Names.getName(elemIzq));
 					sentencias.add("IMUL " + regMul + " ," + Names.getName(elemDer));
-					sentencias.add("JO overflow" );
+					//verificar el overflow de los distintos tipos
+					if ("entero_ss".equals(tipo)) {
+						sentencias.add("CMP " + regMul + " , 65535" );
+						sentencias.add("JG overflow");
+					}else {
+						sentencias.add("JO overflow" );
+						
+					}
 					RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemDer));
 					RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
 					
@@ -107,8 +137,15 @@ public class ASMMultiplicacion {
 						sentencias.add("MOV " + regMul + ", " + Names.getName(elemIzq));
 					}
 					//AX es REG IZQ
-					sentencias.add("IMUL" + regMul + ", " + Names.getName(elemDer));
-					sentencias.add("JO overflow" );
+					sentencias.add("IMUL " + regMul + ", " + Names.getName(elemDer));
+					//verificar el overflow de los distintos tipos
+					if ("entero_ss".equals(tipo)) {
+						sentencias.add("CMP " + regMul + " , 65535" );
+						sentencias.add("JG overflow");
+					}else {
+						sentencias.add("JO overflow" );
+						
+					}
 					this.elemento = regMul;	
 				}
 				else {
@@ -117,7 +154,14 @@ public class ASMMultiplicacion {
 						RegistryManager.getInstance().ocuparRegistro(regMul);
 						sentencias.add( "MOV " + regMul + ", " + Names.getName(elemIzq) );
 						sentencias.add( "IMUL " + regMul + ", " + Names.getName(elemDer) );
-						sentencias.add("JO overflow" );
+						//verificar el overflow de los distintos tipos
+						if ("entero_ss".equals(tipo)) {
+							sentencias.add("CMP " + regMul + " , 65535" );
+							sentencias.add("JG overflow");
+						}else {
+							sentencias.add("JO overflow" );
+							
+						}
 						RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
 						this.elemento = regMul;
 					}
@@ -127,7 +171,14 @@ public class ASMMultiplicacion {
 						sentencias.add("MOV @swap_AX , " + regMul);
 						sentencias.add("MOV " + regMul +" , " + Names.getName(elemIzq));
 						sentencias.add("IMUL " + regMul + " ," + Names.getName(elemDer));
-						sentencias.add("JO overflow" );
+						//verificar el overflow de los distintos tipos
+						if ("entero_ss".equals(tipo)) {
+							sentencias.add("CMP " + regMul + " , 65535" );
+							sentencias.add("JG overflow");
+						}else {
+							sentencias.add("JO overflow" );
+							
+						}
 						RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
 
 						//nunca va a quedarse sin registro porque libero 1 antes de pedir
@@ -163,7 +214,14 @@ public class ASMMultiplicacion {
 					}
 					//es AX reg derecho
 					sentencias.add( "IMUL " + regMul + ", " + Names.getName(elemIzq) );
-					sentencias.add("JO overflow" );
+					//verificar el overflow de los distintos tipos
+					if ("entero_ss".equals(tipo)) {
+						sentencias.add("CMP " + regMul + " , 65535" );
+						sentencias.add("JG overflow");
+					}else {
+						sentencias.add("JO overflow" );
+						
+					}
 					this.elemento = regMul;
 				
 				} else {
@@ -174,7 +232,14 @@ public class ASMMultiplicacion {
 						RegistryManager.getInstance().ocuparRegistro(regMul);
 						sentencias.add( "MOV " + regMul + ", " + Names.getName(elemIzq) );
 						sentencias.add( "IMUL " + regMul + ", " + Names.getName(elemDer) );
-						sentencias.add("JO overflow" );
+						//verificar el overflow de los distintos tipos
+						if ("entero_ss".equals(tipo)) {
+							sentencias.add("CMP " + regMul + " , 65535" );
+							sentencias.add("JG overflow");
+						}else {
+							sentencias.add("JO overflow" );
+							
+						}
 						RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemDer));
 						this.elemento = regMul;
 					}
@@ -184,7 +249,14 @@ public class ASMMultiplicacion {
 						sentencias.add("MOV @swap_AX , " + regMul);
 						sentencias.add("MOV " + regMul +" , " + Names.getName(elemIzq));
 						sentencias.add("IMUL " + regMul + " ," + Names.getName(elemDer));
-						sentencias.add("JO overflow" );
+						//verificar el overflow de los distintos tipos
+						if ("entero_ss".equals(tipo)) {
+							sentencias.add("CMP " + regMul + " , 65535" );
+							sentencias.add("JG overflow");
+						}else {
+							sentencias.add("JO overflow" );
+							
+						}
 						RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemDer));
 
 						//nunca va a quedarse sin registro porque libero 1 antes de pedir
@@ -214,7 +286,14 @@ public class ASMMultiplicacion {
 					RegistryManager.getInstance().ocuparRegistro(regMul);
 					sentencias.add( "MOV " + regMul + ", " + Names.getName(elemIzq) );
 					sentencias.add( "IMUL " + regMul + ", " + Names.getName(elemDer) );
-					sentencias.add("JO overflow" );
+					//verificar el overflow de los distintos tipos
+					if ("entero_ss".equals(tipo)) {
+						sentencias.add("CMP " + regMul + " , 65535" );
+						sentencias.add("JG overflow");
+					}else {
+						sentencias.add("JO overflow" );
+						
+					}
 					this.elemento = regMul;
 				}
 				else {
@@ -223,8 +302,14 @@ public class ASMMultiplicacion {
 					sentencias.add("MOV @swap_AX , " + regMul);
 					sentencias.add("MOV " + regMul +" , " + Names.getName(elemIzq));
 					sentencias.add("IMUL " + regMul + " ," + Names.getName(elemDer));
-					sentencias.add("JO overflow" );
-
+					//verificar el overflow de los distintos tipos
+					if ("entero_ss".equals(tipo)) {
+						sentencias.add("CMP " + regMul + " , 65535" );
+						sentencias.add("JG overflow");
+					}else {
+						sentencias.add("JO overflow" );
+						
+					}
 					//posible problema me quedo sin registro
 					String reg = null;
 					try {
