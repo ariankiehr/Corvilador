@@ -127,6 +127,8 @@ public class ASMAsignacion {
 				
 			}
 		}
+		
+		sentencias.add("; fin de la asignacion entre " + elemIzq + " Y " + elemDer);
 
 		return this.sentencias;
 	}

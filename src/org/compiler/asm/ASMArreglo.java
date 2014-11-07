@@ -33,56 +33,34 @@ public class ASMArreglo {
 		AttributeVector att = (AttributeVector) SymbolTable.getInstance().get(elem);
 		String reg1 = null;
 
-		//si no es registro
 		if (RegistryManager.getInstance().estaLibre(Names.getReg(elemDer)) == null) {
+			//si no es registro
+
 			try {
 				reg1 = RegistryManager.getInstance().obtenerRegistro();
 			} catch (FullRegistersException e) {
-				System.out.println(e.getMessage() );
+				System.out.println(e.getMessage());
 			}
 			RegistryManager.getInstance().ocuparRegistro(reg1);
 			sentencias.add("MOV " + reg1 + ", " + Names.getName(elemDer));
 		} else {
+			//es registro
 			reg1 = elemDer;
 		}
 
 		// verificamos limites
 		// inf
-		String regLimInf = null;
-		try {
-			regLimInf = RegistryManager.getInstance().obtenerRegistro();
-		} catch (FullRegistersException e) {
-			
-			
-			System.out.println(e.getMessage() + "Limite inferior");
-		}
+
+		sentencias.add("CMP " + reg1 + ", " + att.getLimInferior() + " ; Se comparan los limites");
 		
-		
-		
-		RegistryManager.getInstance().ocuparRegistro(regLimInf);
-		sentencias.add("MOV " + regLimInf + ", " + att.getLimInferior() + " ; Se comparan los limites");
-		sentencias.add("CMP " + reg1 + ", " + regLimInf);
-		RegistryManager.getInstance().desocuparRegistro(regLimInf);
 		sentencias.add("JL indiceFueraRangoInf");
 		
 		
 		
 		// sup
-		String regLimSup = null;
-		try {
-			regLimSup = RegistryManager.getInstance().obtenerRegistro();
-		} catch (FullRegistersException e) {
-			
-			System.out.println(e.getMessage() + "Limite superior");
-		}
 
-		
-		
-		RegistryManager.getInstance().ocuparRegistro(regLimSup);
-		
-		sentencias.add("MOV " + regLimSup + ", " + att.getLimSuperior());
-		sentencias.add("CMP " + reg1 + ", " + regLimSup);
-		RegistryManager.getInstance().desocuparRegistro(regLimSup);
+		sentencias.add("CMP " + reg1 + ", " +  att.getLimSuperior());
+
 		sentencias.add("JG indiceFueraRangoSup" + " ; Fin comparacion de limites");
 		
 		

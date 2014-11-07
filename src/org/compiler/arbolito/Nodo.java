@@ -79,52 +79,53 @@ public class Nodo extends NodoConTipo {
 		
 		
 		if( "+".equals(elemento) ) {
-			System.out.println("antes suma: " + RegistryManager.getInstance().toString());
+	//		System.out.println("antes suma: " + RegistryManager.getInstance().toString());
 			ret.addAll( ASMSuma.getInstance().generarSuma(elemIzq, elemDer) );
 			this.elemento = ASMSuma.getInstance().getElemento();
-			System.out.println("despues suma: " + RegistryManager.getInstance().toString());
+	//		System.out.println("despues suma: " + RegistryManager.getInstance().toString());
 			
 		} else if ( "*".equals(elemento) ) {
-			System.out.println("antes por: " + RegistryManager.getInstance().toString());
-			ret.addAll( ASMMultiplicacion.getInstance().generarMultiplicacion(elemIzq, elemDer) );
+		
+		//	System.out.println("antes por: " + RegistryManager.getInstance().toString());
+			ret.addAll( ASMMultiplicacion.getInstance().generarMultiplicacion(elemIzq, elemDer,this.tipo) );
 			this.elemento = ASMMultiplicacion.getInstance().getElemento();
-			System.out.println("despues por: " + RegistryManager.getInstance().toString());
+	//		System.out.println("despues por: " + RegistryManager.getInstance().toString());
 	
 		} else if( "-".equals(elemento) ) {
-			System.out.println("antes meno: " + RegistryManager.getInstance().toString());
+	//		System.out.println("antes meno: " + RegistryManager.getInstance().toString());
 			ret.addAll(ASMResta.getInstance().generarResta(elemIzq, elemDer));
 			this.elemento = ASMResta.getInstance().getElemento();
-			System.out.println("despues menos: " + RegistryManager.getInstance().toString());
+		//	System.out.println("despues menos: " + RegistryManager.getInstance().toString());
 				
 		} 
 		
 		//DIVISION
 		else if( "/".equals(elemento) ) {
-			System.out.println("antes div: " + RegistryManager.getInstance().toString());
+		//	System.out.println("antes div: " + RegistryManager.getInstance().toString());
 			ret.addAll(ASMDivision.getInstance().generarDivision(elemIzq, elemDer));
 			this.elemento = ASMDivision.getInstance().getElemento();
-			System.out.println("despues dic: " + RegistryManager.getInstance().toString());
+		//	System.out.println("despues dic: " + RegistryManager.getInstance().toString());
 
 		} else if( "<".equals(elemento) || ">".equals(elemento) || "=".equals(elemento) || "^=".equals(elemento) ||
 				"<=".equals(elemento) || ">=".equals(elemento) ) {
-			System.out.println("antes comp: " + RegistryManager.getInstance().toString());
+	//		System.out.println("antes comp: " + RegistryManager.getInstance().toString());
 			ret.addAll(ASMComparacion.getInstance().generarComparacion(elemIzq, elemDer));
 			//this.elemento = ASMComparacion.getInstance().getElemento();
-			System.out.println("despues conp: " + RegistryManager.getInstance().toString());
+		//	System.out.println("despues conp: " + RegistryManager.getInstance().toString());
 
 			
 		} else if( ":=".equals(elemento) ) {
-			System.out.println("antes asig: " + RegistryManager.getInstance().toString());
+		//	System.out.println("antes asig: " + RegistryManager.getInstance().toString());
 			ret.addAll(ASMAsignacion.getInstance().generarAsignacion(elemIzq, elemDer));
 			this.elemento = ASMAsignacion.getInstance().getElemento();
-			System.out.println("despues asig: " + RegistryManager.getInstance().toString());
+		//	System.out.println("despues asig: " + RegistryManager.getInstance().toString());
 			
 		} else {
-			System.out.println("antes vector: " + RegistryManager.getInstance().toString());
+		//	System.out.println("antes vector: " + RegistryManager.getInstance().toString());
 			//es un vector donde el elemento es el id del mismo
 			ret.addAll(ASMArreglo.getInstance().generarArreglo(elemento,elemDer));
 			this.elemento = ASMArreglo.getInstance().getElemento();
-			System.out.println("despues vect: " + RegistryManager.getInstance().toString());
+		//	System.out.println("despues vect: " + RegistryManager.getInstance().toString());
 
 		}
 		
