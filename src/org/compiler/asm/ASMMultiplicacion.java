@@ -60,10 +60,11 @@ public class ASMMultiplicacion {
 					//REG izq tiene de AX
 					if(elemDer.contains("[")) {
 						//esta dentro del vector
-						sentencias.add("MOV "+ regMul + ", " + elemDer);
+						sentencias.add("MOV "+ regMul + ", " + elemIzq);
 					}
 					//no esta en el vector
-					sentencias.add( "IMUL " + Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
+
+					sentencias.add( "IMUL " + regMul + ", " + Names.getName(elemDer) );
 					//verificar el overflow de los distintos tipos
 					if ("entero_ss".equals(tipo)) {
 						sentencias.add("CMP " + regMul + " , 65535" );
@@ -74,7 +75,7 @@ public class ASMMultiplicacion {
 					}
 					
 					RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemDer));
-					this.elemento = Names.getName(elemIzq);					
+					this.elemento = regMul;					
 				
 				} else if ( RegistryManager.getInstance().estaLibre(regMul) ) {
 					//AX esta libre
@@ -116,7 +117,9 @@ public class ASMMultiplicacion {
 					try {
 						reg = RegistryManager.getInstance().obtenerRegistro();
 					} catch (FullRegistersException e) {
+
 						System.out.println( e.getMessage());
+
 										
 					}
 
@@ -137,6 +140,7 @@ public class ASMMultiplicacion {
 						sentencias.add("MOV " + regMul + ", " + Names.getName(elemIzq));
 					}
 					//AX es REG IZQ
+
 					sentencias.add("IMUL " + regMul + ", " + Names.getName(elemDer));
 					//verificar el overflow de los distintos tipos
 					if ("entero_ss".equals(tipo)) {
@@ -187,6 +191,7 @@ public class ASMMultiplicacion {
 						try {
 							reg = RegistryManager.getInstance().obtenerRegistro();
 						} catch (FullRegistersException e) {
+
 							System.out.println( e.getMessage()  );
 						}
 
@@ -267,7 +272,7 @@ public class ASMMultiplicacion {
 						} catch (FullRegistersException e) {
 							
 							
-							
+
 							System.out.println( e.getMessage() );
 						}
 
@@ -315,12 +320,15 @@ public class ASMMultiplicacion {
 					try {
 						reg = RegistryManager.getInstance().obtenerRegistro();
 					} catch (FullRegistersException e) {
-						System.out.println( e.getMessage() );
+
 						sinRegistro = true;
 						CodeGenerator.useSwapCX();
 						sentencias.add("MOV @swap_CX , " + regCX);
 						RegistryManager.getInstance().desocuparRegistro(regCX);
 						reg = regCX;
+						System.out.println( e.getMessage() );
+
+
 					}
 
 					RegistryManager.getInstance().ocuparRegistro(reg);
@@ -332,10 +340,10 @@ public class ASMMultiplicacion {
 						//reg o regCX es igual
 						//uso @swap_AX para almacenar el resultado de la multiplicacion sino tengo
 						//registro y se que @swap_AX esta libre
+						
 						sentencias.add("MOV @swap_AX , " + reg);
 						sentencias.add("MOV " + reg + " , " + "@swap_CX");
 						this.elemento = "@swap_AX";
-						
 					} else {
 						this.elemento = reg;
 						

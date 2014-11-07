@@ -85,10 +85,7 @@ public class Nodo extends NodoConTipo {
 	//		System.out.println("despues suma: " + RegistryManager.getInstance().toString());
 			
 		} else if ( "*".equals(elemento) ) {
-			//TODO verificar el overflow si es entero o entero_ss
 		
-			
-			
 		//	System.out.println("antes por: " + RegistryManager.getInstance().toString());
 			ret.addAll( ASMMultiplicacion.getInstance().generarMultiplicacion(elemIzq, elemDer,this.tipo) );
 			this.elemento = ASMMultiplicacion.getInstance().getElemento();

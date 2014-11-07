@@ -53,16 +53,16 @@ public class ASMComparacion {
 						
 			} else{	//es variable o consta der
 				//REG - VAR 2
-				String reg = null;
+				/*String reg = null;
 				try {
 					reg = RegistryManager.getInstance().obtenerRegistro();
 				} catch (FullRegistersException e) {
 					System.out.println( e.getMessage() );
 				}
 				RegistryManager.getInstance().ocuparRegistro(reg);
-				sentencias.add( "MOV " + reg + ", " + Names.getReg(elemDer) );
-				sentencias.add("CMP " + Names.getReg(elemIzq) + ", " + reg );
-				RegistryManager.getInstance().desocuparRegistro(reg);
+				sentencias.add( "MOV " + reg + ", " + Names.getReg(elemDer) );*/
+				sentencias.add("CMP " + Names.getReg(elemIzq) + ", " +  Names.getName(elemDer) );
+				//RegistryManager.getInstance().desocuparRegistro(reg);
 				RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
 
 			}
@@ -94,18 +94,12 @@ public class ASMComparacion {
 					System.out.println( e.getMessage() );
 				}
 				RegistryManager.getInstance().ocuparRegistro(reg1);
-				String reg2 = null;
-				try {
-					reg2 = RegistryManager.getInstance().obtenerRegistro();
-				} catch (FullRegistersException e) {
-					System.out.println( e.getMessage() );
-				}
-				RegistryManager.getInstance().ocuparRegistro(reg2);
-				sentencias.add( "MOV " + reg2 + ", " + Names.getReg(elemDer) );
+
+
 				sentencias.add( "MOV " + reg1 + ", " + Names.getReg(elemIzq) );
-				sentencias.add( "CMP " + reg1 + ", " + reg2 );
+				sentencias.add( "CMP " + reg1 + ", " + Names.getName(elemDer) );
 				RegistryManager.getInstance().desocuparRegistro(reg1);
-				RegistryManager.getInstance().desocuparRegistro(reg2);
+				
 
 			}
 		
