@@ -1,0 +1,266 @@
+
+
+entero a,b,c;
+entero_ss d,e;
+vecte[ 0..1 ] vector de entero;
+vectss[ 0..1 ] vector de entero_ss;
+
+a:=1;
+b:=4;
+c:=-4;
+d:=40000;
+e:=50000;
+vecte[0]:=1;
+vecte[1]:=-1;
+vectss[0]:=40000;
+
+si( 1 = 1 ) entonces {
+	a:=1;
+}
+
+si( 2 = 1 ) entonces {
+	imprimir("malllllllllllllllllllllllllllllllllllll");
+}
+
+si( 1 < 2 ) entonces {
+	a:=1;
+}
+
+si( 2 > 1 ) entonces {
+	a:=1;
+}
+
+si( 2 > 2 ) entonces {
+	imprimir("malllll");
+}
+
+si( 1 <= 2 ) entonces {
+	a:=1;
+}
+
+si( 2 >= 1 ) entonces {
+	a:=1;
+}
+
+si( 2 >= 2 ) entonces {
+	a:=1;
+}
+
+si( 2 >= 3 ) entonces {
+	imprimir("malllll");
+}
+
+si( 1 ^= 2 ) entonces {
+	a:=1;
+}
+
+si( 1 ^= 1 ) entonces {
+	imprimir("malllllllllllllllllllllllllllllllllllll");
+}
+
+
+si( a = b ) entonces {
+	imprimir("malllllllllllllllllllllllllllllllllllll");
+}
+
+si( a = a ) entonces {
+	a:=1;
+}
+
+si( a < b ) entonces {
+	a:=1;
+}
+
+si( a > b ) entonces {
+	imprimir("malllllllllllllllllllllllllllllllllllll");
+}
+
+si( a <= b ) entonces {
+	a:=1;
+}
+
+si( a >= b ) entonces {
+	imprimir("malllllllllllllllllllllllllllllllllllll");
+}
+
+si( a ^= b ) entonces {
+	a:=1;
+}
+
+si( a ^= a ) entonces {
+	imprimir("malllllllllllllllllllllllllllllllllllll");
+}
+
+
+si( a = c ) entonces {
+	imprimir("malllllllllllllllllllllllllllllllllllll");
+}
+
+si( c = c ) entonces {
+	a:=1;
+}
+
+si( c < a ) entonces {
+	a:=1;
+}
+
+si( c > a ) entonces {
+	imprimir("malllllllllllllllllllllllllllllllllllll");
+}
+
+si( c <= c ) entonces {
+	a:=1;
+}
+
+si( c >= c ) entonces {
+	a:=1;
+}
+
+si( c ^= c ) entonces {
+	imprimir("malllllllllllllllllllllllllllllllllllll");
+}
+
+si( a ^= c ) entonces {
+	a:=1;
+}
+
+si( a ^= a ) entonces {
+	imprimir("malllllllllllllllllllllllllllllllllllll");
+}
+
+si( d = d ) entonces {
+	a:=1;
+}
+
+si( d = e ) entonces {
+	imprimir("malllllllllllllllllllllllllllllllllllll");
+}
+
+si( d < e ) entonces {
+	a:=1;
+}
+
+si( d > e ) entonces {
+	imprimir("malllllllllllllllllllllllllllllllllllll");
+}
+
+si( d > d ) entonces {
+	imprimir("malllllllllllllllllllllllllllllllllllll");
+}
+
+si( e > d ) entonces {
+	a:=1;
+}
+
+si( d <= d ) entonces {
+	a:=1;
+}
+si( d >= d ) entonces {
+	a:=1;
+}
+
+si( e >= d ) entonces {
+	a:=1;
+}
+
+si( d >= e ) entonces {
+	imprimir("mal");
+}
+
+si( d ^= e ) entonces {
+	a:=1;
+}
+
+si( d ^= d ) entonces {
+	imprimir("malllllllllllllllllllllllllllllllllllll");
+}
+
+si( vecte[0] = vecte[0] ) entonces {
+	a:=1;
+}
+
+si( vecte[0] = vecte[1] ) entonces {
+	imprimir("malllllllllllllllllllllllllllllllllllll");
+}
+
+si( vecte[1] < vecte[0] ) entonces {
+	a:=1;
+}
+
+si( vecte[0] > vecte[0] ) entonces {
+	imprimir("malllllllllllllllllllllllllllllllllllll");
+}
+
+si( vecte[0] > vecte[0] ) entonces
+	imprimir("malllllllllllllllllllllllllllllllllllll");
+imprimir("bien");
+
+
+si( 1 = 1 ) entonces {
+	si( 1 ^= 1 ) entonces {
+		imprimir("malllllllllllllllllllllllllllllllllllll");
+	} sino {
+		si( 1 = 1 ) entonces {
+			si( 1 ^= 1 ) entonces {
+				imprimir("malllllllllllllllllllllllllllllllllllll");
+			} sino {
+				a:=1;
+			}
+		} sino {
+			imprimir("malllllllllllllllllllllllllllllllllllll");
+		}
+	}
+} sino {
+	imprimir("malllllllllllllllllllllllllllllllllllll");
+}
+
+
+a:=1;
+iterar {
+	a := a + 1;
+	si( a > 5 ) entonces 
+		imprimir("malllllllllllllllllllllllllllllllllllll");
+} hasta ( a = 5 );
+
+
+
+
+a:=1;
+iterar {
+
+	b:=2;
+	iterar {
+
+		si( 1 = 1 ) entonces {
+			si( 1 ^= 1 ) entonces {
+				imprimir("malllllllllllllllllllllllllllllllllllll");
+			} sino {
+				si( 1 = 1 ) entonces {
+					si( 1 ^= 1 ) entonces {
+						imprimir("malllllllllllllllllllllllllllllllllllll");
+					} sino {
+						imprimir("1");
+
+
+					}
+				} sino {
+					imprimir("malllllllllllllllllllllllllllllllllllll");
+				}
+			}
+		} sino {
+			imprimir("malllllllllllllllllllllllllllllllllllll");
+		}
+
+		b := b - 1;
+		si( b < -2 ) entonces 
+			imprimir("malllllllllllllllllllllllllllllllllllll");
+	} hasta ( b = -2 );
+
+	a := a + 1;
+	si( a > 5 ) entonces 
+		imprimir("malllllllllllllllllllllllllllllllllllll");
+	imprimir("2");
+} hasta ( a = 3 );
+
+
+
