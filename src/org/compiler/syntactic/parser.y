@@ -203,7 +203,7 @@ asignacion : variable ASIG expresion {
 							}
 
 							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
-								$$ = new ParserVal( new Nodo(":=", (Arbol)$1.obj , (Arbol)$3.obj , ((Arbol)$3.obj).getTipo() ) );
+								$$ = new ParserVal( new Nodo(":=", (Arbol)$3.obj , (Arbol)$1.obj , ((Arbol)$3.obj).getTipo() ) );
 							} else {
 					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
 				}
