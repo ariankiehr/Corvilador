@@ -17,7 +17,7 @@ package org.compiler.syntactic;
 
 
 
-//#line 2 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 2 "parser.y"
 import org.compiler.lex.LexicalAnalyzer;
 import java.util.*;
 import org.compiler.symboltable.*;
@@ -481,7 +481,7 @@ final static String yyrule[] = {
 "comparador : DISTINTO",
 };
 
-//#line 514 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 514 "parser.y"
 
 String ins;
 LexicalAnalyzer la;
@@ -776,19 +776,19 @@ boolean doaction;
       {
 //########## USER-SUPPLIED ACTIONS ##########
 case 3:
-//#line 21 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 21 "parser.y"
 {
 		tree = (Arbol)val_peek(0).obj;
 	}
 break;
 case 4:
-//#line 24 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 24 "parser.y"
 {
 		tree = (Arbol)val_peek(0).obj;
 	}
 break;
 case 7:
-//#line 34 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 34 "parser.y"
 {
 						List<String> vars = (List<String>)val_peek(1).obj;
 						for( String s : vars ) {
@@ -807,7 +807,7 @@ case 7:
 					}
 break;
 case 8:
-//#line 50 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 50 "parser.y"
 {
 								
 
@@ -842,59 +842,59 @@ case 8:
 						add("Declaracion de variable vector en linea " + lineNumber); }
 break;
 case 9:
-//#line 82 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 82 "parser.y"
 {yyerror("Error: Se esperaba una constante en la linea " + lineNumber);}
 break;
 case 10:
-//#line 83 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 83 "parser.y"
 {yyerror("Error: Se esperaba '..' en la linea " + lineNumber);}
 break;
 case 11:
-//#line 84 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 84 "parser.y"
 {yyerror("Error: Se esperaba una constante en la linea " + lineNumber);}
 break;
 case 12:
-//#line 85 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 85 "parser.y"
 {yyerror("Error: se esperaba un ']' eb linea "+ lineNumber);}
 break;
 case 13:
-//#line 86 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 86 "parser.y"
 {yyerror("Error: Falta la palabra reservada 'VECTOR' en la linea " + lineNumber);}
 break;
 case 14:
-//#line 87 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 87 "parser.y"
 {yyerror("Error: Falta la palabra reservada 'DE' en la linea " + lineNumber);}
 break;
 case 15:
-//#line 88 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 88 "parser.y"
 {yyerror("Error: Falta tipo del vector en la linea " + lineNumber);}
 break;
 case 16:
-//#line 89 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 89 "parser.y"
 {yyerror("Error: Nombre variable en la linea " + lineNumber);}
 break;
 case 17:
-//#line 90 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 90 "parser.y"
 {yyerror("Error: Palabra reservada mal escrita en la linea " + lineNumber);}
 break;
 case 18:
-//#line 91 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 91 "parser.y"
 {yyerror("Error: Nombre de variable igual al tipo en la linea " + lineNumber);}
 break;
 case 19:
-//#line 94 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 94 "parser.y"
 { 
 			yyval = new ParserVal("entero");  
 	}
 break;
 case 20:
-//#line 97 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 97 "parser.y"
 { 
 			yyval = new ParserVal("entero_ss"); 
 	}
 break;
 case 21:
-//#line 102 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 102 "parser.y"
 { 
 				List<String> vars = new LinkedList<String>(); 
 				vars.add( val_peek(0).sval );
@@ -904,7 +904,7 @@ case 21:
 		}
 break;
 case 22:
-//#line 109 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 109 "parser.y"
 { List<String> vars = new LinkedList<String>(); 
 								vars.add( val_peek(0).sval );
 								vars.addAll( (LinkedList<String>)val_peek(2).obj );
@@ -912,11 +912,11 @@ case 22:
 		}
 break;
 case 23:
-//#line 115 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 115 "parser.y"
 {yyerror("Error: Falta la coma en la declaracion en la linea: " + lineNumber);}
 break;
 case 24:
-//#line 118 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 118 "parser.y"
 { 
 						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 							yyval = val_peek(1); 
@@ -926,7 +926,7 @@ case 24:
 					}
 break;
 case 25:
-//#line 125 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 125 "parser.y"
 { 
 						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 								yyval = val_peek(1); 
@@ -936,15 +936,15 @@ case 25:
 					}
 break;
 case 26:
-//#line 133 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 133 "parser.y"
 {yyerror("Error: Se esperaba '{' en la linea " + lineNumber);}
 break;
 case 27:
-//#line 134 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 134 "parser.y"
 {yyerror("Error: Se esperaba '}' en la linea " + lineNumber);}
 break;
 case 28:
-//#line 140 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 140 "parser.y"
 { 
 							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 								yyval = val_peek(1); 
@@ -954,7 +954,7 @@ case 28:
 						}
 break;
 case 29:
-//#line 147 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 147 "parser.y"
 { 
 							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 								yyval = new ParserVal(new NodoSinTipo("sentencia",(Arbol)(val_peek(2).obj),(Arbol)(val_peek(1).obj))); 
@@ -964,7 +964,7 @@ case 29:
 						}
 break;
 case 30:
-//#line 154 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 154 "parser.y"
 { 
 							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 								yyval = val_peek(0); 
@@ -974,7 +974,7 @@ case 30:
 						}
 break;
 case 31:
-//#line 161 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 161 "parser.y"
 { 
 							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 								yyval = new ParserVal(new NodoSinTipo("sentencia",(Arbol)(val_peek(1).obj),(Arbol)(val_peek(0).obj))); 
@@ -984,15 +984,15 @@ case 31:
 						}
 break;
 case 32:
-//#line 168 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 168 "parser.y"
 {yyerror("Error: Se detecto sentencia erronea, falta ';' en la linea " + lineNumber);}
 break;
 case 33:
-//#line 169 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 169 "parser.y"
 {yyerror("Error: Codigo erroneo en la linea " + lineNumber);}
 break;
 case 34:
-//#line 173 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 173 "parser.y"
 { 
 				add("Declaracion imprimir en la linea  "+lineNumber+" cadena "+ val_peek(1).sval); 
 				if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -1003,7 +1003,7 @@ case 34:
 			}
 break;
 case 35:
-//#line 181 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 181 "parser.y"
 { 
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 				yyval = val_peek(0); 
@@ -1013,7 +1013,7 @@ case 35:
 		}
 break;
 case 36:
-//#line 188 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 188 "parser.y"
 { 
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 				yyval = val_peek(0);
@@ -1023,19 +1023,19 @@ case 36:
 		}
 break;
 case 37:
-//#line 195 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 195 "parser.y"
 {yyerror("Error: Se detecto un PRINT erroneo, se esperaba un '(' en la linea " + lineNumber);}
 break;
 case 38:
-//#line 196 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 196 "parser.y"
 {yyerror("Error: Se detecto un PRINT erroneo, se esperaba un ')' en la linea " + lineNumber);}
 break;
 case 39:
-//#line 197 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 197 "parser.y"
 {yyerror("Error: Se detecto un PRINT erroneo, se esperaba una 'cadena' en la linea " + lineNumber);}
 break;
 case 40:
-//#line 200 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 200 "parser.y"
 {
 						if(  !"error".equals(((Arbol)val_peek(2).obj).getElem()) &&  !"error".equals(((Arbol)val_peek(0).obj).getElem()) ){
 								if ( !estaDeclarada(   ((Arbol)val_peek(2).obj).getElem()) ) {
@@ -1050,14 +1050,14 @@ case 40:
 								}
 							}
 							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
-								yyval = new ParserVal( new Nodo(":=", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
+								yyval = new ParserVal( new Nodo(":=", (Arbol)val_peek(0).obj , (Arbol)val_peek(2).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
 							} else {
 					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
 				}
 						}
 break;
 case 41:
-//#line 221 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 221 "parser.y"
 { 
 					add("Iterar en linea  "+lineNumber);
 					if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -1068,31 +1068,31 @@ case 41:
 				}
 break;
 case 42:
-//#line 229 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 229 "parser.y"
 {yyerror("Error: Se espera un bloque de sentencias en la linea "+ lineNumber);}
 break;
 case 43:
-//#line 230 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 230 "parser.y"
 {yyerror("Error: Se esperaba la palabra reservada 'Hasta' en la linea "+ lineNumber);}
 break;
 case 44:
-//#line 231 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 231 "parser.y"
 {yyerror("Error: Se espera un 'Parentesis abierto' en la linea "+ lineNumber);}
 break;
 case 45:
-//#line 232 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 232 "parser.y"
 {yyerror("Error: Se espera un 'Parentesis cerrado' en la linea "+ lineNumber);}
 break;
 case 46:
-//#line 234 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 234 "parser.y"
 {yyerror("Error: Se esperaba la palabra reservada 'Hasta' en la linea "+ lineNumber); }
 break;
 case 47:
-//#line 235 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 235 "parser.y"
 {yyerror("Error: Falta la condicion el la iteracion en la linea "+ lineNumber); }
 break;
 case 48:
-//#line 239 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 239 "parser.y"
 {
 		if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 			yyval = new ParserVal( new NodoSinTipo("si", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj ) );
@@ -1102,11 +1102,11 @@ case 48:
 	}
 break;
 case 49:
-//#line 246 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 246 "parser.y"
 {yyerror("Error: falta entonces"+ lineNumber); }
 break;
 case 50:
-//#line 250 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 250 "parser.y"
 { 
 						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 							yyval = new ParserVal( new NodoSinTipo("cuerpo", (Arbol)val_peek(1).obj , (Arbol)val_peek(0).obj ) ); 
@@ -1116,7 +1116,7 @@ case 50:
 					}
 break;
 case 51:
-//#line 257 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 257 "parser.y"
 {
 						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 							yyval = new ParserVal(new NodoUnario("cuerpo",(Arbol)(val_peek(0).obj))); 
@@ -1126,7 +1126,7 @@ case 51:
 				}
 break;
 case 52:
-//#line 266 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 266 "parser.y"
 { 
 	if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 		yyval = new ParserVal(new NodoUnario("entonces",(Arbol)(val_peek(1).obj))); 
@@ -1136,7 +1136,7 @@ case 52:
 }
 break;
 case 53:
-//#line 275 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 275 "parser.y"
 {
 						add("Declaracion if en linea " + lineNumber); 
 						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -1148,7 +1148,7 @@ case 53:
 			}
 break;
 case 54:
-//#line 286 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 286 "parser.y"
 { 
 					add("Declaracion if else en linea " + lineNumber); 
 					if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -1159,7 +1159,7 @@ case 54:
 				}
 break;
 case 55:
-//#line 296 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 296 "parser.y"
 {
 									if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 										yyval = new ParserVal(new NodoUnario("condicion",(Arbol)(val_peek(1).obj)));
@@ -1169,23 +1169,23 @@ case 55:
 								}
 break;
 case 56:
-//#line 304 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 304 "parser.y"
 {yyerror("Error: Se detecto IF erroneo despues del token if en la linea "+ lineNumber);}
 break;
 case 57:
-//#line 305 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 305 "parser.y"
 {yyerror("Error: Se detecto IF erroneo, se esperaba '(' en la linea "+ lineNumber);}
 break;
 case 58:
-//#line 306 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 306 "parser.y"
 {yyerror("Error: Se detecto IF erroneo, se esperaba ')' en la linea "+ lineNumber);}
 break;
 case 59:
-//#line 307 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 307 "parser.y"
 {yyerror("Error: Se detecto IF erroneo, falta la condicion en la linea "+ lineNumber);}
 break;
 case 60:
-//#line 311 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 311 "parser.y"
 {
 				
 				if(  !"error".equals(((Arbol)val_peek(2).obj).getElem()) &&  !"error".equals(((Arbol)val_peek(0).obj).getElem()) ){
@@ -1203,7 +1203,7 @@ case 60:
 			}
 break;
 case 61:
-//#line 328 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 328 "parser.y"
 {
 				
 				if(  !"error".equals(((Arbol)val_peek(2).obj).getElem()) &&  !"error".equals(((Arbol)val_peek(0).obj).getElem()) ){
@@ -1219,7 +1219,7 @@ case 61:
 			}
 break;
 case 62:
-//#line 341 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 341 "parser.y"
 {
 				if(  !"error".equals(((Arbol)val_peek(2).obj).getElem()) &&  !"error".equals(((Arbol)val_peek(0).obj).getElem()) ){
 					if( !((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ) {
@@ -1235,7 +1235,7 @@ case 62:
 			}
 break;
 case 63:
-//#line 354 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 354 "parser.y"
 {
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 				yyval = val_peek(0);
@@ -1245,7 +1245,7 @@ case 63:
 		  }
 break;
 case 64:
-//#line 363 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 363 "parser.y"
 {
 				if( ((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ) {
 					if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -1262,7 +1262,7 @@ case 64:
 			}
 break;
 case 65:
-//#line 377 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 377 "parser.y"
 {
 			if( ((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ) {
 				if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -1277,7 +1277,7 @@ case 65:
 		}
 break;
 case 66:
-//#line 389 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 389 "parser.y"
 {
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 				yyval = val_peek(0);
@@ -1287,7 +1287,7 @@ case 66:
 		}
 break;
 case 67:
-//#line 398 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 398 "parser.y"
 {
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 				yyval = val_peek(0); 
@@ -1297,7 +1297,7 @@ case 67:
 		}
 break;
 case 68:
-//#line 405 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 405 "parser.y"
 {
 		if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 			yyval = val_peek(0);
@@ -1307,19 +1307,19 @@ case 68:
 	}
 break;
 case 69:
-//#line 412 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 412 "parser.y"
 {yyerror("Error: Se espera una expresion entre los corchetes en la linea "+ lineNumber);}
 break;
 case 70:
-//#line 413 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 413 "parser.y"
 {yyerror("Error: Se espera que se cierre corchetes en la linea "+ lineNumber);}
 break;
 case 71:
-//#line 414 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 414 "parser.y"
 {yyerror("Error: Cierre de corchetes inesperado en la linea "+ lineNumber);}
 break;
 case 72:
-//#line 419 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 419 "parser.y"
 {
 
 	
@@ -1340,7 +1340,7 @@ case 72:
 		}
 break;
 case 73:
-//#line 439 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 439 "parser.y"
 {
 	if( !"error".equals(((Arbol)val_peek(1).obj).getElem()) ){
 		
@@ -1364,7 +1364,7 @@ case 73:
 	}
 break;
 case 74:
-//#line 462 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 462 "parser.y"
 {
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 				yyval = val_peek(0); 
@@ -1374,7 +1374,7 @@ case 74:
 		}
 break;
 case 75:
-//#line 469 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 469 "parser.y"
 {
 
 			positivosPendientes.add( (Long)val_peek(0).obj );
@@ -1387,7 +1387,7 @@ case 75:
 		}
 break;
 case 76:
-//#line 479 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 479 "parser.y"
 {
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 				yyval = val_peek(0);
@@ -1397,7 +1397,7 @@ case 76:
 		}
 break;
 case 77:
-//#line 486 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 486 "parser.y"
 {
 			if (((Long)val_peek(0).obj) > 32768 ) {
 				yyerror("Error: Numero negativo debajo del rango en la linea " + lineNumber); 
@@ -1416,27 +1416,27 @@ case 77:
 		}
 break;
 case 78:
-//#line 504 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 504 "parser.y"
 { yyval = new ParserVal("=");}
 break;
 case 79:
-//#line 505 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 505 "parser.y"
 { yyval = new ParserVal(">=");}
 break;
 case 80:
-//#line 506 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 506 "parser.y"
 { yyval = new ParserVal("<=");}
 break;
 case 81:
-//#line 507 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 507 "parser.y"
 { yyval = new ParserVal("<");}
 break;
 case 82:
-//#line 508 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 508 "parser.y"
 { yyval = new ParserVal(">");}
 break;
 case 83:
-//#line 509 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 509 "parser.y"
 { yyval = new ParserVal("^=");}
 break;
 //#line 1365 "Parser.java"
