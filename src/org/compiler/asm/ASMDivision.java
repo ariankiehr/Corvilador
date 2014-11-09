@@ -392,14 +392,13 @@ public class ASMDivision {
 
 							if ( mentira ) {
 								aux = "@swap_DX";
-								System.out.println("entre");
 							
 							}else {
 								try {
 									aux = RegistryManager.getInstance().obtenerRegistro();
 								} catch (FullRegistersException e1) {
 									
-									e1.printStackTrace();
+									System.out.println( e1.getMessage() );
 								}
 								RegistryManager.getInstance().ocuparRegistro(aux);
 								sentencias.add("MOV " + aux + " ," + Names.getName(elemDer));

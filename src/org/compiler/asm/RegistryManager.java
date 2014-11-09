@@ -47,7 +47,6 @@ public class RegistryManager {
 	
 	
 	public Boolean estaLibre(String registro) {
-		
 		return this.registros.get(registro);
 	}
 	
@@ -67,29 +66,20 @@ public class RegistryManager {
 		}
 		
 		throw new FullRegistersException("No hay mas registros libres");
-		//return null;
+
 	}
 	
 	public void ocuparRegistro(String registro) {
 		
-		if( registro == null ) {
-			System.out.println("KBIO PAICHON!");
-
-		} else {
-		
+		if( registros.containsKey(registro) ) {
 			this.registros.put(registro,false);
-
 		}
 		
 	}
 	
 	public void desocuparRegistro(String registro) {
 		
-		if( registro == null ) {
-			System.out.println("KBIO PAICHON!");
-
-		} else {
-			
+		if( registros.containsKey(registro) ) {
 			this.registros.put(registro,true);
 		}
 

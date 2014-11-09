@@ -71,7 +71,7 @@ public class ASMAsignacion {
 						} catch (FullRegistersException e) {
 							e.printStackTrace();
 						}
-						sentencias.add( "MOV " + reg +", " + Names.getName(elemDer) + "; entre");
+						sentencias.add( "MOV " + reg +", " + Names.getName(elemDer) );
 						sentencias.add("MOV " + Names.getName(elemIzq) + ", " + reg);
 						RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
 						RegistryManager.getInstance().desocuparRegistro(reg);
