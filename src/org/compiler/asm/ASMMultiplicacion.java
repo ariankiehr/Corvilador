@@ -10,6 +10,7 @@ public class ASMMultiplicacion {
 	private List<String> sentencias; 
 	private String elemento;
 	private boolean sinRegistro = false;
+	
 	private ASMMultiplicacion() {
 		this.sentencias = new LinkedList<String> ();
 	}
@@ -349,12 +350,16 @@ public class ASMMultiplicacion {
 						
 					}
 					
+					
+					
 				}
 					
 			}
 				
 		}
 		
+		
+		sinRegistro = false;
 		return this.sentencias;
 	}
 }

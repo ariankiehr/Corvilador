@@ -11,6 +11,7 @@ public class ASMDivision {
 		private static ASMDivision instance = null;
 		private List<String> sentencias; 
 		private String elemento;
+		private boolean mentira = false; //se usa cuando no hay mas registros pero dx esta como operando der
 
 		
 		private ASMDivision() {
@@ -36,7 +37,23 @@ public class ASMDivision {
 			
 			sentencias.add( "; comienzo division" );
 			
-			if(!RegistryManager.getInstance().estaLibre(regDivDX)){ // DX usado 
+			if ( Names.getReg(elemDer).equals(regDivDX) ) {
+				//viene como operador DX
+				CodeGenerator.useSwapDX(); 
+				
+				
+				if(elemDer.contains("[") ) {
+					sentencias.add("MOV " + regDivDX +", " + Names.getName(elemDer));
+				}
+
+				sentencias.add("MOV @swap_DX , " + Names.getReg(elemDer));
+				elemDer = "@swap_DX";
+				mentira = true;
+				
+				
+
+			}
+			else if(!RegistryManager.getInstance().estaLibre(regDivDX)){ // DX usado 
 				CodeGenerator.useSwapDX();
 				sentencias.add("MOV @swap_DX , " + regDivDX);
 				dxUsado = true;
@@ -370,22 +387,32 @@ public class ASMDivision {
 							CodeGenerator.useSwapAX();
 							sentencias.add("MOV @swap_AX , " + regDivAX);
 							sentencias.add("MOV " + regDivAX +" , " + Names.getName(elemIzq));
-
+							
 							String aux = null;
-							try {
-								aux = RegistryManager.getInstance().obtenerRegistro();
-							} catch (FullRegistersException e1) {
-								
-								e1.printStackTrace();
-							}
-							
-							
-							RegistryManager.getInstance().ocuparRegistro(aux);
 
-							sentencias.add("MOV " + aux + " ," + Names.getName(elemDer));
+							if ( mentira ) {
+								aux = "@swap_DX";
+							
+							}else {
+								try {
+									aux = RegistryManager.getInstance().obtenerRegistro();
+								} catch (FullRegistersException e1) {
+									
+									System.out.println( e1.getMessage() );
+								}
+								RegistryManager.getInstance().ocuparRegistro(aux);
+								sentencias.add("MOV " + aux + " ," + Names.getName(elemDer));
+							}
+								
 							sentencias.add("CWD");
 							sentencias.add("IDIV " + aux);
-							RegistryManager.getInstance().desocuparRegistro(Names.getReg(aux));
+							
+							if(!mentira) {
+								RegistryManager.getInstance().desocuparRegistro(Names.getReg(aux));
+
+							}else {
+								RegistryManager.getInstance().desocuparRegistro(regDivDX);
+							}
 							
 						
 							String reg = null;
@@ -415,6 +442,8 @@ public class ASMDivision {
 			else {
 				RegistryManager.getInstance().desocuparRegistro(regDivDX);
 			}
+			
+			mentira = false;
 			
 			sentencias.add( "; fin de division" );
 			

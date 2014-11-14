@@ -52,19 +52,13 @@ public class ASMArreglo {
 		// inf
 
 		sentencias.add("CMP " + reg1 + ", " + att.getLimInferior() + " ; Se comparan los limites");
-		
 		sentencias.add("JL indiceFueraRangoInf");
-		
-		
 		
 		// sup
 
 		sentencias.add("CMP " + reg1 + ", " +  att.getLimSuperior());
-
 		sentencias.add("JG indiceFueraRangoSup" + " ; Fin comparacion de limites");
 		
-		
-
 		String regvec = null;
 		if( Names.getReg(reg1).equals(reg1) ) {
 			regvec = reg1;
@@ -74,11 +68,8 @@ public class ASMArreglo {
 		}
 		
 		sentencias.add("SUB "+ Names.getReg(regvec) + ", " + att.getLimInferior() + " ; calcula desplazamiento" ); 
-
 		sentencias.add("AND E" + Names.getReg(regvec) + ", 0000ffffh; limpio la parte alta del registro que utilizo para acceder a la memoria");
 		sentencias.add("SHL " + Names.getReg(regvec) + ", 1");
-	
-
 		this.elemento = "[ " + Names.getName(elem) + "+" + Names.getReg(regvec) + " ]";
 
 		return this.sentencias;

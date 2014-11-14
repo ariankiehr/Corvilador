@@ -1070,7 +1070,7 @@ case 43:
 								}
 							}
 							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
-								yyval = new ParserVal( new Nodo(":=", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
+								yyval = new ParserVal( new Nodo(":=", (Arbol)val_peek(0).obj , (Arbol)val_peek(2).obj , ((Arbol)val_peek(0).obj).getTipo() ) );
 							} else {
 					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
 				}
