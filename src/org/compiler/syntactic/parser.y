@@ -191,9 +191,11 @@ sentencias_ejecutables : sentencia  PUNTOCOMA{
 
 					|	sentencias_ejecutables variable error   {yyerror("Error: Se detecto sentencia erronea, falta ';' en la linea " + lineNumber);}
 					//|	error PUNTOCOMA {yyerror("Error: Codigo erroneo en la linea " + lineNumber);}
-					| 	error  {yyerror("Error: Se detecto sentencia erronea, falta ';' en la linea " + lineNumber);}
 
 					|	sentencia error {yyerror("Error: Se detecto sentencia erronea, falta ';' en la linea " + lineNumber);}
+
+					| 	error  {yyerror("Error: Se detecto sentencia erronea, falta ';' en la linea " + lineNumber);}
+
 ;
 
 sentencia : PRINT ABREPAR CAD CIERRAPAR { 
@@ -359,6 +361,11 @@ condicion : expresion comparador expresion  {
 					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
 				}
 			}
+
+			| comparador expresion  {yyerror("Error: Se detecto una comparacion erronea, falta parte izquierda, en la linea " + lineNumber);}
+			| expresion comparador   {yyerror("Error: Se detecto una comparacion erronea, falta parte derecha, en la linea " + lineNumber);}
+			| comparador   {yyerror("Error: Se detecto una comparacion erronea, no hay nada para comparar, en la linea " + lineNumber);}
+
 ;
 
 expresion : expresion MAS termino {
@@ -394,6 +401,12 @@ expresion : expresion MAS termino {
 					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
 			}
 		  }
+
+		  //| MAS termino  {yyerror("Error: Se detecto una suma erronea, falta parte izquierda (expresion), en la linea " + lineNumber);}
+		//  | expresion MAS  {yyerror("Error: Se detecto una suma erronea, falta parte derecha (termino), en la linea " + lineNumber);}
+		//  | MENOS termino  {yyerror("Error: Se detecto una resta erronea, falta parte izquierda, en la linea (expresion)" + lineNumber);}
+		 // | expresion MENOS error {yyerror("Error: Se detecto una resta erronea, falta parte derecha (termino), en la linea " + lineNumber);}
+
 ;
  
 termino : termino POR factor {
@@ -429,6 +442,12 @@ termino : termino POR factor {
 				$$ = new ParserVal( new Hoja( "error", "syntax error" ));
 			}
 		}
+
+		//| POR factor  {yyerror("Error: Se detecto una multiplicacion erronea, falta parte izquierda (termino), en la linea " + lineNumber);}
+		//| termino POR  {yyerror("Error: Se detecto una multiplicacion erronea, falta parte derecha (factor), en la linea " + lineNumber);}
+		//| DIV factor  {yyerror("Error: Se detecto una division erronea, falta parte izquierda, en la linea (termino)" + lineNumber);}
+	//	| termino DIV {yyerror("Error: Se detecto una division erronea, falta parte derecha (factor), en la linea " + lineNumber);}
+
 ;
 		
 variable :  id {
