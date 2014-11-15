@@ -297,8 +297,10 @@ cuerpo_seleccion : 	bloque_then bloque_else {
 							$$ = new ParserVal(new NodoUnario("cuerpo",(Arbol)($1.obj))); 
 						} else {
 					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+					}
 				}
-				}
+				|IF ABREPAR error CIERRAPAR {yyerror("Error: Se detecto IF erroneo, falta la condicion en la linea "+ lineNumber);}
+
 ;
 
 bloque_then : bloque_sentencias ELSE { 
