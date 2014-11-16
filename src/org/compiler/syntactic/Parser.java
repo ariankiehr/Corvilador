@@ -17,7 +17,7 @@ package org.compiler.syntactic;
 
 
 
-//#line 2 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 2 "parser.y"
 import org.compiler.lex.LexicalAnalyzer;
 import java.util.*;
 import org.compiler.symboltable.*;
@@ -203,172 +203,188 @@ final static short yylhs[] = {                           -1,
     2,    2,    2,    2,    2,    2,    7,    7,    7,    7,
     7,    7,   10,   10,   10,   11,   11,   11,   11,   11,
    11,   11,    8,    8,   15,   15,   16,   18,   17,   14,
-   14,   14,   14,   14,   13,   12,   12,   12,   20,   20,
-   20,    9,    9,   22,   23,   21,   21,   21,   21,   19,
-   19,   19,   19,   19,   19,
+   14,   14,   14,   14,   13,   13,   13,   13,   12,   12,
+   12,   20,   20,   20,    9,    9,   22,   23,   21,   21,
+   21,   21,   19,   19,   19,   19,   19,   19,
 };
 final static short yylen[] = {                            2,
     0,    1,    1,    2,    1,    2,    3,    3,   10,    9,
     9,    9,    9,    9,    9,    9,    7,    3,    3,    9,
     1,    1,    1,    3,    2,    3,    2,    3,    3,    2,
-    3,    1,    2,    3,    1,    2,    4,    1,    1,    4,
+    3,    1,    2,    3,    2,    1,    4,    1,    1,    4,
     4,    4,    3,    2,    2,    6,    5,    5,    5,    5,
     6,    6,    3,    3,    2,    1,    2,    1,    1,    4,
-    4,    3,    4,    4,    3,    3,    3,    1,    3,    3,
-    1,    1,    1,    1,    4,    1,    1,    1,    2,    1,
-    1,    1,    1,    1,    1,
+    4,    3,    4,    4,    3,    2,    2,    1,    3,    3,
+    1,    3,    3,    1,    1,    1,    1,    4,    1,    1,
+    1,    2,    1,    1,    1,    1,    1,    1,
 };
 final static short yydefred[] = {                         0,
-   35,    0,    0,   21,   22,    0,    0,    0,    0,    0,
-    0,    5,    0,    0,   32,    0,   38,   39,    0,   72,
-   73,    0,   77,    0,    0,    0,    0,    0,    0,   71,
-   76,   78,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    6,    0,   33,    0,   23,    0,    0,
-   36,   30,    0,    0,    0,    0,    0,   56,    0,    0,
-    0,    0,   79,   81,   82,   80,    0,    0,   83,   84,
-   85,    0,   62,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,   27,   25,   18,    0,    0,    0,
-    0,   31,   34,   19,    8,    7,    0,    0,   53,   57,
-   54,   59,   55,   61,   64,   63,   60,    0,    0,    0,
-   69,   70,   40,   42,   41,   37,   28,    0,   29,   26,
-    0,    0,    0,    0,    0,    0,    0,    0,   75,   24,
-   47,    0,    0,    0,   49,   48,    0,    0,    0,    0,
-    0,   51,   52,   46,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,   17,    0,    0,    0,    0,
-    0,    0,    0,    0,   10,   11,   16,    0,   13,   12,
-   15,   14,    9,
+   36,    0,    0,   21,   22,    0,    0,    0,    0,    0,
+    0,    5,    0,    0,   32,    0,   38,   39,    0,   75,
+   76,    0,   80,    0,   84,   85,   83,    0,    0,   86,
+   87,   88,    0,    0,    0,    0,   74,   79,   81,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    6,    0,   33,    0,   23,    0,    0,   35,   30,    0,
+    0,    0,    0,    0,   56,    0,    0,    0,    0,   82,
+    0,    0,    0,   62,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,   27,   25,   18,    0,
+    0,    0,    0,   31,   34,   19,    8,    7,    0,    0,
+   53,   57,   54,   59,   55,   61,   64,   63,   60,    0,
+    0,    0,   72,   73,   40,   42,   41,   37,   28,    0,
+   29,   26,    0,    0,    0,    0,    0,    0,    0,    0,
+   78,   24,   47,    0,    0,    0,   49,   48,    0,    0,
+    0,    0,    0,   51,   52,   46,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,   17,    0,    0,
+    0,    0,    0,    0,    0,    0,   10,   11,   16,    0,
+   13,   12,   15,   14,    9,
 };
 final static short yydgoto[] = {                          9,
-   10,   11,   12,   13,   50,   55,   14,   15,   16,   17,
-   18,   27,   28,   19,   56,   57,  103,   58,   72,   29,
-   30,   31,   32,
+   10,   11,   12,   13,   57,   62,   14,   15,   16,   17,
+   18,   33,   34,   19,   63,   64,  105,   65,   35,   36,
+   37,   38,   39,
 };
-final static short yysindex[] = {                        68,
-    0,  -56, -163,    0,    0,   23, -169,  -48,    0,   68,
-  -63,    0, -143, -246,    0, -260,    0,    0,   34,    0,
-    0,  -48,    0, -229, -173, -247,   38, -231, -113,    0,
-    0,    0, -197, -187,   75, -194,   75, -160, -234, -137,
-  -54,  -97,  -63,    0, -134,    0, -243,    0, -130, -239,
-    0,    0,  -48,   -6, -166, -159,   -6,    0, -152,  -48,
- -149, -162,    0,    0,    0,    0,  -48,  -48,    0,    0,
-    0,  -48,    0,  -48,  -48, -102, -100, -245, -114,  -48,
-  -26, -112,  -19,  -48,    0,    0,    0, -189,  -87,  -88,
-  -36,    0,    0,    0,    0,    0,  -51,  -97,    0,    0,
-    0,    0,    0,    0,    0,    0,    0, -113, -113,  -97,
-    0,    0,    0,    0,    0,    0,    0,  -77,    0,    0,
-  -48,  -52,  -46,  -41,  -58, -258,  -18,  -27,    0,    0,
-    0,  -21,  -16,    9,    0,    0,   24, -203,   25,  -70,
-   28,    0,    0,    0,   29,   32,    3,   33,   17,   36,
-  -70,  -70,  -38,  -70,  -70,    0,  -70,   18,   19, -170,
-   21,   30,   35,   47,    0,    0,    0,   49,    0,    0,
-    0,    0,    0,
+final static short yysindex[] = {                       144,
+    0,  -55, -184,    0,    0,   88, -169, -150,    0,  144,
+  -62,    0,  -97, -244,    0, -266,    0,    0,   99,    0,
+    0,   61,    0, -227,    0,    0,    0,  -36, -199,    0,
+    0,    0,  114, -193, -150,  -91,    0,    0,    0, -161,
+ -164,  151, -143,  151, -124, -237, -172,  -25,  -96,  -62,
+    0, -148,    0, -178,    0, -133, -252,    0,    0, -150,
+   30, -103,  -86,   30,    0, -116, -150, -101, -118,    0,
+ -150, -150, -150,    0,  -96, -150, -150,  -99,  -95, -177,
+  111,   61,   80,  -75,   42,   61,    0,    0,    0, -243,
+  -59,  -89, -145,    0,    0,    0,    0,    0,  -54,  -96,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,  -91,
+  -91,  -96,    0,    0,    0,    0,    0,    0,    0,  -49,
+    0,    0,   61,   23,  -30,  -29,  -26, -134,   -9,  -18,
+    0,    0,    0,  -16,  -10,   -8,    0,    0,   -2, -253,
+    2,  -22,    4,    0,    0,    0,    5,   16,  -43,   20,
+   -4,   32,  -22,  -22,  -37,  -22,  -22,    0,  -22,    9,
+   13, -228,   14,   18,   37,   39,    0,    0,    0,   47,
+    0,    0,    0,    0,    0,
 };
-final static short yyrindex[] = {                       312,
-    0,    0,    0,    0,    0,    0,   41,    0,    0,  314,
-  315,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0, -151,    0,    0,    0,    0, -120,    0,
+final static short yyrindex[] = {                       280,
+    0,    0,    0,    0,    0,    0,   12,    0,    0,  288,
+  301,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0, -160,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0, -238, -119,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0, -229,  305,
+    0,    0,    0,    0,    0,    0,    0,    0,    0, -225,
+    0,    1,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0, -216,    0, -159,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,   38,
+    0,    0,    0,    0,    0,    0,    0,    0,    0, -213,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,  -98,
+  -77,  -39,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0, -233,  317,    0,    0,    0,    0,    0,    0,    0,
-    0,    0, -232,    0,    1,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0, -201,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,    0,    0,  -42,    0,    0,
-    0,    0,    0,    0,    0,    0,    0, -230,    0,    0,
-    0,    0,    0,    0,    0,    0,    0,  -99,  -78, -250,
-    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0, -228,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,    0,    0,   15,    0,    0,
-    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,   15,
+    0,    0,    0,    0,    0,
 };
 final static short yygindex[] = {                         0,
-    0,   22,  310,  -13,    0,   -2,   27,   -8,   -4,    0,
-    0,   26,  -20,    0,  284,    0,    0,    0,    0,  197,
-  206,    8,   31,
+    0,   -3,  304,  -13,    0,   17,   19,   -6,    6,    0,
+    0,   28,  -20,    0,  263,    0,    0,    0,  302,  169,
+  174,    3,   10,
 };
-final static int YYTABLESIZE=347;
+final static int YYTABLESIZE=423;
 static short yytable[];
 static { yytable();}
 static void yytable(){
-yytable = new short[]{                         49,
-   58,   59,   46,   38,   62,   65,   47,   20,  138,   51,
-  115,   53,   93,   20,   20,   65,   95,   20,   20,   63,
-  139,   85,   44,   45,   65,   43,   20,   50,   53,  116,
-   21,   43,   39,   42,   46,   65,   21,   45,   47,   52,
-   21,   21,   20,   73,   20,   39,   96,   97,   60,   21,
-   20,   86,   44,   45,  102,   43,   79,   50,   81,  118,
-  146,   20,  123,  124,   20,   21,   91,   21,   77,   45,
-   46,   76,   46,   21,   47,  147,   47,  125,   98,   80,
-   39,   78,   61,   39,   21,   91,   20,   21,   20,    4,
-    5,  100,   33,   23,   24,   82,  101,  110,   40,  126,
-  132,  134,   83,  106,   74,   45,   26,   45,   41,   21,
-   34,   21,  107,   84,   74,  167,    4,    5,   74,   74,
-   74,   74,  104,   74,   48,  105,  149,   74,   74,   74,
-   74,   74,   74,   74,   74,   68,   74,  158,  159,  161,
-  162,  163,    2,  164,    3,   68,  168,    6,   87,   68,
-   68,   92,   68,   24,   68,   94,   67,    8,   68,   68,
-   68,  121,  117,   68,   68,   68,   67,   68,   74,   75,
-   67,   67,  113,   67,  114,   67,  127,   66,  128,   67,
-   67,   67,   67,   68,   67,   67,   67,   66,   67,    4,
-    5,   66,   66,    2,   66,    3,   66,  131,    6,   22,
-   66,   66,   66,  133,   24,   66,   66,   66,    8,   66,
-   23,   24,   88,   24,   23,   24,  130,   25,   23,   24,
-  137,    4,    5,   26,   89,   26,  160,   26,  135,  119,
-    2,   26,    3,  136,   90,    6,   77,   77,   77,   77,
-   77,   24,  129,   67,   68,    8,  140,   23,   24,   35,
-  120,  141,    3,  142,  122,    6,   58,   58,  143,   58,
-   26,   24,   58,  108,  109,    8,  153,  154,   58,   37,
-   20,   20,   58,   20,   20,   20,   20,   58,   35,  111,
-  112,    3,   20,  144,    6,   36,   20,  145,  148,   35,
-   24,  150,    3,  151,    8,    6,  152,  155,   37,   54,
-  157,   24,  156,  165,  166,    8,  169,   64,   65,   37,
-   66,    1,   74,    2,    3,  170,    4,   67,   68,   44,
-  171,   69,   70,    1,    2,   71,    3,    4,    5,    6,
-    1,    2,  172,    3,  173,    7,    6,   99,    0,    8,
-    0,    0,   24,    0,    0,    0,    8,
+yytable = new short[]{                         56,
+   58,   66,   20,   97,   53,   60,   50,   69,   20,   21,
+  148,   58,   20,   20,   20,   21,   54,   68,   87,   21,
+   21,   20,   45,  127,   46,  149,   44,   68,   21,   52,
+   45,    4,    5,   98,   99,   49,   68,   46,   81,   67,
+   83,   59,   43,   53,   20,  128,   20,   68,   88,   67,
+   67,   21,   20,   21,   50,   54,   44,  169,   67,   21,
+   45,  120,   75,   20,  125,  126,   20,   70,   52,   67,
+   21,   40,   43,   21,   53,   93,   53,   95,  117,   46,
+  104,   74,   46,   20,   50,   20,   54,  100,   54,   41,
+   21,   79,   21,   60,   93,   77,   66,  118,   47,   52,
+  112,   52,  134,  136,   80,   77,   66,   78,   48,   77,
+   77,   77,   77,   89,   77,   66,   23,   24,   77,   77,
+   77,   77,   77,   77,   77,   77,   66,   77,  151,   29,
+   82,   84,  140,  131,   71,   72,   71,   94,   85,  160,
+  161,  163,  164,  165,  141,  166,   71,  108,  170,   86,
+   71,   71,   96,   71,  102,   71,  109,   70,  106,   71,
+   71,   71,    4,    5,   71,   71,   71,   70,   71,  103,
+   55,   70,   70,  107,   70,  115,   70,  130,   69,  116,
+   70,   70,   70,   71,   72,   70,   70,   70,   69,   70,
+   76,   77,   69,   69,    2,   69,    3,   69,  123,    6,
+   22,   69,   69,   69,  129,   24,   69,   69,   69,    8,
+   69,   23,   24,  132,   25,   26,   65,   27,   28,   68,
+  155,  156,    4,    5,   29,  133,   65,  162,   30,   31,
+   23,   24,   32,   25,   26,   65,   27,    4,    5,  110,
+  111,   90,   24,   29,  137,  138,   65,   30,   31,  113,
+  114,   32,  139,   91,   29,  142,   58,   58,  144,   58,
+  143,  147,   58,   92,  145,  150,  146,  152,   58,  153,
+   20,   20,   58,   20,   20,   20,   20,   58,  135,    1,
+  154,  158,   20,   77,  157,   42,   20,    2,    3,   23,
+   24,    6,   25,   26,  167,   27,  159,   24,  168,  171,
+    3,    8,   29,  172,    4,   44,   30,   31,   23,   24,
+   32,   25,   26,   51,   27,  124,   80,   80,   80,   80,
+   80,   29,  173,  101,  174,   30,   31,   23,   24,   32,
+   25,   26,  175,   27,   73,  121,    2,    0,    3,    0,
+   29,    6,    0,   42,   30,   31,    3,   24,   32,    6,
+   43,    8,    0,    0,   42,   24,  122,    3,    0,    8,
+    6,    0,    0,   44,   61,    0,   24,    2,    0,    3,
+    8,    0,    6,    0,   44,    0,    0,    0,   24,    0,
+    0,    0,    8,   25,   26,    0,   27,  119,    0,    0,
+    0,    0,    0,   71,   72,    0,    0,   30,   31,    1,
+    2,   32,    3,    4,    5,    6,    1,    2,    0,    3,
+    0,    7,    6,    0,    0,    8,    0,    0,   24,    0,
+    0,    0,    8,
 };
 }
 static short yycheck[];
 static { yycheck(); }
 static void yycheck() {
 yycheck = new short[] {                         13,
-    0,   22,   11,    6,   25,  256,   11,    0,  267,  256,
-  256,  272,  256,    6,    0,  266,  256,   10,   11,  267,
-  279,  256,  256,  256,  275,  256,   19,  256,  272,  275,
-    0,   10,    6,    8,   43,  286,    6,   11,   43,  286,
-   10,   11,   35,  275,   37,   19,  286,  287,  278,   19,
-   43,  286,  286,  286,   57,  286,   35,  286,   37,   80,
-  264,   54,   83,   84,   57,   35,   41,   37,  256,   43,
-   79,  269,   81,   43,   79,  279,   81,  267,   53,  274,
-   54,  269,  256,   57,   54,   60,   79,   57,   81,  260,
-  261,  258,  256,  267,  268,  256,  256,   72,  268,  289,
-  121,  122,  263,  266,  256,   79,  280,   81,  278,   79,
-  274,   81,  275,  274,  266,  286,  260,  261,  270,  271,
-  272,  273,  275,  275,  268,  275,  140,  279,  280,  281,
-  282,  283,  284,  285,  286,  256,  288,  151,  152,  153,
-  154,  155,  257,  157,  259,  266,  160,  262,  286,  270,
-  271,  286,  273,  268,  275,  286,  256,  272,  279,  280,
-  281,  274,  277,  284,  285,  286,  266,  288,  282,  283,
-  270,  271,  275,  273,  275,  275,  264,  256,  267,  279,
-  280,  281,  280,  281,  284,  285,  286,  266,  288,  260,
-  261,  270,  271,  257,  273,  259,  275,  275,  262,  256,
-  279,  280,  281,  256,  268,  284,  285,  286,  272,  288,
-  267,  268,  267,  268,  267,  268,  268,  274,  267,  268,
-  279,  260,  261,  280,  279,  280,  265,  280,  275,  256,
-  257,  280,  259,  275,  289,  262,  279,  280,  281,  282,
-  283,  268,  279,  280,  281,  272,  265,  267,  268,  256,
-  277,  279,  259,  275,  274,  262,  256,  257,  275,  259,
-  280,  268,  262,   67,   68,  272,  264,  265,  268,  276,
-  256,  257,  272,  259,  260,  261,  262,  277,  256,   74,
-   75,  259,  268,  275,  262,  263,  272,  264,  264,  256,
-  268,  264,  259,  265,  272,  262,  265,  265,  276,  266,
-  265,  268,  286,  286,  286,  272,  286,  270,  271,  276,
-  273,    0,  272,    0,    0,  286,    0,  280,  281,   10,
-  286,  284,  285,  256,  257,  288,  259,  260,  261,  262,
-  256,  257,  286,  259,  286,  268,  262,   54,   -1,  272,
-   -1,   -1,  268,   -1,   -1,   -1,  272,
+    0,   22,    0,  256,   11,  272,   10,   28,    6,    0,
+  264,  256,   10,   11,    0,    6,   11,  256,  256,   10,
+   11,   19,    6,  267,    6,  279,  256,  266,   19,   11,
+  256,  260,  261,  286,  287,    8,  275,   19,   42,  256,
+   44,  286,  256,   50,   42,  289,   44,  286,  286,  266,
+  278,   42,   50,   44,  256,   50,  286,  286,  275,   50,
+  286,   82,   35,   61,   85,   86,   64,  267,   50,  286,
+   61,  256,  286,   64,   81,   48,   83,  256,  256,   61,
+   64,  275,   64,   81,  286,   83,   81,   60,   83,  274,
+   81,  256,   83,  272,   67,  256,  256,  275,  268,   81,
+   73,   83,  123,  124,  269,  266,  266,  269,  278,  270,
+  271,  272,  273,  286,  275,  275,  267,  268,  279,  280,
+  281,  282,  283,  284,  285,  286,  286,  288,  142,  280,
+  274,  256,  267,  279,  280,  281,  256,  286,  263,  153,
+  154,  155,  156,  157,  279,  159,  266,  266,  162,  274,
+  270,  271,  286,  273,  258,  275,  275,  256,  275,  279,
+  280,  281,  260,  261,  284,  285,  286,  266,  288,  256,
+  268,  270,  271,  275,  273,  275,  275,  267,  256,  275,
+  279,  280,  281,  280,  281,  284,  285,  286,  266,  288,
+  282,  283,  270,  271,  257,  273,  259,  275,  274,  262,
+  256,  279,  280,  281,  264,  268,  284,  285,  286,  272,
+  288,  267,  268,  268,  270,  271,  256,  273,  274,  256,
+  264,  265,  260,  261,  280,  275,  266,  265,  284,  285,
+  267,  268,  288,  270,  271,  275,  273,  260,  261,   71,
+   72,  267,  268,  280,  275,  275,  286,  284,  285,   76,
+   77,  288,  279,  279,  280,  265,  256,  257,  275,  259,
+  279,  264,  262,  289,  275,  264,  275,  264,  268,  265,
+  256,  257,  272,  259,  260,  261,  262,  277,  256,    0,
+  265,  286,  268,  272,  265,  256,  272,    0,  259,  267,
+  268,  262,  270,  271,  286,  273,  265,  268,  286,  286,
+    0,  272,  280,  286,    0,  276,  284,  285,  267,  268,
+  288,  270,  271,   10,  273,  274,  279,  280,  281,  282,
+  283,  280,  286,   61,  286,  284,  285,  267,  268,  288,
+  270,  271,  286,  273,   33,  256,  257,   -1,  259,   -1,
+  280,  262,   -1,  256,  284,  285,  259,  268,  288,  262,
+  263,  272,   -1,   -1,  256,  268,  277,  259,   -1,  272,
+  262,   -1,   -1,  276,  266,   -1,  268,  257,   -1,  259,
+  272,   -1,  262,   -1,  276,   -1,   -1,   -1,  268,   -1,
+   -1,   -1,  272,  270,  271,   -1,  273,  277,   -1,   -1,
+   -1,   -1,   -1,  280,  281,   -1,   -1,  284,  285,  256,
+  257,  288,  259,  260,  261,  262,  256,  257,   -1,  259,
+   -1,  268,  262,   -1,   -1,  272,   -1,   -1,  268,   -1,
+   -1,   -1,  272,
 };
 }
 final static short YYFINAL=9;
@@ -432,8 +448,8 @@ final static String yyrule[] = {
 "sentencias_ejecutables : seleccion",
 "sentencias_ejecutables : sentencias_ejecutables seleccion",
 "sentencias_ejecutables : sentencias_ejecutables variable error",
-"sentencias_ejecutables : error",
 "sentencias_ejecutables : sentencia error",
+"sentencias_ejecutables : error",
 "sentencia : PRINT ABREPAR CAD CIERRAPAR",
 "sentencia : asignacion",
 "sentencia : iteracion",
@@ -463,6 +479,9 @@ final static String yyrule[] = {
 "cabecera_seleccion : IF ABREPAR condicion THEN",
 "cabecera_seleccion : IF ABREPAR error CIERRAPAR",
 "condicion : expresion comparador expresion",
+"condicion : comparador expresion",
+"condicion : expresion comparador",
+"condicion : comparador",
 "expresion : expresion MAS termino",
 "expresion : expresion MENOS termino",
 "expresion : termino",
@@ -485,7 +504,7 @@ final static String yyrule[] = {
 "comparador : DISTINTO",
 };
 
-//#line 552 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 557 "parser.y"
 
 String ins;
 LexicalAnalyzer la;
@@ -625,7 +644,7 @@ public void parsear(LexicalAnalyzer lex) {
 }
 
 // VER SI HICIMOS DE SI UNA DECLARACION DE UNA VARIABLE SE USA COMO TAL Y NO SE PUEDA USAR COMO VECTOR Y VICEVERSA 
-//#line 556 "Parser.java"
+//#line 575 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -780,7 +799,7 @@ boolean doaction;
       {
 //########## USER-SUPPLIED ACTIONS ##########
 case 3:
-//#line 21 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 21 "parser.y"
 {
 		if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 			tree = (Arbol)val_peek(0).obj;
@@ -788,7 +807,7 @@ case 3:
 	}
 break;
 case 4:
-//#line 26 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 26 "parser.y"
 {
 		if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 			tree = (Arbol)val_peek(0).obj;
@@ -796,7 +815,7 @@ case 4:
 	}
 break;
 case 7:
-//#line 38 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 38 "parser.y"
 {
 							List<String> vars = (List<String>)val_peek(1).obj;
 							for( String s : vars ) {
@@ -815,11 +834,11 @@ case 7:
 						}
 break;
 case 8:
-//#line 56 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 56 "parser.y"
 {yyerror("Error: Falta ';' en la declaracion de variables en la linea " + lineNumber);}
 break;
 case 9:
-//#line 58 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 58 "parser.y"
 {
 								
 
@@ -854,63 +873,63 @@ case 9:
 						add("Declaracion de variable vector en linea " + lineNumber); }
 break;
 case 10:
-//#line 91 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 90 "parser.y"
 {yyerror("Error: Se esperaba '..' en la linea " + lineNumber);}
 break;
 case 11:
-//#line 93 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 91 "parser.y"
 {yyerror("Error: se esperaba un ']' eb linea "+ lineNumber);}
 break;
 case 12:
-//#line 94 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 92 "parser.y"
 {yyerror("Error: Falta la palabra reservada 'VECTOR' en la linea " + lineNumber);}
 break;
 case 13:
-//#line 95 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 93 "parser.y"
 {yyerror("Error: Falta la palabra reservada 'DE' en la linea " + lineNumber);}
 break;
 case 14:
-//#line 97 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 94 "parser.y"
 {yyerror("Error: Se esperaba una constante en la linea " + lineNumber);}
 break;
 case 15:
-//#line 98 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 95 "parser.y"
 {yyerror("Error: Se esperaba una constante en la linea " + lineNumber);}
 break;
 case 16:
-//#line 100 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 97 "parser.y"
 {yyerror("Error: Falta el tipo del vector en la linea " + lineNumber);}
 break;
 case 17:
-//#line 102 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 99 "parser.y"
 {yyerror("Error: Falta el tipo del vector en la linea " + lineNumber);}
 break;
 case 18:
-//#line 104 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 101 "parser.y"
 {yyerror("Error: Palabra reservada mal escrita en la linea " + lineNumber);}
 break;
 case 19:
-//#line 105 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 102 "parser.y"
 {yyerror("Error: Nombre de variable igual al tipo en la linea " + lineNumber);}
 break;
 case 20:
-//#line 106 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 103 "parser.y"
 {yyerror("Error: Se detecto declaracion de vector erronea, falta ';' en la linea " + lineNumber);  }
 break;
 case 21:
-//#line 109 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 106 "parser.y"
 { 
 			yyval = new ParserVal("entero");  
 	}
 break;
 case 22:
-//#line 112 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 109 "parser.y"
 { 
 			yyval = new ParserVal("entero_ss"); 
 	}
 break;
 case 23:
-//#line 117 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 114 "parser.y"
 { 
 				List<String> vars = new LinkedList<String>(); 
 				vars.add( val_peek(0).sval );
@@ -920,7 +939,7 @@ case 23:
 		}
 break;
 case 24:
-//#line 124 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 121 "parser.y"
 { List<String> vars = new LinkedList<String>(); 
 								vars.add( val_peek(0).sval );
 								vars.addAll( (LinkedList<String>)val_peek(2).obj );
@@ -928,7 +947,7 @@ case 24:
 		}
 break;
 case 25:
-//#line 133 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 130 "parser.y"
 { 
 						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 							yyval = val_peek(1); 
@@ -938,7 +957,7 @@ case 25:
 					}
 break;
 case 26:
-//#line 141 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 138 "parser.y"
 { 
 						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 								yyval = val_peek(1); 
@@ -948,19 +967,19 @@ case 26:
 					}
 break;
 case 27:
-//#line 150 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 147 "parser.y"
 {yyerror("Error: falta ';' en una sentencia dentro del IF, en la linea " + lineNumber);}
 break;
 case 28:
-//#line 152 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 149 "parser.y"
 {yyerror("Error: Se esperaba '{' en la linea " + lineNumber);}
 break;
 case 29:
-//#line 154 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 151 "parser.y"
 {yyerror("Error: Se esperaba '}' en la linea " + lineNumber);}
 break;
 case 30:
-//#line 163 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 160 "parser.y"
 { 
 							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 								yyval = val_peek(1); 
@@ -970,7 +989,7 @@ case 30:
 						}
 break;
 case 31:
-//#line 170 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 167 "parser.y"
 { 
 							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 								yyval = new ParserVal(new NodoSinTipo("sentencia",(Arbol)(val_peek(2).obj),(Arbol)(val_peek(1).obj))); 
@@ -980,7 +999,7 @@ case 31:
 						}
 break;
 case 32:
-//#line 177 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 174 "parser.y"
 { 
 							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 								yyval = val_peek(0); 
@@ -990,7 +1009,7 @@ case 32:
 						}
 break;
 case 33:
-//#line 184 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 181 "parser.y"
 { 
 							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 								yyval = new ParserVal(new NodoSinTipo("sentencia",(Arbol)(val_peek(1).obj),(Arbol)(val_peek(0).obj))); 
@@ -1000,19 +1019,19 @@ case 33:
 						}
 break;
 case 34:
-//#line 192 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 189 "parser.y"
 {yyerror("Error: Se detecto sentencia erronea, falta ';' en la linea " + lineNumber);}
 break;
 case 35:
-//#line 194 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 191 "parser.y"
 {yyerror("Error: Se detecto sentencia erronea, falta ';' en la linea " + lineNumber);}
 break;
 case 36:
-//#line 196 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 193 "parser.y"
 {yyerror("Error: Se detecto sentencia erronea, falta ';' en la linea " + lineNumber);}
 break;
 case 37:
-//#line 199 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 197 "parser.y"
 { 
 				add("Declaracion imprimir en la linea  "+lineNumber+" cadena "+ val_peek(1).sval); 
 				if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -1023,7 +1042,7 @@ case 37:
 			}
 break;
 case 38:
-//#line 208 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 206 "parser.y"
 { 
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 				yyval = val_peek(0); 
@@ -1033,7 +1052,7 @@ case 38:
 		}
 break;
 case 39:
-//#line 216 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 214 "parser.y"
 { 
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 				yyval = val_peek(0);
@@ -1043,19 +1062,19 @@ case 39:
 		}
 break;
 case 40:
-//#line 227 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 222 "parser.y"
 {yyerror("Error: Se detecto un PRINT erroneo, se esperaba un '(' en la linea " + lineNumber);}
 break;
 case 41:
-//#line 228 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 223 "parser.y"
 {yyerror("Error: Se detecto un PRINT erroneo, se esperaba un ')' en la linea " + lineNumber);}
 break;
 case 42:
-//#line 229 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 224 "parser.y"
 {yyerror("Error: Se detecto un PRINT erroneo, se esperaba una 'cadena' en la linea " + lineNumber);}
 break;
 case 43:
-//#line 232 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 227 "parser.y"
 {
 						if(  !"error".equals(((Arbol)val_peek(2).obj).getElem()) &&  !"error".equals(((Arbol)val_peek(0).obj).getElem()) ){
 								if ( !estaDeclarada(   ((Arbol)val_peek(2).obj).getElem()) ) {
@@ -1077,15 +1096,15 @@ case 43:
 						}
 break;
 case 44:
-//#line 251 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 246 "parser.y"
 {yyerror("Error: Se detecto una asignacion erronea, falta parte izquierda, en la linea " + lineNumber);}
 break;
 case 45:
-//#line 253 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 248 "parser.y"
 {yyerror("Error: Se detecto una asignacion erronea, falta parte derecha, en la linea " + lineNumber);}
 break;
 case 46:
-//#line 257 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 252 "parser.y"
 { 
 					add("Iterar en linea  "+lineNumber);
 					if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -1096,31 +1115,31 @@ case 46:
 				}
 break;
 case 47:
-//#line 265 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 260 "parser.y"
 {yyerror("Error: Se espera un bloque de sentencias en la linea "+ lineNumber);}
 break;
 case 48:
-//#line 266 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 261 "parser.y"
 {yyerror("Error: Se esperaba la palabra reservada 'HASTA' en la linea "+ lineNumber);}
 break;
 case 49:
-//#line 267 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 262 "parser.y"
 {yyerror("Error: Se espera un 'Parentesis abierto' en la linea "+ lineNumber);}
 break;
 case 50:
-//#line 268 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 263 "parser.y"
 {yyerror("Error: Se espera un 'Parentesis cerrado' en la linea "+ lineNumber);}
 break;
 case 51:
-//#line 270 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 265 "parser.y"
 {yyerror("Error: Se esperaba la palabra reservada 'Hasta' en la linea "+ lineNumber); }
 break;
 case 52:
-//#line 271 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 266 "parser.y"
 {yyerror("Error: Falta la condicion el la iteracion en la linea "+ lineNumber); }
 break;
 case 53:
-//#line 275 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 270 "parser.y"
 {
 		if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 			yyval = new ParserVal( new NodoSinTipo("si", (Arbol)val_peek(2).obj , (Arbol)val_peek(0).obj ) );
@@ -1130,11 +1149,11 @@ case 53:
 	}
 break;
 case 54:
-//#line 282 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 277 "parser.y"
 {yyerror("Error: Se detecto IF erroneo, falta la palabra reservada 'ENTONCES' en la linea "+ lineNumber); }
 break;
 case 55:
-//#line 286 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 284 "parser.y"
 { 
 						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 							yyval = new ParserVal( new NodoSinTipo("cuerpo", (Arbol)val_peek(1).obj , (Arbol)val_peek(0).obj ) ); 
@@ -1144,17 +1163,17 @@ case 55:
 					}
 break;
 case 56:
-//#line 293 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 291 "parser.y"
 {
 						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 							yyval = new ParserVal(new NodoUnario("cuerpo",(Arbol)(val_peek(0).obj))); 
 						} else {
 					yyval = new ParserVal( new Hoja( "error", "syntax error" ));
-				}
+					}
 				}
 break;
 case 57:
-//#line 302 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 302 "parser.y"
 { 
 	if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 		yyval = new ParserVal(new NodoUnario("entonces",(Arbol)(val_peek(1).obj))); 
@@ -1164,7 +1183,7 @@ case 57:
 }
 break;
 case 58:
-//#line 311 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 311 "parser.y"
 {
 						add("Declaracion if en linea " + lineNumber); 
 						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -1176,7 +1195,7 @@ case 58:
 			}
 break;
 case 59:
-//#line 322 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 322 "parser.y"
 { 
 					add("Declaracion if else en linea " + lineNumber); 
 					if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -1187,7 +1206,7 @@ case 59:
 				}
 break;
 case 60:
-//#line 332 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 332 "parser.y"
 {
 									if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 										yyval = new ParserVal(new NodoUnario("condicion",(Arbol)(val_peek(1).obj)));
@@ -1197,23 +1216,23 @@ case 60:
 								}
 break;
 case 61:
-//#line 340 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 340 "parser.y"
 {yyerror("Error: Se detecto IF erroneo despues del token if en la linea "+ lineNumber);}
 break;
 case 62:
-//#line 341 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 341 "parser.y"
 {yyerror("Error: Se detecto IF erroneo, se esperaba '(' en la linea "+ lineNumber);}
 break;
 case 63:
-//#line 342 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 342 "parser.y"
 {yyerror("Error: Se detecto IF erroneo, se esperaba ')' en la linea "+ lineNumber);}
 break;
 case 64:
-//#line 343 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 343 "parser.y"
 {yyerror("Error: Se detecto IF erroneo, falta la condicion en la linea "+ lineNumber);}
 break;
 case 65:
-//#line 347 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 347 "parser.y"
 {
 				
 				if(  !"error".equals(((Arbol)val_peek(2).obj).getElem()) &&  !"error".equals(((Arbol)val_peek(0).obj).getElem()) ){
@@ -1231,12 +1250,24 @@ case 65:
 			}
 break;
 case 66:
-//#line 364 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+//#line 363 "parser.y"
+{yyerror("Error: Se detecto una comparacion erronea, falta parte izquierda, en la linea " + lineNumber);}
+break;
+case 67:
+//#line 364 "parser.y"
+{yyerror("Error: Se detecto una comparacion erronea, falta parte derecha, en la linea " + lineNumber);}
+break;
+case 68:
+//#line 365 "parser.y"
+{yyerror("Error: Se detecto una comparacion erronea, no hay nada para comparar, en la linea " + lineNumber);}
+break;
+case 69:
+//#line 369 "parser.y"
 {
 				
 				if(  !"error".equals(((Arbol)val_peek(2).obj).getElem()) &&  !"error".equals(((Arbol)val_peek(0).obj).getElem()) ){
 					if( !((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ) {
-						yyerror("Error: Diefieren los tipos en la linea " + lineNumber);
+						yyerror("Error: Diefieren los tipos de la suma en la linea " + lineNumber);
 					} 
 				}
 				if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -1246,12 +1277,12 @@ case 66:
 				}
 			}
 break;
-case 67:
-//#line 377 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 70:
+//#line 382 "parser.y"
 {
 				if(  !"error".equals(((Arbol)val_peek(2).obj).getElem()) &&  !"error".equals(((Arbol)val_peek(0).obj).getElem()) ){
 					if( !((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ) {
-						yyerror("Error: Diefieren los tipos en la linea " + lineNumber);
+						yyerror("Error: Diefieren los tipos de la resta en la linea " + lineNumber);
 					} 
 				}
 				if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -1262,8 +1293,8 @@ case 67:
 				
 			}
 break;
-case 68:
-//#line 390 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 71:
+//#line 395 "parser.y"
 {
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 				yyval = val_peek(0);
@@ -1272,8 +1303,8 @@ case 68:
 			}
 		  }
 break;
-case 69:
-//#line 399 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 72:
+//#line 405 "parser.y"
 {
 				if( ((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ) {
 					if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -1283,14 +1314,14 @@ case 69:
 					}
 				} else {
 					if(  !"error".equals(((Arbol)val_peek(2).obj).getElem()) &&  !"error".equals(((Arbol)val_peek(0).obj).getElem()) ){
-						yyerror("Error: Diefieren los tipos en la linea " + lineNumber);
+						yyerror("Error: Diefieren los tipos de la multiplicacion en la linea " + lineNumber);
 					}
 				}
 				
 			}
 break;
-case 70:
-//#line 413 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 73:
+//#line 419 "parser.y"
 {
 			if( ((Arbol)val_peek(2).obj).getTipo().equals( ((Arbol)val_peek(0).obj).getTipo() ) ) {
 				if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -1300,12 +1331,12 @@ case 70:
 				}
 			} else {
 					if(  !"error".equals(((Arbol)val_peek(2).obj).getElem()) &&  !"error".equals(((Arbol)val_peek(0).obj).getElem()) ){
-						yyerror("Error: Diefieren los tipos en la linea " + lineNumber);
+						yyerror("Error: Diefieren los tipos de la division en la linea " + lineNumber);
 				}			}
 		}
 break;
-case 71:
-//#line 425 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 74:
+//#line 431 "parser.y"
 {
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 				yyval = val_peek(0);
@@ -1314,8 +1345,8 @@ case 71:
 			}
 		}
 break;
-case 72:
-//#line 434 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 75:
+//#line 441 "parser.y"
 {
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 				yyval = val_peek(0); 
@@ -1324,8 +1355,8 @@ case 72:
 			}
 		}
 break;
-case 73:
-//#line 441 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 76:
+//#line 448 "parser.y"
 {
 		if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 			yyval = val_peek(0);
@@ -1334,17 +1365,17 @@ case 73:
 		}
 	}
 break;
-case 74:
-//#line 452 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 77:
+//#line 459 "parser.y"
 {
 
 	
 			if( !estaDeclarada(val_peek(0).sval) ) {
-				yyerror("Error: La variable '" + val_peek(0).sval + "' no esta en la linea " + lineNumber);
+				yyerror("Error: La variable '" + val_peek(0).sval + "' no esta declarada en la linea " + lineNumber);
 			}
 
 			if (!("variable".equals(((AttributeVariableID)SymbolTable.getInstance().get(val_peek(0).sval)).getTypeOfId()) ) ){
-				yyerror("Error: La variable no es de tipo variable simple e la linea " + lineNumber);
+				yyerror("Error: La variable no es de tipo variable simple en la linea " + lineNumber);
 			}
 
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -1355,8 +1386,8 @@ case 74:
 			
 		}
 break;
-case 75:
-//#line 472 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 78:
+//#line 479 "parser.y"
 {
 	if( !"error".equals(((Arbol)val_peek(1).obj).getElem()) ){
 		
@@ -1379,8 +1410,8 @@ case 75:
 		}
 	}
 break;
-case 76:
-//#line 500 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 79:
+//#line 505 "parser.y"
 {
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 				yyval = val_peek(0); 
@@ -1389,8 +1420,8 @@ case 76:
 				}
 		}
 break;
-case 77:
-//#line 507 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 80:
+//#line 512 "parser.y"
 {
 
 			positivosPendientes.add( (Long)val_peek(0).obj );
@@ -1402,8 +1433,8 @@ case 77:
 				}
 		}
 break;
-case 78:
-//#line 517 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 81:
+//#line 522 "parser.y"
 {
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 				yyval = val_peek(0);
@@ -1412,8 +1443,8 @@ case 78:
 				}
 		}
 break;
-case 79:
-//#line 524 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 82:
+//#line 529 "parser.y"
 {
 			if (((Long)val_peek(0).obj) > 32768 ) {
 				yyerror("Error: Numero negativo debajo del rango en la linea " + lineNumber); 
@@ -1431,31 +1462,31 @@ case 79:
 				}
 		}
 break;
-case 80:
-//#line 542 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 83:
+//#line 547 "parser.y"
 { yyval = new ParserVal("=");}
 break;
-case 81:
-//#line 543 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 84:
+//#line 548 "parser.y"
 { yyval = new ParserVal(">=");}
 break;
-case 82:
-//#line 544 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 85:
+//#line 549 "parser.y"
 { yyval = new ParserVal("<=");}
 break;
-case 83:
-//#line 545 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 86:
+//#line 550 "parser.y"
 { yyval = new ParserVal("<");}
 break;
-case 84:
-//#line 546 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 87:
+//#line 551 "parser.y"
 { yyval = new ParserVal(">");}
 break;
-case 85:
-//#line 547 "C:\Users\Vaio\workspace\Compilador\src\org\compiler\syntactic\parser.y"
+case 88:
+//#line 552 "parser.y"
 { yyval = new ParserVal("^=");}
 break;
-//#line 1381 "Parser.java"
+//#line 1412 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

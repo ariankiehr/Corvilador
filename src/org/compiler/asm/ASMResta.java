@@ -32,7 +32,15 @@ public class ASMResta {
 				// es registro der
 
 				// REG - REG 3
-				sentencias.add("SUB " + Names.getName(elemIzq) + ", " + Names.getName(elemDer));
+				
+				
+				if(elemDer.contains("[")) {
+					sentencias.add( "MOV " + Names.getReg(elemDer) +", " + elemDer );
+					sentencias.add( "SUB " + Names.getName(elemIzq) + ", " + Names.getReg(elemDer) );
+				} else {
+					sentencias.add( "SUB " + Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
+				}
+				
 				RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemDer));
 				this.elemento = Names.getName(elemIzq);
 
