@@ -59,9 +59,9 @@ public class ASMMultiplicacion {
 				
 				}else if ( regMul.equals(Names.getReg(elemIzq)) ) {
 					//REG izq tiene de AX
-					if(elemDer.contains("[")) {
+					if(elemIzq.contains("[")) {
 						//esta dentro del vector
-						sentencias.add("MOV "+ regMul + ", " + elemIzq);
+						sentencias.add("MOV "+ regMul + ", " + Names.getName(elemIzq));
 					}
 					//no esta en el vector
 

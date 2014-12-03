@@ -229,6 +229,7 @@ asignacion : variable ASIG expresion {
 								if ( !estaDeclarada(   ((Arbol)$1.obj).getElem()) ) {
 									yyerror("Error: La variable '" + ((Arbol)$1.obj).getElem() + "' no ha sido declarada en la linea " + lineNumber);
 								}
+							
 
 								if( ! (((Arbol)$1.obj).getTipo().equals( ((Arbol)$3.obj).getTipo() )) ){
 									yyerror ("Error: A la variable '" + ((Arbol)$1.obj).getElem() + "' se le esta asignando algo de otro tipo en la linea " + lineNumber);
@@ -236,11 +237,22 @@ asignacion : variable ASIG expresion {
 								} else {
 									add("Asignacion en linea  "+lineNumber); 
 								}
+						
+								if(((Arbol)$1.obj).getElem().contains("-") ){
+									yyerror("Error: La variable '" + ((Arbol)$1.obj).getElem() + "' no puede estar del lado izquierdo, en la linea " + lineNumber);
+								}
+								
+								if( ((Arbol)$3.obj).getTipo().equals("entero_ss") && ((Arbol)$3.obj).getElem().charAt(0) == '-' ) {
+									yyerror("Error: mal uso de la negacion en la linea " + lineNumber);
+								}
+						
 							}
-							if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+							
+							
+						if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 								$$ = new ParserVal( new Nodo(":=", (Arbol)$3.obj , (Arbol)$1.obj , ((Arbol)$3.obj).getTipo() ) );
-							} else {
-					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+						} else {
+						$$ = new ParserVal( new Hoja( "error", "syntax error" ));
 				}
 						}
 			| ASIG expresion {yyerror("Error: Se detecto una asignacion erronea, falta parte izquierda, en la linea " + lineNumber);}		
@@ -474,6 +486,24 @@ id :  ID {
 			}
 			
 		}
+		
+		| MENOS ID {
+
+			if( !estaDeclarada($2.sval) ) {
+				yyerror("Error: La variable '" + $2.sval + "' no esta declarada en la linea " + lineNumber);
+			}
+
+			if (!("variable".equals(((AttributeVariableID)SymbolTable.getInstance().get($2.sval)).getTypeOfId()) ) ){
+				yyerror("Error: La variable no es de tipo variable simple en la linea " + lineNumber);
+			}
+
+			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				$$ = new ParserVal(new Hoja("-"+$2.sval, ((AttributeVariableID)SymbolTable.getInstance().get($2.sval)).getTypeOfElement() )); 
+			} else {
+				$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+			}
+			
+		}
 ;
 
 usovector : ID ABRECOR expresion CIERRACOR {
@@ -510,6 +540,9 @@ factor : id {
 				}
 		}
 		| CTE {
+		
+
+		
 
 			positivosPendientes.add( (Long)$1.obj );
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -527,6 +560,7 @@ factor : id {
 				}
 		}
 		| MENOS CTE {
+	
 			if (((Long)$2.obj) > 32768 ) {
 				yyerror("Error: Numero negativo debajo del rango en la linea " + lineNumber); 
 				err = true;
