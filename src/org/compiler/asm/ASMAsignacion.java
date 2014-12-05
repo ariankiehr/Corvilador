@@ -96,8 +96,17 @@ public class ASMAsignacion {
 			// no es registro el de la izq (no es vector)
 			if (RegistryManager.getInstance().estaLibre(Names.getReg(elemDer)) != null) {
 				// registro der
-				sentencias.add("MOV " + Names.getName(elemIzq) + ", "
-						+ Names.getName(elemDer));
+				
+				//si es vector el de la derecha tengo que pasarlo a su registro que tiene
+				if ( elemDer.contains("[") ) {
+					sentencias.add("MOV " + Names.getReg(elemDer) + " ," + Names.getName(elemDer) );
+					sentencias.add("MOV " + Names.getName(elemIzq) + " ," + Names.getReg(elemDer) );
+
+				}
+				else {
+					sentencias.add("MOV " + Names.getName(elemIzq) + ", " + Names.getName(elemDer));
+						
+				}
 				RegistryManager.getInstance().desocuparRegistro(
 						Names.getReg(elemDer));
 			} else {
