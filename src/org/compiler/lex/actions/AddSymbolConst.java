@@ -19,7 +19,7 @@ public class AddSymbolConst extends SemanticAction {
 		} catch (NumberFormatException e) {
 			throw e;
 		}
-		if ( l > 32768 ) {
+		if ( l > 32767 ) {
 			SymbolTable.getInstance().addSymbol(ret, new AttributeConTipo("const","entero_ss"));
 		} else{
 			SymbolTable.getInstance().addSymbol(ret, new AttributeConTipo("const","entero"));

@@ -33,22 +33,30 @@ public class ASMResta {
 
 				// REG - REG 3
 				
+				if( elemIzq.contains("[") ) {
+					sentencias.add( "MOV " + Names.getReg(elemIzq) + ", " + elemIzq );
+				}
+				
 				
 				if(elemDer.contains("[")) {
 					sentencias.add( "MOV " + Names.getReg(elemDer) +", " + elemDer );
-					sentencias.add( "SUB " + Names.getName(elemIzq) + ", " + Names.getReg(elemDer) );
+					sentencias.add( "SUB " + Names.getReg(elemIzq) + ", " + Names.getReg(elemDer) );
 				} else {
-					sentencias.add( "SUB " + Names.getName(elemIzq) + ", " + Names.getName(elemDer) );
+					sentencias.add( "SUB " + Names.getReg(elemIzq) + ", " + Names.getName(elemDer) );
 				}
 				
 				RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemDer));
-				this.elemento = Names.getName(elemIzq);
+				this.elemento = Names.getReg(elemIzq);
 
 			} else {
 				// es variable o consta der
 				// REG - VAR 2
-				sentencias.add("SUB " + Names.getName(elemIzq) + ", " + Names.getName(elemDer));
-				this.elemento = Names.getName(elemIzq);
+				if(elemIzq.contains("[")) {
+					sentencias.add( "MOV " + Names.getReg(elemIzq) +", " + elemIzq );
+				}
+				
+				sentencias.add("SUB " + Names.getReg(elemIzq) + ", " + Names.getName(elemDer));
+				this.elemento = Names.getReg(elemIzq);
 			}
 
 		} else {

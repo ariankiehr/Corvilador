@@ -4,6 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.compiler.asm.CodeGenerator;
+import org.compiler.asm.FullRegistersException;
+import org.compiler.asm.Names;
+import org.compiler.asm.RegistryManager;
 import org.compiler.symboltable.AttributeCad;
 import org.compiler.symboltable.SymbolTable;
 
@@ -41,6 +44,24 @@ public class Hoja extends NodoConTipo {
 			}
 			String sentencia = "invoke MessageBox, NULL, addr " + att.getNombreAsm() +", addr "+ att.getNombreAsm() +", MB_OK";
 			ret.add(sentencia);
+		}
+		
+
+		if( elemento.contains("-") ) {
+			
+			String regaux = null;
+			try {
+				regaux = RegistryManager.getInstance().obtenerRegistro();
+			} catch (FullRegistersException e) {
+				System.out.println( e.getMessage() );
+			}
+			RegistryManager.getInstance().ocuparRegistro(regaux);
+			
+			ret.add( "XOR " + regaux + "," + regaux );
+			ret.add( "SUB " + regaux + "," + Names.getName(elemento.substring(1)) );
+			
+			this.elemento = regaux;
+			
 		}
 
 		

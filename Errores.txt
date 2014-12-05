@@ -1,0 +1,26 @@
+entero a, b, c, d , e, f, j, i;
+entero_ss aa, bb, cc, dd , ee, ff;
+
+
+va[2..10] vector de entero;
+vb[3..18] vector de entero;
+
+imprimir("nada personal");
+
+
+[- papapapa
+-]
+
+bb:=32768;
+a:=-bb;
+
+
+
+
+	
+
+si (i=-1) entonces
+	imprimir("vb[5] es igual a 40");
+
+si (vb[5]=20) entonces
+	imprimir("vb[5] es igual a 20");	
