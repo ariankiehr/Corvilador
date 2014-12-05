@@ -87,13 +87,10 @@ sentencias_declarativas_simples :
 								}
 										
 						add("Declaracion de variable vector en linea " + lineNumber); }
-					//| 	ID ABRECOR error DOSPUNTO CTE CIERRACOR VECTOR OF tipo PUNTOCOMA  {yyerror("Error: Se esperaba una constante en la linea " + lineNumber);}
 					| 	ID ABRECOR CTE  CTE CIERRACOR VECTOR OF tipo PUNTOCOMA  {yyerror("Error: Se esperaba '..' en la linea " + lineNumber);}
-					//|	ID ABRECOR CTE DOSPUNTO error CIERRACOR VECTOR OF tipo PUNTOCOMA  {yyerror("Error: Se esperaba una constante en la linea " + lineNumber);}
 					|	ID ABRECOR CTE DOSPUNTO CTE  VECTOR OF tipo PUNTOCOMA  {yyerror("Error: se esperaba un ']' eb linea "+ lineNumber);}
 					|	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR OF tipo PUNTOCOMA  {yyerror("Error: Falta la palabra reservada 'VECTOR' en la linea " + lineNumber);}	
 					|	ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR  tipo PUNTOCOMA  {yyerror("Error: Falta la palabra reservada 'DE' en la linea " + lineNumber);}		
-				//	|   ID ABRECOR CTE DOSPUNTO CTE CIERRACOR VECTOR tipo PUNTOCOMA  {yyerror("Error: Falta la palabra reservada 'DE' en la linea " + lineNumber);}
 					|   ID ABRECOR DOSPUNTO CTE CIERRACOR VECTOR OF tipo PUNTOCOMA {yyerror("Error: Se esperaba una constante en la linea " + lineNumber);}
 					|	ID ABRECOR CTE DOSPUNTO CIERRACOR VECTOR OF tipo PUNTOCOMA {yyerror("Error: Se esperaba una constante en la linea " + lineNumber);}
 			
@@ -190,7 +187,6 @@ sentencias_ejecutables : sentencia  PUNTOCOMA{
 						}
 
 					|	sentencias_ejecutables variable error   {yyerror("Error: Se detecto sentencia erronea, falta ';' en la linea " + lineNumber);}
-					//|	error PUNTOCOMA {yyerror("Error: Codigo erroneo en la linea " + lineNumber);}
 
 					|	sentencia error {yyerror("Error: Se detecto sentencia erronea, falta ';' en la linea " + lineNumber);}
 
@@ -222,9 +218,6 @@ sentencia : PRINT ABREPAR CAD CIERRAPAR {
 					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
 				}
 		}
-
-		//| asignacion error {yyerror("Error: Se detecto asignacion erronea, falta ';' en la linea " + lineNumber);}
-		//| iteracion error {yyerror("Error: Se detecto iteracion erronea, falta ';' en la linea " + lineNumber);}
 
 		|	PRINT error CAD CIERRAPAR {yyerror("Error: Se detecto un PRINT erroneo, se esperaba un '(' en la linea " + lineNumber);}
 		|	PRINT ABREPAR CAD error {yyerror("Error: Se detecto un PRINT erroneo, se esperaba un ')' en la linea " + lineNumber);}
@@ -282,6 +275,9 @@ seleccion : cabecera_seleccion THEN cuerpo_seleccion {
 				}
 	}
 	| cabecera_seleccion cuerpo_seleccion error  {yyerror("Error: Se detecto IF erroneo, falta la palabra reservada 'ENTONCES' en la linea "+ lineNumber); }
+
+
+
 ; 
 	
 
@@ -299,7 +295,7 @@ cuerpo_seleccion : 	bloque_then bloque_else {
 					$$ = new ParserVal( new Hoja( "error", "syntax error" ));
 					}
 				}
-				|IF ABREPAR error CIERRAPAR {yyerror("Error: Se detecto IF erroneo, falta la condicion en la linea "+ lineNumber);}
+
 
 ;
 
@@ -374,7 +370,7 @@ expresion : expresion MAS termino {
 				
 				if(  !"error".equals(((Arbol)$1.obj).getElem()) &&  !"error".equals(((Arbol)$3.obj).getElem()) ){
 					if( !((Arbol)$1.obj).getTipo().equals( ((Arbol)$3.obj).getTipo() ) ) {
-						yyerror("Error: Diefieren los tipos en la linea " + lineNumber);
+						yyerror("Error: Diefieren los tipos de la suma en la linea " + lineNumber);
 					} 
 				}
 				if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -386,7 +382,7 @@ expresion : expresion MAS termino {
 		  | expresion MENOS termino	{
 				if(  !"error".equals(((Arbol)$1.obj).getElem()) &&  !"error".equals(((Arbol)$3.obj).getElem()) ){
 					if( !((Arbol)$1.obj).getTipo().equals( ((Arbol)$3.obj).getTipo() ) ) {
-						yyerror("Error: Diefieren los tipos en la linea " + lineNumber);
+						yyerror("Error: Diefieren los tipos de la resta en la linea " + lineNumber);
 					} 
 				}
 				if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -404,11 +400,6 @@ expresion : expresion MAS termino {
 			}
 		  }
 
-		  //| MAS termino  {yyerror("Error: Se detecto una suma erronea, falta parte izquierda (expresion), en la linea " + lineNumber);}
-		//  | expresion MAS  {yyerror("Error: Se detecto una suma erronea, falta parte derecha (termino), en la linea " + lineNumber);}
-		//  | MENOS termino  {yyerror("Error: Se detecto una resta erronea, falta parte izquierda, en la linea (expresion)" + lineNumber);}
-		 // | expresion MENOS error {yyerror("Error: Se detecto una resta erronea, falta parte derecha (termino), en la linea " + lineNumber);}
-
 ;
  
 termino : termino POR factor {
@@ -420,7 +411,7 @@ termino : termino POR factor {
 					}
 				} else {
 					if(  !"error".equals(((Arbol)$1.obj).getElem()) &&  !"error".equals(((Arbol)$3.obj).getElem()) ){
-						yyerror("Error: Diefieren los tipos en la linea " + lineNumber);
+						yyerror("Error: Diefieren los tipos de la multiplicacion en la linea " + lineNumber);
 					}
 				}
 				
@@ -434,7 +425,7 @@ termino : termino POR factor {
 				}
 			} else {
 					if(  !"error".equals(((Arbol)$1.obj).getElem()) &&  !"error".equals(((Arbol)$3.obj).getElem()) ){
-						yyerror("Error: Diefieren los tipos en la linea " + lineNumber);
+						yyerror("Error: Diefieren los tipos de la division en la linea " + lineNumber);
 				}			}
 		}
 		| factor {
@@ -444,11 +435,6 @@ termino : termino POR factor {
 				$$ = new ParserVal( new Hoja( "error", "syntax error" ));
 			}
 		}
-
-		//| POR factor  {yyerror("Error: Se detecto una multiplicacion erronea, falta parte izquierda (termino), en la linea " + lineNumber);}
-		//| termino POR  {yyerror("Error: Se detecto una multiplicacion erronea, falta parte derecha (factor), en la linea " + lineNumber);}
-		//| DIV factor  {yyerror("Error: Se detecto una division erronea, falta parte izquierda, en la linea (termino)" + lineNumber);}
-	//	| termino DIV {yyerror("Error: Se detecto una division erronea, falta parte derecha (factor), en la linea " + lineNumber);}
 
 ;
 		
@@ -474,11 +460,11 @@ id :  ID {
 
 	
 			if( !estaDeclarada($1.sval) ) {
-				yyerror("Error: La variable '" + $1.sval + "' no esta en la linea " + lineNumber);
+				yyerror("Error: La variable '" + $1.sval + "' no esta declarada en la linea " + lineNumber);
 			}
 
 			if (!("variable".equals(((AttributeVariableID)SymbolTable.getInstance().get($1.sval)).getTypeOfId()) ) ){
-				yyerror("Error: La variable no es de tipo variable simple e la linea " + lineNumber);
+				yyerror("Error: La variable no es de tipo variable simple en la linea " + lineNumber);
 			}
 
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
@@ -512,9 +498,7 @@ usovector : ID ABRECOR expresion CIERRACOR {
 		}
 	}
 
-	//	| ID ABRECOR error CIERRACOR   {yyerror("Error: Se espera una expresion entre los corchetes en la linea "+ lineNumber);}
-	//	| ID ABRECOR expresion  variable error  {yyerror("Error: Se espera que se cierre corchetes en la linea "+ lineNumber);}
-	//| ID error CIERRACOR {yyerror("Error: Cierre de corchetes inesperado en la linea "+ lineNumber);}
+
 
 ;
 		
