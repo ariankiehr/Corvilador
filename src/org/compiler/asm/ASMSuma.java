@@ -29,6 +29,7 @@ public class ASMSuma {
 	
 	public List<String> generarSuma(String elemIzq, String elemDer) {
 		this.sentencias = new LinkedList<String> ();
+
 		if ( RegistryManager.getInstance().estaLibre(Names.getReg(elemIzq)) != null ) {
 			//es un registro izq
 			if ( RegistryManager.getInstance().estaLibre(Names.getReg(elemDer)) != null ) {

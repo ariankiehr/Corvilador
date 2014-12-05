@@ -509,7 +509,7 @@ final static String yyrule[] = {
 "comparador : DISTINTO",
 };
 
-//#line 591 "parser.y"
+//#line 587 "parser.y"
 
 String ins;
 LexicalAnalyzer la;
@@ -1460,10 +1460,6 @@ break;
 case 81:
 //#line 542 "parser.y"
 {
-		
-
-		
-
 			positivosPendientes.add( (Long)val_peek(0).obj );
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 				yyval = new ParserVal(new Hoja( val_peek(0).obj.toString(), 
@@ -1474,7 +1470,7 @@ case 81:
 		}
 break;
 case 82:
-//#line 555 "parser.y"
+//#line 551 "parser.y"
 {
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 				yyval = val_peek(0);
@@ -1484,7 +1480,7 @@ case 82:
 		}
 break;
 case 83:
-//#line 562 "parser.y"
+//#line 558 "parser.y"
 {
 	
 			if (((Long)val_peek(0).obj) > 32768 ) {
@@ -1504,30 +1500,30 @@ case 83:
 		}
 break;
 case 84:
-//#line 581 "parser.y"
+//#line 577 "parser.y"
 { yyval = new ParserVal("=");}
 break;
 case 85:
-//#line 582 "parser.y"
+//#line 578 "parser.y"
 { yyval = new ParserVal(">=");}
 break;
 case 86:
-//#line 583 "parser.y"
+//#line 579 "parser.y"
 { yyval = new ParserVal("<=");}
 break;
 case 87:
-//#line 584 "parser.y"
+//#line 580 "parser.y"
 { yyval = new ParserVal("<");}
 break;
 case 88:
-//#line 585 "parser.y"
+//#line 581 "parser.y"
 { yyval = new ParserVal(">");}
 break;
 case 89:
-//#line 586 "parser.y"
+//#line 582 "parser.y"
 { yyval = new ParserVal("^=");}
 break;
-//#line 1453 "Parser.java"
+//#line 1449 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

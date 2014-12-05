@@ -540,10 +540,6 @@ factor : id {
 				}
 		}
 		| CTE {
-		
-
-		
-
 			positivosPendientes.add( (Long)$1.obj );
 			if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 				$$ = new ParserVal(new Hoja( $1.obj.toString(), 

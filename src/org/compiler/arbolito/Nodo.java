@@ -6,6 +6,8 @@ import java.util.List;
 
 
 
+
+
 import org.compiler.asm.ASMArreglo;
 import org.compiler.asm.ASMAsignacion;
 import org.compiler.asm.ASMComparacion;
@@ -13,6 +15,8 @@ import org.compiler.asm.ASMDivision;
 import org.compiler.asm.ASMMultiplicacion;
 import org.compiler.asm.ASMResta;
 import org.compiler.asm.ASMSuma;
+import org.compiler.asm.CodeGenerator;
+import org.compiler.asm.Names;
 import org.compiler.asm.RegistryManager;
 
 
@@ -76,13 +80,13 @@ public class Nodo extends NodoConTipo {
 		
 		String elemIzq = hijoIzq.getElem();
 		String elemDer = hijoDer.getElem();
-		
+
 		
 		if( "+".equals(elemento) ) {
-	//		System.out.println("antes suma: " + RegistryManager.getInstance().toString());
+			//System.out.println("antes suma: " + RegistryManager.getInstance().toString());
 			ret.addAll( ASMSuma.getInstance().generarSuma(elemIzq, elemDer) );
 			this.elemento = ASMSuma.getInstance().getElemento();
-	//		System.out.println("despues suma: " + RegistryManager.getInstance().toString());
+			//System.out.println("despues suma: " + RegistryManager.getInstance().toString());
 			
 		} else if ( "*".equals(elemento) ) {
 		
@@ -117,15 +121,36 @@ public class Nodo extends NodoConTipo {
 		} else if( ":=".equals(elemento) ) {
 		//	System.out.println("antes asig: " + RegistryManager.getInstance().toString());
 			ret.addAll(ASMAsignacion.getInstance().generarAsignacion(elemIzq, elemDer));
-			this.elemento = ASMAsignacion.getInstance().getElemento();
+			//this.elemento = ASMAsignacion.getInstance().getElemento();
 		//	System.out.println("despues asig: " + RegistryManager.getInstance().toString());
 			
 		} else {
-		//	System.out.println("antes vector: " + RegistryManager.getInstance().toString());
+			//System.out.println("antes vector: " + RegistryManager.getInstance().toString());
 			//es un vector donde el elemento es el id del mismo
 			ret.addAll(ASMArreglo.getInstance().generarArreglo(elemento,elemDer));
 			this.elemento = ASMArreglo.getInstance().getElemento();
-		//	System.out.println("despues vect: " + RegistryManager.getInstance().toString());
+			//System.out.println("despues vect: " + RegistryManager.getInstance().toString());
+			
+			if ( RegistryManager.getInstance().estaLibre("AX").equals(Boolean.FALSE) &&
+					RegistryManager.getInstance().estaLibre("CX").equals(Boolean.FALSE) &&
+							RegistryManager.getInstance().estaLibre("BX").equals(Boolean.FALSE) &&
+									RegistryManager.getInstance().estaLibre("DX").equals(Boolean.FALSE) ) {
+
+				if(RegistryManager.getInstance().estaLibre(Names.getReg(elemento)) != null) {
+					
+					if( elemento.contains("[") ) {
+						ret.add( "MOV "+ Names.getReg(elemento) +", " + elemento );
+						ret.add( "MOV @swapgen, " + Names.getReg(elemento) );
+					} else {
+						ret.add( "MOV @swapgen, " + elemento );
+					}
+					RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemento));
+					elemento = "@swapgen";
+					CodeGenerator.useSwapGen();
+				}
+				
+
+			}
 
 		}
 		
