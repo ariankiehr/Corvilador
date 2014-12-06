@@ -647,9 +647,7 @@ public void parsear(LexicalAnalyzer lex) {
 	SymbolTable.getInstance().removeSymbol(l.toString());
  }
 }
-
-// VER SI HICIMOS DE SI UNA DECLARACION DE UNA VARIABLE SE USA COMO TAL Y NO SE PUEDA USAR COMO VECTOR Y VICEVERSA 
-//#line 580 "Parser.java"
+//#line 578 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -1098,7 +1096,7 @@ case 43:
 									yyerror("Error: La variable '" + ((Arbol)val_peek(2).obj).getElem() + "' no puede estar del lado izquierdo, en la linea " + lineNumber);
 								}
 								
-								if( ((Arbol)val_peek(0).obj).getTipo().equals("entero_ss") && ((Arbol)val_peek(0).obj).getElem().charAt(0) == '-' ) {
+								if( ((Arbol)val_peek(0).obj).getTipo().equals("entero_ss") && ((Arbol)val_peek(0).obj).getElem().charAt(0) == '-' && ((Arbol)val_peek(0).obj).getElem().length()>1 ) {
 									yyerror("Error: mal uso de la negacion en la linea " + lineNumber);
 								}
 						
@@ -1523,7 +1521,7 @@ case 89:
 //#line 582 "parser.y"
 { yyval = new ParserVal("^=");}
 break;
-//#line 1449 "Parser.java"
+//#line 1447 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

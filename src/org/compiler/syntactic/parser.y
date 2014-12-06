@@ -242,7 +242,7 @@ asignacion : variable ASIG expresion {
 									yyerror("Error: La variable '" + ((Arbol)$1.obj).getElem() + "' no puede estar del lado izquierdo, en la linea " + lineNumber);
 								}
 								
-								if( ((Arbol)$3.obj).getTipo().equals("entero_ss") && ((Arbol)$3.obj).getElem().charAt(0) == '-' ) {
+								if( ((Arbol)$3.obj).getTipo().equals("entero_ss") && ((Arbol)$3.obj).getElem().charAt(0) == '-' && ((Arbol)$3.obj).getElem().length()>1 ) {
 									yyerror("Error: mal uso de la negacion en la linea " + lineNumber);
 								}
 						
@@ -721,5 +721,3 @@ public void parsear(LexicalAnalyzer lex) {
 	SymbolTable.getInstance().removeSymbol(l.toString());
  }
 }
-
-// VER SI HICIMOS DE SI UNA DECLARACION DE UNA VARIABLE SE USA COMO TAL Y NO SE PUEDA USAR COMO VECTOR Y VICEVERSA 
