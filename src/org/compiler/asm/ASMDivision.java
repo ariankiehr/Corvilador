@@ -46,16 +46,29 @@ public class ASMDivision {
 					sentencias.add("MOV " + regDivDX +", " + Names.getName(elemDer));
 				}
 
-				sentencias.add("MOV @swap_DX , " + Names.getReg(elemDer));
+				sentencias.add("MOV @swap_DX , " + regDivDX);
 				elemDer = "@swap_DX";
 				mentira = true;
 				
 				
 
+			}else if( Names.getReg(elemIzq).equals(regDivDX) ) {
+				CodeGenerator.useSwapDX(); 
+				
+				
+				if(elemIzq.contains("[") ) {
+					sentencias.add("MOV " + regDivDX +", " + Names.getName(elemIzq));
+				}
+
+				sentencias.add("MOV @swap_DX , " + regDivDX);
+				elemIzq = "@swap_DX";
+
 			}
 			else if(!RegistryManager.getInstance().estaLibre(regDivDX)){ // DX usado 
 				CodeGenerator.useSwapDX();
+
 				sentencias.add("MOV @swap_DX , " + regDivDX);
+
 				dxUsado = true;
 			}
 			//devolver valor a dx
@@ -71,19 +84,10 @@ public class ASMDivision {
 						String reg = null;
 						if ( elemDer.contains("[") ) {
 							//el reg derecho esta en un vector entonces tengo que pedir un reg para pasarle el valor y poder hacer el swap
-							try {
-								reg = RegistryManager.getInstance().obtenerRegistro();
-							} catch (FullRegistersException e) {
-														
-								System.out.println( e.getMessage() );
-							}
-	
-							RegistryManager.getInstance().ocuparRegistro(reg);
-							sentencias.add("MOV " + reg + " , " + Names.getName(elemDer));
-							
-						}else {
-							//el reg no es un vector
-							reg = Names.getName(elemDer);
+
+							sentencias.add("MOV " + Names.getReg(elemDer) + " , " + Names.getName(elemDer));
+
+							reg = Names.getReg(elemDer);
 						}
 						
 						CodeGenerator.useSwapAX();
@@ -141,7 +145,7 @@ public class ASMDivision {
 							
 							} else {//si AX esta libre lo tengo que ocupar con lo q tiene el izq
 
-								sentencias.add("MOV " + regDivAX +" , " + Names.getName(elemIzq));
+								sentencias.add("MOV " + regDivAX +" , " + Names.getName(elemIzq)  );
 								RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
 								RegistryManager.getInstance().ocuparRegistro(regDivAX);
 
@@ -181,7 +185,7 @@ public class ASMDivision {
 						//el reg izq tiene AX
 						if ( elemIzq.contains("[") ) {
 							//el reg izq contiene AX en el arreglo le paso a AX el contenido en memoria del vector
-							sentencias.add("MOV " + regDivAX + ", " + Names.getName(elemIzq));
+							sentencias.add("MOV " + regDivAX + ", " + Names.getName(elemIzq) );
 							
 						}
 						String reg = null;
@@ -198,7 +202,7 @@ public class ASMDivision {
 								
 						RegistryManager.getInstance().ocuparRegistro(reg);
 
-						sentencias.add("MOV " + reg +" , " + Names.getName(elemDer));
+						sentencias.add("MOV " + reg +" , " + Names.getName(elemDer) );
 						sentencias.add("CWD");
 						sentencias.add("IDIV " + reg);
 						RegistryManager.getInstance().desocuparRegistro(Names.getReg(reg));
@@ -208,11 +212,13 @@ public class ASMDivision {
 					} else {// Reg izq no es AX
 						if (!RegistryManager.getInstance().estaLibre(regDivAX)){//si esta usado AX
 							CodeGenerator.useSwapAX();
-							sentencias.add("MOV @swap_AX , " + regDivAX);
+							sentencias.add("MOV @swap_AX , " + regDivAX );
 							sentencias.add("MOV " + regDivAX +" , " + Names.getName(elemIzq));
 							RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
-
+							
 							String regaux = null;
+
+							
 							try {
 								regaux = RegistryManager.getInstance().obtenerRegistro();
 							} catch (FullRegistersException e) {
@@ -225,6 +231,7 @@ public class ASMDivision {
 							RegistryManager.getInstance().ocuparRegistro(Names.getReg(regaux));
 
 							sentencias.add("MOV " + regaux +" , " + Names.getName(elemDer));
+
 							sentencias.add("CWD");
 							sentencias.add("IDIV " + regaux);
 							
@@ -252,7 +259,7 @@ public class ASMDivision {
 							
 						
 						} else{// si AX esta libre no necesitamos hacer swap
-							sentencias.add("MOV " + regDivAX +" , " + Names.getName(elemIzq));
+							sentencias.add("MOV " + regDivAX +" , " + Names.getName(elemIzq) );
 							RegistryManager.getInstance().desocuparRegistro(Names.getReg(elemIzq));
 							RegistryManager.getInstance().ocuparRegistro(regDivAX);
 
@@ -268,7 +275,7 @@ public class ASMDivision {
 							
 							RegistryManager.getInstance().ocuparRegistro(reg);
 
-							sentencias.add("MOV " + reg +" , " + Names.getName(elemDer));
+							sentencias.add("MOV " + reg +" , " + Names.getName(elemDer) );
 							sentencias.add("CWD");
 							sentencias.add("IDIV " + reg);
 							RegistryManager.getInstance().desocuparRegistro(Names.getReg(reg));
@@ -363,19 +370,25 @@ public class ASMDivision {
 						if( RegistryManager.getInstance().estaLibre(regDivAX) ) { //AX LIBRE
 							sentencias.add("MOV " + regDivAX + " ," + Names.getName(elemIzq));
 							RegistryManager.getInstance().ocuparRegistro(regDivAX);
-
 							String reg = null;
-							try {
-								reg = RegistryManager.getInstance().obtenerRegistro();
-							} catch (FullRegistersException e) {
+							if(Names.getName(elemDer).contains("@"))  {
+								reg = Names.getName(elemDer);
+							} else {
+								try {
+									reg = RegistryManager.getInstance().obtenerRegistro();
+								} catch (FullRegistersException e) {
+									
+									System.out.println( e.getMessage() + "soy yo");
+								}
+
 								
-								System.out.println( e.getMessage() );
+								RegistryManager.getInstance().ocuparRegistro(reg);
+
+								sentencias.add("MOV " + reg + " ," + Names.getName(elemDer) );
+								
 							}
-
 							
-							RegistryManager.getInstance().ocuparRegistro(reg);
-
-							sentencias.add("MOV " + reg + " ," + Names.getName(elemDer));
+	
 							sentencias.add("CWD");
 							sentencias.add("IDIV " + reg);
 							RegistryManager.getInstance().desocuparRegistro(Names.getReg(reg));

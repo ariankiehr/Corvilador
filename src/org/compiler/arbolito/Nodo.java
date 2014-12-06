@@ -137,7 +137,7 @@ public class Nodo extends NodoConTipo {
 									RegistryManager.getInstance().estaLibre("DX").equals(Boolean.FALSE) ) {
 
 				if(RegistryManager.getInstance().estaLibre(Names.getReg(elemento)) != null) {
-					
+
 					if( elemento.contains("[") ) {
 						ret.add( "MOV "+ Names.getReg(elemento) +", " + elemento );
 						ret.add( "MOV @swapgen, " + Names.getReg(elemento) );
