@@ -507,19 +507,19 @@ id :  ID {
 ;
 
 usovector : ID ABRECOR expresion CIERRACOR {
-	if( !"error".equals(((Arbol)$3.obj).getElem()) ){
-		
-		if (!((Arbol)$3.obj).getTipo().equals("entero")) {
-			yyerror("Error: El tipo del indice del vector es incorrecto en la linea "+ lineNumber);
+		if( !"error".equals(((Arbol)$3.obj).getElem()) ){
+			
+			if (!((Arbol)$3.obj).getTipo().equals("entero")) {
+				yyerror("Error: El tipo del indice del vector es incorrecto en la linea "+ lineNumber);
+			}
+	
+			if( !estaDeclarada($1.sval) ) {
+					yyerror("Error: La variable no esta declarada en la linea " + lineNumber);
+			}
+			if (!("vector".equals(((AttributeVariableID)SymbolTable.getInstance().get($1.sval)).getTypeOfId()) ) ){
+				yyerror("Error: La variable no es de tipo vector e la linea " + lineNumber);
+			}
 		}
-
-		if( !estaDeclarada($1.sval) ) {
-				yyerror("Error: La variable no esta declarada en la linea " + lineNumber);
-		}
-		if (!("vector".equals(((AttributeVariableID)SymbolTable.getInstance().get($1.sval)).getTypeOfId()) ) ){
-			yyerror("Error: La variable no es de tipo vector e la linea " + lineNumber);
-		}
-	}
 		if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
 				Arbol idv = new Hoja($1.sval, ((AttributeVector)SymbolTable.getInstance().get($1.sval)).getTypeOfElement() );
 				$$ = new ParserVal(new Nodo($1.sval , idv, (Arbol)$3.obj, idv.getTipo()  ));
@@ -527,7 +527,27 @@ usovector : ID ABRECOR expresion CIERRACOR {
 			$$ = new ParserVal( new Hoja( "error", "syntax error" ));
 		}
 	}
-
+ | MENOS ID ABRECOR expresion CIERRACOR {
+		if( !"error".equals(((Arbol)$4.obj).getElem()) ){
+			
+			if (!((Arbol)$4.obj).getTipo().equals("entero")) {
+				yyerror("Error: El tipo del indice del vector es incorrecto en la linea "+ lineNumber);
+			}
+	
+			if( !estaDeclarada($2.sval) ) {
+					yyerror("Error: La variable no esta declarada en la linea " + lineNumber);
+			}
+			if (!("vector".equals(((AttributeVariableID)SymbolTable.getInstance().get($2.sval)).getTypeOfId()) ) ){
+				yyerror("Error: La variable no es de tipo vector e la linea " + lineNumber);
+			}
+		}
+		if( LexicalAnalyzer.errors.isEmpty() && errors.isEmpty() ) {
+				Arbol idv = new Hoja($2.sval, ((AttributeVector)SymbolTable.getInstance().get($2.sval)).getTypeOfElement() );
+				$$ = new ParserVal(new Nodo("-"+$2.sval , idv, (Arbol)$4.obj, idv.getTipo()  ));
+		} else {
+			$$ = new ParserVal( new Hoja( "error", "syntax error" ));
+		}
+	}
 
 
 ;

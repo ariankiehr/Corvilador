@@ -128,7 +128,18 @@ public class Nodo extends NodoConTipo {
 			//System.out.println("antes vector: " + RegistryManager.getInstance().toString());
 			//es un vector donde el elemento es el id del mismo
 			ret.addAll(ASMArreglo.getInstance().generarArreglo(elemento,elemDer));
-			this.elemento = ASMArreglo.getInstance().getElemento();
+			
+			if( elemento.charAt(0) == '-' ) {
+				ret.add( "MOV " + Names.getReg(ASMArreglo.getInstance().getElemento()) + "," + Names.getName(ASMArreglo.getInstance().getElemento()) );
+				ret.add( "MOV @aux" + "," + Names.getReg(ASMArreglo.getInstance().getElemento()) );
+				ret.add( "XOR " + Names.getReg(ASMArreglo.getInstance().getElemento()) + "," + Names.getReg(ASMArreglo.getInstance().getElemento()) );
+				ret.add( "SUB " + Names.getReg(ASMArreglo.getInstance().getElemento()) + ", @aux" );
+				this.elemento = Names.getReg(ASMArreglo.getInstance().getElemento());
+				CodeGenerator.useAux();
+			} else {
+				this.elemento = ASMArreglo.getInstance().getElemento();
+			}
+			
 			//System.out.println("despues vect: " + RegistryManager.getInstance().toString());
 			
 			if ( RegistryManager.getInstance().estaLibre("AX").equals(Boolean.FALSE) &&

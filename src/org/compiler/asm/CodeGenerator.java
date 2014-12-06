@@ -20,7 +20,7 @@ public class CodeGenerator {
 	private File archivoAsm, archivoObj;
 	private static Stack<String> labels;
 	private static Integer labelId, contadorCadena;
-	private static boolean swapAX, swapDX, swapCX, swapGen;
+	private static boolean swapAX, swapDX, swapCX, swapGen, aux;
 
 
 	public CodeGenerator(File file) {
@@ -30,6 +30,7 @@ public class CodeGenerator {
 		swapDX = false;
 		swapCX = false;
 		swapGen = false;
+		aux=false;
 		labelId = 0;
 		contadorCadena = 0;
 		
@@ -98,6 +99,10 @@ public class CodeGenerator {
 		swapAX = true;
 	}
 	
+	public static void useAux() {
+		aux = true;
+	}
+	
 	public static void useSwapDX() {
 		swapDX = true;
 	}
@@ -119,6 +124,10 @@ public class CodeGenerator {
 
 		if( swapDX == true) {
 			ret.add("@swap_DX DW 0");
+		}
+		
+		if( aux == true) {
+			ret.add("@aux DW 0");
 		}
 		
 		if( swapAX == true) {
